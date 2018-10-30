@@ -1,0 +1,61 @@
+
+// chosen plugin s
+form.input-group.mb-3(data-zone="view.search")
+    .search
+        input(type="hidden" data-zone="view.search.name" value="code")
+        input.form-control(type='search' data-placeholder='검색어를 입력해 주세요' data-zone="view.search.content")
+    .input-group-append
+        input.btn.btn-flat.btn-secondary.mb-3(type='submit', value='검색')
+    .refresh_btn_box
+        button.btn.mb-3.justify-content-end(type='button' data-action='refresh')
+            i.fa.fa-refresh(data-perform='panel-refresh')
+// chosen plugin e
+.single-table
+    .table-responsive
+        table.table.table-row.progress-table.text-center.table-990.odd-table
+            thead.text-uppercase.bg-dark.text-white
+                
+                tr.text-white
+                    th(scope='col')
+                        input(type='checkbox')
+                    th(scope='col') 순서
+                    th(scope='col' data-view-sort='step4name') 실험 담당자
+                    th(scope='col' data-view-sort='step4regdatetime') STEP 4 시작 일시
+                    th(scope='col') Pooling
+                    th(scope='col') Templating ID
+                    th(scope='col') RUN ID
+                    th(scope='col') Plan CVS
+                    th(scope='col') NGS ID
+                    th(scope='col') Ion TS Report Address
+                    th(scope='col') IR ID
+            tbody
+                //- TODO : data 메핑하기
+                each value,index in data
+                    -console.log();
+                    tr
+                        td
+                            input(type='checkbox' data-action="selected-view" data-index=(index))
+                        td #{total - ((pagination.page * requestProp.search.limit)+(index))}
+                        td #{value.step3name}
+                        td #{value.step3regdatetime}
+                        td #{value.id}
+                        td #{value.method}-#{value.mid}
+                        td ???
+                        td
+                            a.button.is-link.detail_btns(data-toggle='modal', data-target='.csv_popup', href='javascript:void(0)')
+                                span.icon.text-primary
+                                    i.fas.ti-eye.fa-angle-up
+                                span 상세보기
+                        td
+                            input.form-control(type='text', placeholder='NGS ID' value=(value.ngsid) data-view-observer="ngsid" data-index=(index))
+                        td
+                            input.form-control(type='text', placeholder='ION TS REPORT ADDRESS' value=(value.tsaddr) data-view-observer="tsaddr" data-index=(index))
+                        td
+                            input.form-control(type='text', placeholder='IR ID' value=(value.irid) data-view-observer="irid" data-index=(index))
+
+// 페이지버튼 s
+div(data-zone='pagination')
+// 페이지버튼 e
+.btn_wrap
+    a.btn.btn-success.mb-3.mr-1(href='#', data-action='goto-step5') Step 5 로 이동
+

@@ -1,0 +1,101 @@
+mixin sampleList(index,sampleData)
+    td #{parseInt(index)+1}
+    td #{sampleData.id}
+    td #{sampleData.code}
+    td #{sampleData.companyid}
+// chosen plugin s
+form.input-group.mb-3(data-zone="view.search")
+    .search
+        input(type="hidden" data-zone="view.search.name" value="code")
+        input.form-control(type='search' data-placeholder='검색어를 입력해 주세요' data-zone="view.search.content")
+    .input-group-append
+        input.btn.btn-flat.btn-secondary.mb-3(type='submit', value='검색')
+    .refresh_btn_box
+        button.btn.mb-3.justify-content-end(type='button' data-action='refresh')
+            i.fa.fa-refresh(data-perform='panel-refresh')
+// chosen plugin e
+.single-table
+    .table-responsive
+        table.table.table-row.progress-table.text-center.table-990.odd-table
+            thead.text-uppercase.bg-dark.text-white
+                
+                tr
+                    th(scope='col', rowspan='2')
+                        input(type='checkbox' data-action="selected-view-all")
+                    th(scope='col', rowspan='2') 순서
+                    th(scope='col', rowspan='2' data-view-sort='step3name') 실험 담당자
+                    th(scope='col', rowspan='2' data-view-sort='step3regdatetime') STEP 3 시작 일시
+                    th(scope='col', rowspan='2' data-view-sort='id') Pooling ID
+                    th(scope='col', rowspan='2') Ori-Qubit(ng/ul)
+                    th(scope='col', colspan='2') To 1nM
+                    th(scope='col', rowspan='2') 1nM-Qubit(ng/ul)
+                    th(scope='col', rowspan='2') Templating pM
+                    th(scope='col', colspan='2') To Templating pM
+                    th(scope='col', colspan='2') Templating
+                tr
+                    th(scope='col') Ori-Library Pool Input(ul)
+                    th(scope='col') Low Te(ul)
+                    th(scope='col') 1nM-Library Pool Input(ul)
+                    th(scope='col') Low Te(ul)
+                    th(scope='col') Method
+                    th(scope='col') Machine ID
+            tbody
+                //- TODO : data 메핑하기
+                each value,index in data
+                    -console.log();
+                    tr
+                        td
+                            input(type='checkbox' data-action="selected-view" data-index=(index))
+                        td #{total - ((pagination.page * requestProp.search.limit)+(index))}
+                        td #{value.step3name}
+                        td #{value.step3regdatetime}
+                        td #{value.id}
+                        td
+                            input.form-control(type='text', placeholder='ORI-QUBIT(NG/UL)' value=(value.oriqubit) data-view-observer="oriqubit" data-index=(index))
+                        td
+                            input.form-control(type='text', placeholder='ORI-LIBRARY POOL INPUT(UL)' value=(value.orilibpoolinput) data-view-observer="orilibpoolinput" data-index=(index))
+                        td
+                            span(data-zone='calc-1nm-te') #{(value.oriqubit * 6.061 * value.orilibpoolinput) - value.orilibpoolinput}
+                        td
+                            input.form-control(type='text', placeholder='1NM-QUBIT(NG/UL)' value=(value['1nmqubit']) data-view-observer="1nmqubit" data-index=(index))
+                        td
+                            input.form-control(type='text', placeholder='TEMPLATING PM' value=(value.templating) data-view-observer="templating" data-index=(index))
+                        td
+                            input.form-control(type='text', placeholder='1NM-LIBRARY POOL INPUT(UL)' value=(value['1nmlibpoolinput']) data-view-observer="1nmlibpoolinput" data-index=(index))
+                        td
+                            span(data-zone='calc-templating-te') #{(value.templating * 6.061 * 1000 - value.templating) / (value.templating / value['1nmlibpoolinput'])}
+                        td
+                            .custom-control.custom-control-inline.custom-radio
+                                input#method1.custom-control-input(type='radio', value='OT' data-view-observer="method" data-index=(index))
+                                label.custom-control-label(for='method1') OT
+                            .custom-control.custom-control-inline.custom-radio
+                                input#method2.custom-control-input(type='radio', value='CHEF' data-view-observer="method" data-index=(index))
+                                label.custom-control-label(for='method2') CHEF
+                        td
+                            input.form-control(type='text', placeholder='MACHINE ID' value=(value.mid) data-view-observer="mid" data-index=(index))
+
+
+
+
+                    //- tr
+                        td
+                            input(type='checkbox' data-action="selected-view" data-index=(index))
+                        td #{total - ((pagination.page * requestProp.search.limit)+(index))}
+                        td #{value.inputname}
+                        td #{value.datetime}
+                        td #{value.sample.id}
+                        td #{value.sample.info}
+                        td #{value.barcode}
+                        td #{value.qubit}
+                        td #{value.qubitqc}
+                        td
+                            a.button.is-link.detail_btns(href='javascript:void(0)')
+                                span.icon.text-primary
+                                    i.fas.fa-angle-down.ti-eye
+                                span 상세보기
+
+// 페이지버튼 s
+div(data-zone='pagination')
+// 페이지버튼 e
+.btn_wrap
+    a.btn.btn-success.mb-3.mr-1(href='#', data-action='goto-step4') Step 4로 이동

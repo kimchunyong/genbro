@@ -1,0 +1,154 @@
+//- mixin hack
+- var lastParentIdx = -1;
+mixin subView(data,index)
+    - var pugLastTyped = pug_html.length;
+    tr
+        if (data.cmidx >= 0)
+            -console.log();
+            input(type='hidden',name=(`data[manager][${index}][idx]`) value=(data.cmidx))
+        td
+            input.form-control(type='text', placeholder='직책' name=(`data[manager][${index}][class]`) value=(data.cmclass))
+        td
+            input.form-control(type='text', placeholder='이름' name=(`data[manager][${index}][name]`) value=(data.cmname))
+        td
+            input.form-control(type='text', placeholder='이메일' name=(`data[manager][${index}][email]`) value=(data.cmemail))
+        td
+            input.form-control(type='tel', placeholder='TEL' name=(`data[manager][${index}][tel]`) value=(data.cmtel))
+        td
+            input.form-control(type='tel', placeholder='휴대폰' name=(`data[manager][${index}][hp]`) value=(data.cmhp))
+        td
+            input(type='checkbox' name=(`data[manager][${index}][ismain]`) checked=(data.cmismain === "Y"))
+        td
+            input.form-control(type='text', placeholder='기타사항' name=(`data[manager][${index}][memo]`) value=(data.cmmemo))
+        td
+            a.text-danger.tbl_del_ico(href='#' data-action='list-remove' data-index=(data.cmidx || -1))
+                i.ti-trash(title='삭제')
+    - return pug_html.slice(pugLastTyped);
+mixin updateOpt(key,idx,optData = [])
+    - pugLastTyped = pug_html.length;
+    - var attrKey = "idx"+key;
+    - lastParentIdx = idx;
+    each val,index in optData
+        option(selected=(idx == val.idx), value=(val.idx)) #{val.name}
+    - return pug_html.slice(pugLastTyped);
+
+
+mixin _updateOpt(key,idx,optData = [])
+    - var parentAttr = "idx"+(key-1);
+    - optData = optData.filter((el)=>{if(key !== 1 && lastParentIdx !== -1){return lastParentIdx === el[parentAttr];}return true;})
+    - console.log(optData,lastParentIdx)
+    +updateOpt(key,idx,optData)
+//- just dummy for template functor export
+div(style="display:none;")
+    +updateOpt("",-1,[])
+
+//- mixin pug hack (일반적인 상황에선 사용금지)
+- (__pugTemplate || {}).subView = pug_mixins["subView"];
+- (__pugTemplate || {}).updateOpt = pug_mixins["updateOpt"];
+
+.modal-dialog.modal-xl.modal-dialog-centered(style='z-index:2;')
+    form.modal-content(data-zone="popup")
+        .modal-header
+            h5.modal-title 부서관리
+            button.close(type='button' data-zone='popup.close')
+                span ×
+        .modal-body.scroll_pop
+            .modal-container
+                // row-item-01 s
+                div
+                    input(type='hidden',name=(`data[company][depth]`) value="4")
+                    .row 
+                        .form-row.col-md-4
+                            .col-2(style='min-width:90px')
+                                label(for='ciname', style='line-height: 44px;') 재단명
+                            .col-md-10
+                                select#ciname.custom-select(required=(true) data-index="1" data-zone="parent-select")
+                                    option(value="-1") 재단을 선택해주세요
+                                    +_updateOpt(1,ciidx1,companyInfo['idx1'])
+                        .form-row.col-md-4
+                            .col-2(style='min-width:90px')
+                                label(for='ciname', style='line-height: 44px;') 지점명
+                            .col-md-10
+                                select#ciname.custom-select(required=(true) name=(`data[company][parentidx]`) data-zone="parent-select" data-index="2")
+                                    option(value="-1") 지점을 선택해주세요
+                                    +_updateOpt(2,ciidx2,companyInfo['idx2'])
+                        .form-row.col-md-4
+                            .col-2(style='min-width:90px')
+                                label(for='ciname', style='line-height: 44px;') 병원명
+                            .col-md-10
+                                select#ciname.custom-select(required=(true) name=(`data[company][parentidx]`) data-zone="parent-select" data-index="3")
+                                    option(value="-1") 병원을 선택해주세요
+                                    +_updateOpt(3,ciidx3,companyInfo['idx3'])
+                    .row
+                        .form-row.col-md-4
+                            .col-2(style='min-width:90px')
+                                label(for='ciname', style='line-height: 44px;') 부서명
+                            .col-md-10
+                                input#ciname.form-control(type='text', placeholder='병원명을 입력해주세요.', value=(ciname) name=(`data[company][name]`))
+                        .form-row.col-md-4
+                            .col-2(style='min-width:90px')
+                                label(for='cicode', style='line-height: 44px;') 코드
+                            .col-md-10
+                                input#cicode.form-control(type='text', placeholder='코드를 입력해주세요.', name=(`data[company][code]`) value=(cicode))
+                        .form-row.col-md-4
+                            .col-2(style='min-width:90px')
+                                label(for='cietc2', style='line-height: 44px;') 대표번호
+                            .col-md-10
+                                input#cietc2.form-control(type='text', placeholder='대표번호', name=(`data[company][etc2]`) value=(cietc2))
+                    .row
+                        .form-row.col-md-6
+                            .col-2(style='min-width:90px')
+                                label(for='cietc1', style='line-height: 44px;') 사업자등록번호
+                            .col-md-10
+                                input#cietc1.form-control(type='text', placeholder='사업자등록번호', name=(`data[company][etc1]`) value=(cietc1))
+                        .form-row.col-md-6
+                            .col-2(style='min-width:90px')
+                                label(for='cietc3', style='line-height: 44px;') FAX
+                            .col-md-10
+                                input#cietc3.form-control(type='text', placeholder='FAX', name=(`data[company][etc3]`), value=(cietc3))
+                    .row
+                        .form-row.col-md-6
+                            .col-2(style='min-width:90px')
+                                label(for='cietc4', style='line-height: 44px;') 홈페이지
+                            .col-md-10
+                                input#cietc4.form-control(type='text', placeholder='홈페이지', name=(`data[company][etc4]`), value=(cietc4))
+                        .form-row.col-md-6
+                            .col-2(style='min-width:90px')
+                                label(for='cietc5', style='line-height: 44px;') 주소
+                            .col-md-10
+                                input#cietc5.form-control(type='text', placeholder='주소', name=(`data[company][etc5]`) value=(cietc5))
+                    // row-item-01 e
+                    // row-item-03 s
+                    .row-item.mt-3
+                        .row.px-2
+                            .col-12.mt-3
+                                .single-table
+                                    .table-responsive
+                                        table#list-manager.table.table-row.progress-table.text-center.table-990
+                                            thead.text-uppercase.bg-dark
+                                                tr.text-white
+                                                    th(colspan='7') 담당자
+                                                    th
+                                                        button#button-addon2.btn.btn-warning.btn-xs(type='button' data-action='list-insert') 추가
+                                                tr.text-white
+                                                    th 직책
+                                                    th 담당자명
+                                                    th 메일주소
+                                                    th TEL
+                                                    th 휴대폰
+                                                    th 주연락망
+                                                    th 기타사항
+                                                    th 관리
+                                            tbody(data-zone='list')
+                                                //- pug template locals hack
+                                                +subView(locals,0)
+                                                each subSet,subIndex in (sub || [])
+                                                    -console.log();
+                                                    +subView(subSet,subIndex+1)
+                                                // table item e
+                                                // row-item-03 e
+        .modal-footer
+            button.btn.btn-secondary(type='button' ,data-zone='popup.close') 취소
+            button.btn.btn-primary(type='submit') 저장
+.modal-backdrop.fade.show(data-zone='popup.close' style="z-index:1;")
+

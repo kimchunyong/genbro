@@ -1,0 +1,82 @@
+//- div.modal-background(data-zone='popup.close')
+//- div.modal-content
+    form(data-zone='popup')
+        table.table.is-fullwidth.table.is-bordered.table-th-bg
+            thead
+                tr
+                    th 등록/수정 담당자
+                    th 등록/수정 일시
+                    th 등록/수정 내역
+            tbody
+                each value,index in logs
+                    - console.log();
+                    tr
+                        td #{value.mbname}
+                        td
+                            div.is-clearfix
+                                span.is-pulled-left
+                                    i.far.fa-calendar-alt(style="padding-right:10px;") #{value.date}
+                                span.is-pulled-right
+                                    i.far.fa-clock(style="padding-right:5px;") #{value.time}
+                        td !{value.content}
+        button.button.is-success(type='button' data-zone='popup.close') 확인
+
+//- z-index > 1040 
+//- in bootstrap backdrop-hack
+.modal-dialog.modal-lg.modal-dialog-centered(style="z-index:11;")
+    form.modal-content(data-zone='popup')
+        .modal-header
+            button.close(type='button', data-zone='popup.close')
+                span ×
+        .modal-body
+            .modal-container
+                .single-table
+                    .table-responsive
+                        table.table.table-hover.progress-table.text-center
+                            thead.text-uppercase.bg-dark
+                                tr.text-white
+                                    th(scope='col') 등록/수정 담당자
+                                    th(scope='col') 등록/수정일시
+                                    th(scope='col') 등록/수정내역
+                            tbody
+                                each value,index in logs
+                                    - console.log();
+                                    tr
+                                        th(scope='row') #{value.mbname}
+                                        td
+                                            span.entry_edit_day #{value.date}
+                                            | /
+                                            span.entry_edit_tiem #{value.time}
+                                        td !{value.content}
+        // 페이지버튼 s
+        nav
+            ul.pagination.justify-content-center.mt-5.mb-5
+                li.page-item.disabled
+                    a.page-link(href='#', aria-label='Previous')
+                        span(aria-hidden='true') 《
+                        span.sr-only first-page
+                li.page-item.disabled
+                    a.page-link(href='#', aria-label='Previous')
+                        span(aria-hidden='true') 〈
+                        span.sr-only Previous
+                li.page-item.active
+                    a.page-link(href='#') 1
+                li.page-item
+                    a.page-link(href='#')
+                        | 2 
+                        span.sr-only (current)
+                li.page-item
+                    a.page-link(href='#') 3
+                li.page-item
+                    a.page-link(href='#', aria-label='Next')
+                        span(aria-hidden='true') 〉
+                        span.sr-only Next
+                li.page-item
+                    a.page-link(href='#', aria-label='Next')
+                        span(aria-hidden='true') 》
+                        span.sr-only last-page
+        // 페이지버튼 e
+        .modal-footer
+            button.btn.btn-primary(type='submit', data-dismiss='modal' ) 확인
+.modal-backdrop.fade.show(data-zone='popup.close' style="z-index:10;")
+

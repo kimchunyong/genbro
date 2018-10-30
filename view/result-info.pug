@@ -1,0 +1,16 @@
+- var selectedMenuPermission = __extra__.__userData.auth["결과판정-1"];
+- var isHead;
+- var isManager;
+- var permissionFlag = (selectedMenuPermission.issuperagree === 'Y' ? "ishead" : (selectedMenuPermission.ismidagree === 'Y' ? "ismanager" : ''));
+each value,index in data
+    -console.log();
+    - isHead = value.ishead === "Y";
+    - isManager = value.ismanager === "Y";
+    tr
+        td #{(total - (requestProp.search.page *requestProp.search.limit )) - index}
+        td #{value.container.subcode}
+        td #{value.id}
+        td
+            button.btn.btn-xs(class=(isManager ? "btn-success" : "btn-danger") data-action=(permissionFlag === "ismanager" ? 'approval' : '') data-index=(index)) #{isManager ? "완료" : "미확인"}
+        td
+            button.btn.btn-xs(class=(isHead ? "btn-success" : "btn-danger") data-action=(permissionFlag === "ishead" ? 'approval' : '') data-index=(index) ) #{isHead ? "완료" : "미확인"}

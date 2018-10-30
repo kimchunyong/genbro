@@ -1,0 +1,88 @@
+mixin sampleList(index,sampleData)
+    td #{parseInt(index)+1}
+    td #{sampleData.id}
+    td #{sampleData.code}
+    td #{sampleData.companyid}
+// chosen plugin s
+form.input-group.mb-3(data-zone="view.search")
+    .search
+        input(type="hidden" data-zone="view.search.name" value="code")
+        input.form-control(type='search' data-placeholder='검색어를 입력해 주세요' data-zone="view.search.content")
+    .input-group-append
+        input.btn.btn-flat.btn-secondary.mb-3(type='submit', value='검색')
+    .refresh_btn_box
+        button.btn.mb-3.justify-content-end(type='button' data-action='refresh')
+            i.fa.fa-refresh(data-perform='panel-refresh')
+// chosen plugin e
+.single-table
+    .table-responsive(data-zone='view.content')
+        table.table.table-row.progress-table.text-center.table-990.odd-table
+            thead.text-uppercase.bg-dark
+                tr.text-white
+                    th(scope='col', rowspan='2')
+                        input(type='checkbox' data-action="selected-view-all")
+                    th(scope='col', rowspan='2') 순서
+                    th(scope='col', rowspan='2' data-view-sort='experimentname') 실험 담당자
+                    th(scope='col', rowspan='2' data-view-sort='experimentregdatetime') STEP 1 시작 일시
+                    th(scope='col', rowspan='2') GC S ID
+                    th(scope='col', colspan='2') 검체정보
+                    th(scope='col', rowspan='2') 바코드
+                    th(scope='col', rowspan='2') Qubit 정량값(ng/ul)
+                    th(scope='col', rowspan='2') STEP 1 Q/C
+                    th(scope='col', rowspan='2') 상세보기
+                tr.text-white
+                    th(scope='col') 검체번호
+                    th(scope='col' data-view-sort='ul') 검체량(ul)
+            tbody#list
+                each value,index in data
+                    -console.log();
+                    tr
+                        td
+                            input(type='checkbox' data-action="selected-view" data-index=(index))
+                        td #{total - ((pagination.page * requestProp.search.limit)+(index))}
+                        td #{value.experimentname}
+                        td #{value.experimentregdatetime}
+                        td #{value.sample.id}
+                        td #{value.sample.code}
+                        td #{value.ul}
+                        td
+                            input.form-control(type='text', placeholder='바코드' data-view-observer="barcode" data-index=(index))
+                        td
+                            input.form-control(type='text', placeholder='QUBIT 정량값(NG/UL)' data-view-observer="qubit" data-index=(index))
+                        td
+                            select.custom-select(data-view-observer="qubitqc" data-index=(index))
+                                option() 값이 필요합니다.
+                                option(value="PASS") PASS
+                                option(value="PASS(L)") PASS(L)
+                                option(value="FAIL") FAIL
+                        td
+                            a.button.is-link.detail_btns(href='javascript:void(0)')
+                                span.icon.text-primary
+                                    i.fas.fa-angle-down.ti-eye
+                                span 상세보기
+
+                    tr.detail_tbl-wrap
+                        td.detail_tbl-inner(colspan='13')
+                            table.table.table-row.progress-table.text-center.table-990.mt-3
+                                thead.text-white.bg-dark
+                                    tr
+                                        th.bg-light(colspan='8') 상세보기
+                                    tr
+                                        th(colspan="2") 검체정보
+                                        th(rowspan="2") 검체량(ul)
+                                        th(rowspan="2") 검체 특이사항
+                                        th(rowspan="2") 입고 특이 사항
+                                    tr
+                                        th 샘플번호
+                                        th 검체 종류
+                                tbody
+                                    td #{value.sample.code}
+                                    td #{value.sample.specimentype}
+                                    td #{value.ul} 
+                                    td #{value.etc}
+                                    td #{value.container.etccomment}
+// 페이지버튼 s
+div(data-zone='pagination')
+// 페이지버튼 e
+.btn_wrap
+    a.btn.btn-success.mb-3(href='#', data-action='goto-step2') STEP2로 이동

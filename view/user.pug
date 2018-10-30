@@ -1,0 +1,40 @@
+// chosen plugin s
+form.input-group.mb-3.col-6.px-0(data-zone="view.search")
+    .input-group-prepend
+        select#inputGroupSelect01.custom-select.h-100(data-zone="view.search.id")
+            option(value='name') 이름
+            option(value='id') 아이디
+    input.form-control(type='text', aria-label='Text input with dropdown button' data-zone="view.search.content")
+    .input-group-append
+        button.btn.btn-secondary(type='submit') 검색
+// chosen plugin e
+.single-table
+    .table-responsive
+        table.table.table-row.progress-table.text-center.table-990.odd-table
+            thead.text-uppercase.bg-dark
+                tr.text-white
+                    th(scope='col') 아이디
+                    th(scope='col') 이름
+                    th(scope='col') 전화번호
+                    th(scope='col') 마지막 접속 시간
+                    th(scope='col') 기능
+            tbody#list
+                 each value,key in data
+                    -console.log();
+                    tr
+                        td #{value.id}
+                        td #{value.name}
+                        td (#{value.telcode})#{value.tel}
+                        td #{value.regdatetime}
+                        td
+                            ul.d-flex.justify-content-center
+                                li.mr-3
+                                    a.text-secondary(href='#' data-action="modify" data-index=(key))
+                                        i.fa.fa-edit(title='수정')
+                                li.mr-3
+                                    a.text-danger.tbl_del_ico(href='#' data-action="remove" data-index=(key))
+                                        i.ti-trash(title='삭제')
+                                li
+                                    a.text-pirmary.tbl_del_ico(href='#' data-action="settings" data-index=(key))
+                                        i.ti-settings(title='권한설정')
+div(data-zone='pagination')

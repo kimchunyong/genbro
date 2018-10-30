@@ -1,0 +1,62 @@
+mixin sampleList(sampleData)
+    td #{sampleData.cmclass}
+    td #{sampleData.cmname}
+    td #{sampleData.cmemail}
+    td #{sampleData.cmhp}
+.single-table
+    .table-responsive
+        table.table.table-row.progress-table.text-center.table-990.odd-table
+            thead.text-uppercase.bg-dark
+                tr.text-white
+                    th(scope='col', rowspan='2')
+                        input(type='checkbox' data-action='selected-view-all')
+                    th(scope='col', rowspan='2') 재단명
+                    th(scope='col', rowspan='2') 지점명
+                    th(scope='col', rowspan='2') 병원명
+                    th(scope='col', rowspan='2') 부서명
+                    th(scope='col', rowspan='2') 코드
+                    th(scope='col', colspan='4') 담당자
+                    th(scope='col', rowspan='2') 관리
+                tr.text-white
+                    th(scope='col') 직책
+                    th(scope='col') 담당자명
+                    th(scope='col') 메일주소
+                    th(scope='col') 휴대폰
+            tbody
+                - var filterArray = [];
+                - var _lastCursor = null;
+                - var iterateData = Object.values(data).filter(function(val,index,arr){let res;val.__index = index;return (res = filterArray.includes(val.ciidx)) ? _lastCursor.sub.push(val) : (val.sub = [],filterArray.push(val.ciidx),_lastCursor = val),!res; });
+                each entities,index in iterateData
+                    - console.log();
+                    - var sub = entities.sub;
+                    - var sampleCount = sub.length+1;
+                    - var count = 1;    
+                    tr
+                        td(rowspan=(sampleCount))
+                            input(type='checkbox')
+                        td.text-left.parent-node(rowspan=(sampleCount), style='padding-left:0.75em;') #{entities.ciname1}
+                        td.text-left.parent-node(rowspan=(sampleCount), style='padding-left:0.75em;') #{entities.ciname2}
+                        td.text-left.parent-node(rowspan=(sampleCount), style='padding-left:0.75em;') #{entities.ciname3}
+                        td.text-left.parent-node(rowspan=(sampleCount), style='padding-left:0.75em;') #{entities.ciname}
+                        td(rowspan=(sampleCount)) #{entities.cicode}
+                        +sampleList(entities)
+                        td(rowspan=(sampleCount))
+                            ul.d-flex.justify-content-center
+                                li.mr-3
+                                    a(href='#', data-index=(entities.__index), data-action='update')
+                                        i.ti-pencil(title='수정')
+                                //- TODO
+                                //- li
+                                    a.text-danger(href='#', data-index=(entities.__index), data-action='remove')
+                                        i.ti-trash(title='삭제')
+
+                    each subSet,subIndex in sub
+                        - console.log();
+                        tr
+                            +sampleList(subSet)
+                // item01 e
+// 페이지버튼 s
+div(data-zone='pagination')
+// 페이지버튼 e
+.btn_wrap
+    button.btn.btn-success.mb-3(type='button', data-action='insert') 등록

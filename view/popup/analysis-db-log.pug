@@ -1,0 +1,144 @@
+mixin rowAppend(title,rowData)
+    each data,key in rowData
+        -console.log();
+        tr
+            if key === 0
+                - console.log();
+                th(rowspan=(rowData.length)) #{title}
+            td #{data.chromosome}
+            td #{data.position}
+            td #{data.startlocus}
+            td #{data.endlocus}
+            td #{data.ratio}
+            td #{data.length}
+            td #{data.stdlength}
+            td #{data.segmental}
+div.modal-background(data-zone='popup.close')
+div
+    form(data-zone='popup')
+        .field.is-fullhd
+            .notification(style="width:  80%;margin: 0 auto;")
+                // 샘플정보 e
+                .tb-box.tb-box-item01
+                    h2.title 샘플정보
+                    table.table.table-bg.is-bordered.is-striped.is-narrow.is-fullwidth.table-min_640
+                        tbody
+                            tr.thd_bg--blue
+                                th GC S ID
+                                th 실험 ID
+                                th 생년월일
+                                th 만나이
+                                th 바코드
+                                th Ion TS address
+                            tr
+                                td #{sample.id}
+                                td #{code}
+                                td #{container.year}-#{container.month}-#{container.day}
+                                td #{container.age}
+                                td #{barcode}
+                                td
+                                    a(href='#n') #{ionserver}
+                            tr.thd_bg--blue
+                                th RSA
+                                th RIF
+                                th(colspan='2') Translocation
+                                th(colspan='2') 기타소견
+                            tr
+                                th #{ ((container.isrsa === "Y") ? ("유("+container.rsacount+")") : "무") }
+                                th #{ ((container.isrif === "Y") ? ("유("+container.rifcount+")") : "무") }
+                                th(colspan='2') #{container.translocation}
+                                th(colspan='2') #{comment}
+                // 샘플정보 e
+                // 실험 결과 s
+                .tb-box.tb-box-item02
+                    h2.title 실험 결과
+                    table.table.table-bg.is-bordered.is-striped.is-narrow.is-fullwidth.table-min_640
+                        thead
+                            tr
+                                th Bases
+                                th >=Q20 Bases
+                                th Reads
+                                th MeanReadLength
+                                th Histogram
+                        tbody
+                            if Object.keys(results).length > 0
+                                -console.log();
+                                tr
+                                    td #{results.bases}
+                                    td #{results.q20bases}
+                                    td #{results.reads}
+                                    td #{results.meanreadlength}
+                                    td
+                                        img(src=(results.sparkline), data-action='toggle-histogram' alt="histogram 그래프" data-image=(results.histogram) )
+                                        // histogram 그래프 s
+                                        //.histogram_graph-box
+                                        // histogram 그래프 e
+                // 실험결고 e
+                // 실험 결과 s
+                .tb-box.tb-box-item02
+                        h2.title 분석 결과
+                        table.table.table-bg.is-bordered.is-striped.is-narrow.is-fullwidth.table-min_640
+                            thead
+                                tr
+                                    th Ver.
+                                    th Conf.
+                                    th MAPD
+                                    th MA
+                                    th An+
+                                    th An-
+                                    th Segment
+                                    th Proband
+                            tbody
+                                if results.main != undefined
+                                    -console.log();
+                                    each mainRow,key in results.main
+                                        - console.log();
+                                        tr
+                                            td #{mainRow.ver}
+                                            td #{mainRow.conf}
+                                            td #{mainRow.mapd}
+                                            td #{mainRow.ma}
+                                            td
+                                                span.tbl-color--blue #{mainRow.anplus}
+                                            td
+                                                span.tbl-color--red #{mainRow.anminus}
+                                            td #{(mainRow.segmental === "O") ? "유" : "무"}
+                                            - console.log(mainRow);
+                                            td 
+                                                img(src=(mainRow.proband) alt="proband 이미지")
+                                                // proband 그래프 s
+                                                //.proband-graph-box
+                                                // proband 그래프 e
+                //- TODO : TB-BOX-item03에도 적용
+                .tb-box.tb-box-item03.tb-box-item02 
+                    h2.title 분석결과 상세보기
+                    table.table.table-bg.is-bordered.is-striped.is-narrow.is-fullwidth
+                        thead
+                            tr
+                                th
+                                th chromosome
+                                th position
+                                th START-LOCUS
+                                th END-LOCUS
+                                th ratio   
+                                th Length
+                                th STD_Length
+                                th Segmental
+                        tbody
+                            if results.anplusdata != undefined
+                                -console.log();
+                                +rowAppend("An(+)",results.anplusdata)
+                            if results.anminusdata != undefined
+                                -console.log();
+                                +rowAppend("An(-)",results.anminusdata)
+
+                            if results.anplusdata === undefined && results.anminusdata === undefined
+                                -console.log();
+                                tr
+                                    td(colspan="999")
+                                        span 분석된 데이터가 없습니다.
+
+                // 실험결고 e
+                p.control.column.pl-0
+                    a.button.is-link(data-action="re-report" data-index=(__index)) 재분석
+                    button.button.is-success(type='submit') 완료

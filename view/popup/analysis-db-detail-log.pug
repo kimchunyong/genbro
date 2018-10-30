@@ -1,0 +1,33 @@
+mixin rowAppend(title,rowData)
+    each key,data in rowData
+        -console.log();
+        tr
+            if key === 0
+                - console.log();
+                th(rowspan=(rowData.length)) #{title}
+            td #{data.chromosome}
+            td #{data.position}
+            td #{data.startlocus}
+            td #{data.endlocus}
+            td #{data.ratio}
+            td #{data.length}
+            td #{data.stdlength}
+            td #{data.segmental}
+.modal-background(data-zone='popup.close')
+.tb-box.modal-content.modal-content--w640
+    h2.title.title-ta--center 분석결과 상세보기
+    table.table.is-fullwidth.table.is-bordered.table-bg.table-min_480
+        thead
+            tr
+                th
+                th chromosome
+                th position
+                th START-LOCUS
+                th END-LOCUS
+                th ratio   
+                th Length
+                th STD_Length
+                th Segmental
+        tbody
+            +rowAppend("An(-)",anminusdata)
+            +rowAppend("An(+)",anplusdata)

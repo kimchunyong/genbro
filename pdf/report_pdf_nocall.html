@@ -1,0 +1,295 @@
+<?php
+/*
+header('Content-Type: text/html; charset=UTF-8');
+require('/BiO/GenoBro/www/admin/../../conf/php/common.inc');
+require(DIR_MOD.'/php/common.class');
+require(DIR_MOD.'/php/logs.class');
+require(DIR_MOD.'/php/container.class');
+require(DIR_MOD.'/php/sample.class');
+require(DIR_MOD.'/php/sampleinfo.class');
+require(DIR_MOD.'/php/experiment.class');
+
+$_experiment = new Experiment();
+$rows = $_experiment->listsSample(array('idx' => 1))['data'][0];
+$var1 = '3';
+$var2 = 'approval-success';
+$arrComp = array_filter($rows['sampleinfo'][0]['logs'], function($val) use($var1, $var2){
+    return ($val['mblevel'] == $var1 && $val['action'] == $var2);
+});
+*/
+?>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="/css/pdf.css">
+    <title></title>
+</head>
+
+<body cz-shortcut-listen="true">
+    <div class="page intro-page-rght type-left">
+        <div class="inner-page">
+            <div class="report-head-img">
+                <img class="logo" src="/images/pdf/geno_bro.png" alt="배아의 염색체 수적 이상 선별 검사보고서">
+                <span class="logo-rght-txt-box">
+					<span class="logo-rght-txt">검사 불능 보고서</span>
+				</span>
+            </div>
+            <!-- report top s-->
+            <div class="report-ele-top report-ele-top--pd">
+                <div class="report-ele-lft">
+                    <div class="tbl-cont-01">
+                        <table>
+                            <colgroup>
+                                <col width="40%">
+                                <col width="60%">
+                            </colgroup>
+                            <tbody>
+                                <tr>
+                                    <th class="bg-gray">
+                                        <div class="stretch_inner">T G C 접 수 번 호</div>
+                                    </th>
+                                    <td><?php echo $rows['id'] ?></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="report-ele-rght">
+                    <div class="tbl-cont-01">
+                        <table>
+                            <colgroup>
+                                <col width="40%">
+                                <col width="60%">
+                            </colgroup>
+                            <tbody>
+                                <tr>
+                                    <th class="bg-gray">
+                                        <div class="stretch_inner">식별코드</div>
+                                    </th>
+                                    <td><?php echo $rows['container']['gccode'].'-'.$rows['code'] ?></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <!-- report top e-->
+            <div class="tbl-cont-02 cont-mt10">
+                <table>
+                    <colgroup>
+                        <col width="12.5%">
+                        <col width="12.5%">
+                        <col width="12.5%">
+                        <col width="12.5%">
+                        <col width="12.5%">
+                        <col width="12.5%">
+                    </colgroup>
+                    <tbody>
+                        <tr>
+                            <th colspan="2" class="bg-gray">
+                                <div class="stretch_inner" style="text-align:center">검사 대상자 정보</div>
+                            </th>
+                            <th colspan="2" class="bg-gray">
+                                <div class="stretch_inner" style="text-align:center">의료 기관 정보</div>
+                            </th>
+                            <th colspan="2" class="bg-gray">
+                                <div class="stretch_inner" style="text-align:center">검체/검사 정보</div>
+                            </th>
+                        </tr>
+                        <tr>
+                        <td style="background-color:#ededed;">성명</td>
+                            <td><?php echo $rows['container']['name1'].' '.$rows['container']['name2'].' '.$rows['container']['name3'] ?></td>
+                            <td style="background-color:#ededed;">의료기관명</td>
+                            <td><?php echo $rows['container']['mcname'] ?></td>
+                            <td style="background-color:#ededed;">검체종류</td>
+                            <td><?php echo $rows['specimentype'] ?></td>
+                        </tr>
+                        <tr>
+                            <td style="background-color:#ededed;">생년월일</td>
+                            <td><?php echo ($rows['container']['year'].$rows['container']['year'].$rows['container']['year']) !== '' ? $rows['container']['year'].'-'.$rows['container']['month'].'-'.$rows['container']['day'] : '-' ?></td>
+                            <td style="background-color:#ededed;">진료과</td>
+                            <td><?php echo $rows['container']['mcdepart'] ?></td>
+                            <td style="background-color:#ededed;">검체채취일</td>
+                            <td><?php echo $rows['collectdate'] ?></td>
+                        </tr>
+                        <tr>
+                            <td style="background-color:#ededed;">만나이</td>
+                            <td><?php echo $rows['container']['age'] !== '' ? $rows['container']['age'] : '-' ?></td>
+                            <td style="background-color:#ededed;">담당의사명</td>
+                            <td><?php echo $rows['container']['mcdoctor'] ?></td>
+                            <td style="background-color:#ededed;">검사의뢰일</td>
+                            <td><?php echo $rows['requestdate'] ?></td>
+                        </tr>
+                        <tr>
+                            <td style="background-color:#ededed;">-</td>
+                            <td><?php //echo $rows['id'] ?>-</td>
+                            <td style="background-color:#ededed;">연락처</td>
+                            <td><?php echo $rows['container']['mctel'] ?></td>
+                            <td style="background-color:#ededed;">결과보고일</td>
+                            <td><?php echo sizeof($arrComp) > 0 ? $arrComp['date'] : date("Y-m-d", strtotime($rows['requestdate']) + 86400) ?></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="tbl-cont-02 cont-mt10">
+                <table>
+                    <colgroup>
+                        <col width="12.5%">
+                        <col width="12.5%">
+                        <col width="12.5%">
+                        <col width="12.5%">
+                        <col width="12.5%">
+                        <col width="12.5%">
+                    </colgroup>
+                    <tbody>
+                        <tr>
+                            <th colspan="4" class="bg-gray">
+                                <div class="stretch_inner" style="text-align:center">검사 불능 사유</div>
+                            </th>
+
+                        </tr>
+                        <tr>
+                            <th><?php echo $rows['sampleinfo'][0]['nocallcomment'] ?></th>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!-- report mid s-->
+            <div class="tbl-cont-02 cont-mt10">
+                <table>
+                    <colgroup>
+                        <col width="12.5%">
+                        <col width="12.5%">
+                        <col width="12.5%">
+                        <col width="12.5%">
+                        <col width="12.5%">
+                        <col width="12.5%">
+                    </colgroup>
+                    <tbody>
+                        <tr>
+                            <th colspan="4" class="bg-gray">
+                                <div class="stretch_inner" style="text-align:center">세부 설명 및 소견</div>
+                            </th>
+
+                        </tr>
+                        <tr>
+                            <th>
+                                배아에서 샘플이 채취되지 않음<br/> 향후, 재검사를 통해 진행을 권고함
+                            </th>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!-- report mid e-->
+            <div class="tbl-cont-04 cont-mt12" style="position: absolute;width: 95%;bottom: 135px;">
+                    <table>
+                        <colgroup>
+                            <col width="20%">
+                            <col width="15%">
+                            <col width="65%">
+                        </colgroup>
+                        <tr>
+                            <th class="bg-gray">
+                                <div class="stretch_inner">검사의 한계사항</div>
+                            </th>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="report-detail-wrap">
+                                    <ul class="report-detail-menu">
+                                        <li>지노브로 검사는 염색체 수적 이상에 대한선별 검사이므로 확진을 위해서는 임신 성공 후 양수 검사 등의 핵형 검사를 통한 추가적인 확인 검사가 반드시 필요합니다.</li>
+                                        <li>지노브로 검사는 염섹처 수적 이상 및 일부 구조적 이상 이외의 다른 유전적 변이(점 돌연변이, 모자이시즘 등)를 알 수 없습니다.</li>
+                                        <li>수정란의 세포분할 및 발달과정에서 모자이시즘이나 기타 원인으로 인하여 염색체형이 바뀔수 있으므로 별도의 추가 확진 검사가 반드시 필요합니다.</li>
+										<li>본 검사는 검사 결과가 갖는 임상적 의미가 확립되지 않았으며, 이에 따르는 건강에 관련된 행위가 유용하다는 객관적 타당성이 아직 부족합니다.</li>
+                                    </ul>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="tbl-cont-05 cont-mt12" style="position: absolute;width: 95%;bottom: 84px;">
+                    <div class="report-ele-lft" style="width:31.33%">
+                        <div class="tbl-cont-01">
+                            <table>
+                                <colgroup>
+                                    <col width="40%">
+                                    <col width="40%">
+                                    <col width="20%">
+                                </colgroup>
+                                <tbody>
+                                    <tr>
+                                        <th class="bg-gray stretch">
+                                            <div class="stretch_inner">검사자</div>
+                                        </th>
+                                        <td style="border-top:0;border-left:0;border-right:0;">M.S. 최동희</td>
+                                        <td style="border-top:0;border-left:0;border-right:0;"><img src="<?php echo ADM_DOMAIN ?>/data/sign/최동희.jpg" /></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="report-ele-lft" style="width:31.33%">
+                        <div class="tbl-cont-01">
+                            <table>
+                                <colgroup>
+                                    <col width="40%">
+                                    <col width="40%">
+                                    <col width="20%">
+                                </colgroup>
+                                <tbody>
+                                    <tr>
+                                        <th class="bg-gray stretch">
+                                            <div class="stretch_inner">책임검사자</div>
+                                        </th>
+                                        <td style="border-top:0;border-left:0;border-right:0;">Ph.D 배진한</td>
+                                        <td style="border-top:0;border-left:0;border-right:0;"><img src="<?php echo ADM_DOMAIN ?>/data/sign/배진한.png" /></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="report-ele-lft" style="width: 32.3%;margin-right: 0;">
+                        <div class="tbl-cont-01">
+                            <table>
+                                <colgroup>
+                                    <col width="40%">
+                                    <col width="40%">
+                                    <col width="20%">
+                                </colgroup>
+                                <tbody>
+                                    <tr>
+                                        <th class="bg-gray stretch">
+                                            <div class="stretch_inner">검사실책임자</div>
+                                        </th>
+                                        <td style="border-top:0;border-left:0;border-right:0;">Ph.D 이성훈</td>
+                                        <td style="border-top:0;border-left:0;border-right:0;"><img src="<?php echo ADM_DOMAIN ?>/data/sign/이성훈.jpg" /></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- report footer s-->
+            <div class="report-ele-footer cont-mt12 report-ele-pos">
+                <div class="report-ele-footer--inner">
+                    <div class="ft-logo" style="padding-right: 10px;">
+                        <img src="./img/btm_logo.jpg" alt="테라지놈케어">
+                    </div>
+                    <div class="ft-address">
+                        <p>경기도 수원시 영통구 광교로 145,B동 지하 1층(이의동, 차세대융합기술연구원)</p>
+                        <p>대표 번호: 1544-9771 / 홈페이지: www.genomecare.net</p>
+                    </div>
+                    <span class="report-ele-ico"><?php echo $rows['downloadcount']?>번째</span>
+                </div>
+            </div>
+            <!-- report footer e-->
+        </div>
+    </div>
+
+</body>
+
+</html>

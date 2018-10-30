@@ -1,0 +1,18 @@
+-var stepEnum = {"0" : ["WAIT",'bg-secondary'], "1" : ["PASS",'bg-primary'], "2" : ["FAIL",'bg-danger'], "null" : ["","bg-secondary"]};
+each value,index in data
+    -console.log();
+    tr
+        td
+            label.checkbox(for='')
+                input(type='checkbox' data-action="selected-view" data-index=(index))
+        td #{value.idx}
+        td #{value.analysisname}
+        td #{value.analysisdate}/#{value.analysistime}
+        td #{value.sample.id}
+        td #{value.code}
+        td
+            span.status-p(class=(stepEnum[value.ts][1])) #{stepEnum[value.ts][0]}
+        td
+            span.status-p(class=(stepEnum[value.ir][1])) #{stepEnum[value.ir][0]}
+        td
+            a.button(data-action='view-log' data-index=(index)) 보기

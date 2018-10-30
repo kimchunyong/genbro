@@ -1,0 +1,380 @@
+<?php
+
+	include $_SERVER["DOCUMENT_ROOT"].'/include/head.php';
+?>
+
+<body>
+    <!--[if lt IE 8]>
+            <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+    <!-- preloader area start -->
+	<?php
+		include $_SERVER["DOCUMENT_ROOT"].'/include/loader.php';
+	?>
+    <!-- preloader area end -->
+    <!-- page container area start -->
+    <div class="page-container">
+        <!-- sidebar menu area start -->
+        <?php
+			include $_SERVER["DOCUMENT_ROOT"].'/include/menu.php';
+		?>
+        <!-- sidebar menu area end -->
+        <!-- main content area start -->
+        <div class="main-content">
+            <!-- header area start -->
+            <?php
+				include $_SERVER["DOCUMENT_ROOT"].'/include/head_nav.php';
+			?>
+            <!-- header area end -->
+            <!-- main content area start -->
+            <div class="main-content-inner" id="component">
+				<!-- 기관관리 table s -->
+				<div class="col-12 mt-5">
+					<div class="card" id="view">
+						<div class="card-body" data-zone="view.content">
+
+						<!-- <div class="input-group mb-3">
+								<div class="search select px-0">
+									<select data-placeholder="검색어를 입력해 주세요">
+										<option vlaue=""></option>
+										<option>검색어</option>
+										<option>검색어1</option>
+									</select>
+								</div>
+								<div class="input-group-append">
+									<input class="btn btn-flat btn-secondary mb-3" type="submit" value="검색">
+								</div>
+								<div class="refresh_btn_box">
+									<button type="button" class="btn mb-3  justify-content-end" data-action='refresh'>
+										<i class="fa fa-refresh" data-perform="panel-refresh"></i>
+									</button>
+								</div>
+							</div>
+							<div class="single-table">
+								<div class="table-responsive" data-zone="view.content">
+									<table class="table table-row progress-table text-center table-990 odd-table">
+										<thead class="text-uppercase bg-dark">
+											<tr class="text-white">
+												<th scope="col" rowspan="2"><input type="checkbox"></th>
+												<th scope="col" rowspan="2">순서</th>
+												<th scope="col" rowspan="2">실험 담당자</th>
+												<th scope="col" rowspan="2">STEP 1 시작 일시</th>
+												<th scope="col" rowspan="2">GC S ID</th>
+												<th scope="col" colspan="2">검체정보</th>
+												<th scope="col" rowspan="2">바코드</th>
+												<th scope="col" rowspan="2">Qubit 정량값(ng/ul)</th>
+												<th scope="col" rowspan="2">STEP 1 Q/C</th>
+												<th scope="col" rowspan="2">상세보기</th>
+											</tr>
+											<tr class="text-white">
+												<th scope="col">검체번호</th>
+												<th scope="col">검체량(ul)</th>
+											</tr>
+										</thead>
+										<tbody id="list">
+											<tr>
+												<td><input type="checkbox"></td>
+												<td>1</td>
+												<td>홍길동</td>
+												<td>2018-09-13/05:23</td>
+												<td>검사</td>
+												<td>GC1809P1015</td>
+												<td>GC1809P1015_V1</td>
+												<td><input class="form-control" type="text" placeholder="바코드"></td>
+												<td><input class="form-control" type="text" placeholder="QUBIT 정량값(NG/UL)"></td>
+												<td><input class="form-control" type="text" placeholder="STEP 1 Q/C"></td>
+												<td>
+                                                    <a class="button is-link detail_btns" href="javascript:void(0)">
+														<span class="icon text-primary"><i class="fas fa-angle-down ti-eye"></i></span>
+														<span>상세보기</span>
+													</a>
+                                                </td>
+											</tr>
+											<tr class="detail_tbl-wrap">
+												<td class="detail_tbl-inner" colspan="11">
+													<table class="table table-row progress-table text-center table-990">
+														<tbody>
+															tr>
+																<th class="detail-tit-bg">검사현황</th>
+																<td colspan="6">실험 &gt; 수령대기</td>
+															</tr>
+															<tr>
+																<th class="detail-tit-bg">
+																	<div>의료재단 정보</div>
+																</th>
+																<td class="sub-tit--bg">의료재단명</td>
+																<td>TEST</td>
+																<td class="sub-tit--bg">지점명</td>
+																<td>TEST</td>
+																<td class="sub-tit--bg">입고 담당자</td>
+																<td>TEST</td>
+															</tr>
+															<tr>
+																<th rowspan="2" class="detail-tit-bg">의료기관 정보</th>
+																<td class="sub-tit--bg">의료기관명</td>
+																<td>TEST</td>
+																<td class="sub-tit--bg">진료과</td>
+																<td>TEST</td>
+																<td class="sub-tit--bg">담당의사명</td>
+																<td>TEST</td>
+															</tr>
+															<tr>
+																<td class="sub-tit--bg">소재지</td>
+																<td colspan="3">TEST</td>
+																<td class="sub-tit--bg">연락처</td>
+																<td>병원연락처</td>
+															</tr>
+															<tr>
+																<th rowspan="2" class="detail-tit-bg">검사 대상자 정보</th>
+																<td class="sub-tit--bg">성명</td>
+																<td colspan="3">유*근</td>
+																<td class="sub-tit--bg">생년월일</td>
+																<td>2018-1-1</td>
+															</tr>
+															<tr>
+																<td class="sub-tit--bg">식별 코드</td>
+																<td colspan="3">EDC-TEST</td>
+																<td class="sub-tit--bg">만나이</td>
+																<td>0 </td>
+															</tr>
+															<tr>
+																<th rowspan="3" class="detail-tit-bg">임상 소견</th>
+																<td class="sub-tit--bg">RSA</td>
+																<td>무</td>
+																<td>0회</td>
+																<td class="sub-tit--bg">RIF</td>
+																<td>무</td>
+																<td>0</td>
+															</tr>
+															<tr>
+																<td class="sub-tit--bg">Translocation</td>
+																<td>무</td>
+																<td colspan="5"></td>
+															</tr>
+															<tr>
+																<td class="sub-tit--bg">기타소견</td>
+																<td colspan="6">기타소견</td>
+															</tr
+														</tbody>
+													</table>
+													<table class="table table-row progress-table text-center table-990 mt-3">
+														<thead class="text-uppercase bg-secondary">
+															<tr>
+																<th colspan="8" class="bg-light">샘플 정보</th>
+															</tr>
+															<tr class="text-white">
+																<th>순서</th>
+																<th>구분</th>
+																<th>샘플번호</th>
+																<th>의료재단 ID</th>
+																<th>검체 종류</th>
+																<th>샘플 채취일</th>
+																<th>검사 의뢰일</th>
+																<th>검사 결과</th>
+															</tr>
+														</thead>
+														<tbody>
+															<tr>
+																<td>1</td>
+																<td>테스트</td>
+																<td>셈플번호-1</td>
+																<td>의료재단-1</td>
+																<td>Blastomere</td>
+																<td>2018-09-13 10:05:33</td>
+																<td>2018-09-20</td>
+																<td>No call </td>
+															</tr>
+														</tbody>
+													</table>
+													<table class="table table-row progress-table text-center table-990 mt-3">
+														<colgroup>
+															<col width="15%">
+															<col width="*">
+														</colgroup>
+														<tbody>
+															<tr>
+																<td class="detail-tit-bg">입고 특이사항</td>
+																<td colspan="7">기타소견</td>
+															</tr>
+														</tbody>
+													</table>
+													<div class="invoice-buttons clearfix mt-3">
+														<a href="#" class="invoice-btn pull-left" data-toggle="modal" data-target=".histroy_log_popup">History</a>
+													</div>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+							<nav>
+								<ul class="pagination justify-content-center mt-5">
+									<li class="page-item disabled">
+										<a class="page-link" href="#" aria-label="Previous">
+											<span aria-hidden="true">《</span>
+											<span class="sr-only">first-page</span>
+										</a>
+									</li>
+									<li class="page-item disabled">
+										<a class="page-link" href="#" aria-label="Previous">
+											<span aria-hidden="true">〈</span>
+											<span class="sr-only">Previous</span>
+										</a>
+									</li>
+									<li class="page-item active"><a class="page-link" href="#">1</a></li>
+									<li class="page-item">
+										<a class="page-link" href="#">2 <span class="sr-only">(current)</span></a>
+									</li>
+									<li class="page-item"><a class="page-link" href="#">3</a></li>
+									<li class="page-item">
+										<a class="page-link" href="#" aria-label="Next">
+											<span aria-hidden="true">〉</span>
+											<span class="sr-only">Next</span>
+										</a>
+									</li>
+									<li class="page-item">
+										<a class="page-link" href="#" aria-label="Next">
+											<span aria-hidden="true">》</span>
+											<span class="sr-only">last-page</span>
+										</a>
+									</li>
+								</ul>
+							</nav>
+							<div class="btn_wrap">
+								<a href="#" class="btn btn-success mb-3" data-action="">STEP2로 이동</a>
+							</div>
+						-->
+						</div>
+					</div>
+                </div>
+				<!-- 기관관리 table e -->
+            </div>
+            <!-- main content area end -->
+        </div>
+    </div>
+    <!-- footer area start-->
+    <footer>
+        <div class="footer-area">
+            <p>© Copyright 2018 . All right reserved</p>
+        </div>
+    </footer>
+    <!-- footer area end-->
+    </div>
+    <!-- page container area end -->
+    
+    
+    <script>
+        const _ = new _Component($("#component"),"component");
+        _.import(
+            new _Component.ImportConf("restApi",true),
+            new _Component.ImportConf("util/pug",false),
+            new _Component.ImportConf("template",false),
+            new _Component.ImportConf("pagination",true),
+            new _Component.ImportConf("view",true),
+            new _Component.ImportConf("util/popup",false),
+            new _Component.ImportConf("util/menu",true),
+            new _Component.ImportConf("util/topNavigation",true),
+            new _Component.ImportConf("util/dateInfo",false),
+            new _Component.ImportConf("__init__",true),
+        )
+        .then(
+            function(selfComponent){
+                const Popup = selfComponent.module.Popup;
+                const restApi = selfComponent.module.restApi;
+                const view = selfComponent.module.view;
+                const pagination = selfComponent.module.pagination;
+                const topNavi = selfComponent.module.topNavigation;
+                const menu = selfComponent.module.menu;
+                const pug = selfComponent.module.Pug;
+                const dateInfo = selfComponent.module.DateInfo.instance;
+                const __init__ = selfComponent.module.__init__;
+
+                const templateStorage  = {};
+                view.init($("#view"),"experiment","/view/_experiment/step1")
+                    .addEventListener(
+                        "beforeRequest",
+                        (refSelf,requestConf)=>{
+                            return {
+                                page : undefined,
+                                limit : undefined,
+                                search : {
+                                    status : 2,
+                                    page : pagination.page,
+                                    limit : 15,//view.limit,
+                                }
+                            } 
+                        }
+                    )
+                    .request()
+                    .then(
+                        ()=>{
+                            let checkedData = [];
+                            view.trigger(
+                                new _Component.TriggerConf("click", "[data-action='refresh']",function(){
+                                    view.request();
+                                }),
+                                new _Component.TriggerConf("change","[data-action='selected-view-all']",function(e){
+                                    let isChecked = $(this).prop('checked');
+                                    const $selectedCheckbox = view.$target.find("[data-action='selected-view']");
+                                    if(isChecked){
+                                        checkedData = view.__data.data;
+                                        $selectedCheckbox.prop('checked',true);
+                                    }
+                                    else{
+                                        checkedData = [];
+                                        $selectedCheckbox.prop('checked',false);
+                                    }
+                                }),
+                                new _Component.TriggerConf("change","[data-action='selected-view']",function(e){
+                                    let isChecked = $(this).prop('checked');
+                                    let index = $(this).data('index');
+                                    if(isChecked){
+                                        checkedData[index] = view.__data.data[index];
+                                    }
+                                    else{
+                                        checkedData.splice(index,1);
+                                    }
+                                }),
+                                new _Component.TriggerConf("click","[data-action='goto-step2']",function(e){
+                                    if (checkedData.length > 0) {
+					              		let formData = new FormData();
+				                        checkedData.map(function(rowData,index) {
+				                        	if(!rowData.barcode || !rowData.qubit || !rowData.qubitqc){
+				                        		alert(`입력이 부족합니다..`)
+				                        		throw new Error("need input");
+				                        	}
+				                            formData.set(`${index}[data][status]`,3)
+				                            formData.set(`${index}[data][barcode]`,rowData.barcode)
+				                            formData.set(`${index}[data][qubit]`,rowData.qubit)
+				                            formData.set(`${index}[data][qubitqc]`,rowData.qubitqc)
+				                            formData.set(`${index}[search][idx]`,rowData.idx)
+
+				                        });
+				                        return restApi
+				                            .setExtra("POST",`${API_ROOT}/experiment/updateall.php`,formData,"json")
+				                            .send()
+				                            .then(
+				                                (data) => {
+				                                    alert(data.msg);
+				                                    return view.request();
+				                                },
+				                                (data) => {
+				                                    alert(data.msg);
+				                                }
+				                            );
+                                    };
+                                })
+                            );
+                        }
+                    )
+            }, 
+            function(){
+
+            }
+        )
+       
+    </script>
+	
+    <?php
+		include $_SERVER["DOCUMENT_ROOT"].'/include/footer_js.php';
+	?>

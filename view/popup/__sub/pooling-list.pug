@@ -1,0 +1,10 @@
+each value,index in data
+    -console.log();
+    tr
+        td
+            input(type='checkbox' data-action="selected-view" data-index=(index))
+        td #{total - ((pagination.page * requestProp.search.limit)+(index))}
+        td #{value.sample.id}
+        td #{value.code}
+        td #{value.barcode}
+        td #{value.qubit}

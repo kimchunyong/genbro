@@ -1,0 +1,503 @@
+style.
+    input[name=__tab],input[name=__tab]+div{
+        display : none !important;
+    }
+    input[name=__tab]:checked+div{
+        display : flex !important;
+    }
+    p.panel-tabs a:focus{
+        border-bottom-color: #4a4a4a;
+    }
+    p.panel-tabs a{
+        padding : 0px;
+    }
+    p.panel-tabs a label{
+        width : 100%;
+        height: 100%;
+        padding:7px;
+        display : block;
+    }
+div.modal-background(data-zone='popup.close')
+nav.panel.notification
+    form(data-zone='popup')
+        p.panel-tabs
+            //- 원래 is-active가 있어야하지만 js가 들어가는 로직을 아끼기 위해 빼기로함
+            a(href="#")
+                label(for="tab1") 실험 결과
+            a(href="#")
+                label(for="tab2") 분석 결과
+            a(href="#")
+                label(for="tab3") 결과 레포트
+        // subtabMenu e
+        // table s
+        input#tab1(type="radio" name="__tab" checked=(true))
+        .panel-block.field.is-fullhd
+            .notification(style="width:100%")
+                // 샘플정보 e
+                .tb-box.tb-box-item01
+                    h2.title 샘플정보
+                    table.table.table-bg.is-bordered.is-striped.is-narrow.is-fullwidth.table-min_640
+                        tbody
+                            tr.thd_bg--blue
+                                th GC S ID
+                                th 생년월일
+                                th 만나이
+                            tr
+                                td #{id}
+                                td #{container.year}-#{container.month}-#{container.day}
+                                td #{container.age}
+                            tr.thd_bg--blue
+                                th RSA
+                                th RIF
+                                th(colspan='2') Translocation
+                            tr
+                                th #{ ((container.isrsa === "Y") ? ("유("+container.rsacount+")") : "무") }
+                                th #{ ((container.isrif === "Y") ? ("유("+container.rifcount+")") : "무") }
+                                th(colspan='2') #{container.translocation}
+                            tr.thd_bg--blue
+                                th(colspan='3') 기타소견
+                            tr
+                                th(colspan='3') #{container.etccomment}
+                // 샘플정보 e
+                // 실험 결과 s
+                .tb-box.tb-box-item02
+                    h2.title 실험 결과
+                    table.table.table-bg.is-bordered.is-striped.is-narrow.is-fullwidth.table-min_640
+                        thead
+                            tr
+                                th 실험 ID
+                                th Bases
+                                th >=Q20 Bases
+                                th Reads
+                                th MeanReadLength
+                                th Histogram
+                        tbody
+                            if sampleinfo !== undefined
+                                -console.log();
+                                each sampledata,key in sampleinfo
+                                    -console.log();
+                                    - var results = sampledata.results; 
+                                    if results !== undefined
+                                        -console.log();
+                                        tr
+                                            td #{sampledata.code}
+                                            td #{results.bases}
+                                            td #{results.q20bases}
+                                            td #{results.reads}
+                                            td #{results.meanreadlength}
+                                            td
+                                                //- results.histogram
+                                                img(src=(results.sparkline), alt="histogram 그래프" data-action="toggle-histogram" data-image=(results.histogram) style="cursor:pointer;")
+                                                // histogram 그래프 s
+                                                // .histogram_graph-box
+                                                // histogram 그래프 e
+                                    else 
+                                        tr
+                                            td(colspan="999")
+                                                span 분석된 데이터가 없습니다.
+        input#tab2(type="radio" name="__tab" )
+        .panel-block.tile
+            // table s
+            .tile.is-vertical.is-12
+                .field.is-fullhd
+                    .notification
+                        // 샘플정보 e
+                        .tb-box.tb-box-item01
+                            h2.title 샘플정보
+                            table.table.table-bg.is-bordered.is-striped.is-narrow.is-fullwidth.table-min_640
+                                tbody
+                                    tr.thd_bg--blue
+                                        th(colspan='2') GC S ID
+                                        th 생년월일
+                                        th 만나이
+                                    tr
+                                        td(colspan='2') #{id}
+                                        td #{container.year}-#{container.month}-#{container.day}
+                                        td #{container.age}
+                                    tr.thd_bg--blue
+                                        th RSA
+                                        th RIF
+                                        th(colspan='2') Translocation
+                                    tr
+                                        td #{ ((container.isrsa === "Y") ? ("유("+container.rsacount+")") : "무") }
+                                        td #{ ((container.isrif === "Y") ? ("유("+container.rifcount+")") : "무") }
+                                        td(colspan='2') #{container.translocation}
+                                    tr.thd_bg--blue
+                                        th(colspan='4')  기타소견
+                                    tr
+                                        td(colspan='4') #{container.etccomment}
+                        // 샘플정보 e
+                        // 실험 결과 s
+                        .tb-box.tb-box-item02
+                            h2.title 분석 결과
+                            table.table.table-bg.is-bordered.is-striped.is-narrow.is-fullwidth.table-min_640
+                                colgroup
+                                    col(width='8%')
+                                    col(width='8%')
+                                    col(width='8%')
+                                    col(width='8%')
+                                    col(width='8%')
+                                    col(width='4%')
+                                    col(width='4%')
+                                    col(width='8%')
+                                    col(width='*')
+                                    col(width='10%')
+                                thead
+                                    tr
+                                        th
+                                            | 실험
+                                            br
+                                            | ID
+                                        th Ver.
+                                        th Conf.
+                                        th MAPD
+                                        th MA
+                                        th An+
+                                        th An-
+                                        th Segment
+                                        th(style='min-width:300px;') Proband
+                                        //- th
+                                            | 상세
+                                            br
+                                            | 보기
+                                tbody
+                                    if sampleinfo !== undefined
+                                        -console.log();
+                                        each sampledata,key in sampleinfo
+                                            -console.log();
+                                            - var results = sampledata.results;
+                                            if results !== undefined 
+                                                -console.log();
+                                                each mainRow,indexCode in results.main
+                                                    - console.log();
+                                                    tr
+                                                        td #{sampledata.code}
+                                                        td #{mainRow.ver}
+                                                        td #{mainRow.conf}
+                                                        td #{mainRow.mapd}
+                                                        td #{mainRow.ma}
+                                                        td
+                                                            span.tbl-color--blue #{mainRow.anplus}
+                                                        td
+                                                            span.tbl-color--red #{mainRow.anminus}
+                                                        td #{(mainRow.segmental === "YES") ? "유" : "무"}
+                                                        td
+                                                            img(src=(mainRow.proband === undefined ? "#" : mainRow.proband ), alt="")
+                                                            // proband 그래프 s
+                                                            //.proband-graph-box
+                                                            // proband 그래프 e
+                                                        //- td
+                                                            a.button(data-action='analysis-detail' data-index=(key)) 보기
+                                            else 
+                                                tr
+                                                    td(colspan="999")
+                                                        span 분석된 데이터가 없습니다.
+
+                        // 실험 결과 e
+                // table e
+            //- .tile.is-parent.rght-tree-menu
+                article.tile.is-child.notification.rght-menu--emrd
+                    .content
+                        #tree-menu-wrap
+                            ul.tree-menu
+                                li
+                                    label.checkbox
+                                        input(type='checkbox')
+                                        |  GC1801P0001_V1
+                                    ul
+                                        li
+                                            label.checkbox
+                                                input(type='checkbox')
+                                                |  Normal
+                                            ul
+                                                li
+                                                    label.checkbox
+                                                        input(type='checkbox')
+                                                        |  V5.2-C10
+                                                li
+                                                    label.checkbox
+                                                        input(type='checkbox')
+                                                        |  V5.2-C0.1
+                                                li
+                                                    label.checkbox
+                                                        input(type='checkbox')
+                                                        |  V5.4-C10
+                                        li
+                                            label.checkbox
+                                                input(type='checkbox')
+                                                |  Abnormal
+                                            ul
+                                                li
+                                                    label.checkbox
+                                                        input(type='checkbox')
+                                                        |  V5.2-C10
+                                                li
+                                                    label.checkbox
+                                                        input(type='checkbox')
+                                                        |  V5.2-C0.1
+                                                li
+                                                    label.checkbox
+                                                        input(type='checkbox')
+                                                        |  V5.4-C10
+                                        li
+                                            label.checkbox
+                                                input(type='checkbox')
+                                                |  No call
+                                            ul
+                                                li
+                                                    label.checkbox
+                                                        input(type='checkbox')
+                                                        |  DNA 없음
+                                                li
+                                                    label.checkbox
+                                                        input(type='checkbox')
+                                                        |  DNA 이상
+                                li
+                                    label.checkbox
+                                        input(type='checkbox')
+                                        |  GC1801P0001_V2
+                                li
+                                    label.checkbox
+                                        input(type='checkbox')
+                                        |  GC1801P0001_M
+                    .btm-button-box
+                        button.button.has-background-warning.is-fullwidth
+                            | 저장
+        input#tab3(type="radio" name="__tab" )
+        .panel-block.tile
+            // table s
+            .tile.is-vertical.is-6
+                .field.is-fullhd
+                    .notification
+                        // 샘플정보 e
+                        .tb-box.tb-box-item01
+                            h2.title 샘플 정보
+                            table.table.table-bg.is-bordered.is-striped.is-narrow.is-fullwidth
+                                colgroup
+                                    col(width='50%')
+                                    col(width='50%')
+                                tbody
+                                    tr.thd_bg--blue
+                                        th GC S ID
+                                        th 생년월일/만나이
+                                    tr
+                                        td #{id}
+                                        td #{container.year}-#{container.month}-#{container.day}&nbsp;(#{container.age})
+                                    tr.thd_bg--blue
+                                        th RSA
+                                        th RIF
+                                    tr
+                                        td #{ ((container.isrsa === "Y") ? ("유("+container.rsacount+")") : "무") }
+                                        td #{ ((container.isrif === "Y") ? ("유("+container.rifcount+")") : "무") }
+                                    tr.thd_bg--blue
+                                        th Translocation
+                                        th 기타 소견
+                                    tr
+                                        td #{container.translocation}
+                                        td #{container.etccomment}
+                        // 샘플정보 e
+                        // 실험 결과 s
+                        .tb-box.tb-box-item02
+                            h2.title 판정 결과
+                            if sampleinfo !== undefined
+                                -console.log();
+                                each sampledata,key in sampleinfo
+                                    -console.log();
+                                    - var results = sampledata.results;
+                                    if results !== undefined 
+                                        -console.log();
+                                        table.table.table-bg.is-bordered.is-striped.is-narrow.is-fullwidth
+                                            tbody
+                                                each mainRow,key in results.main
+                                                    - console.log();
+                                                    tr.thd_bg--blue
+                                                        th 실험 ID
+                                                        th Ver./Conf.
+                                                    tr
+                                                        td #{sampleinfo.code}
+                                                        td V#{mainRow.ver}-C#{mainRow.conf}
+                                                    tr.thd_bg--blue
+                                                        th MAPD
+                                                        th MA
+                                                    tr
+                                                        td #{mainRow.mapd}
+                                                        td #{mainRow.ma}
+                                                    tr.thd_bg--blue
+                                                        th(colspan='2') Proband
+                                                    tr
+                                                        td(colspan='2')
+                                                            img(src=(mainRow.proband === undefined ? "#" : mainRow.proband ), alt="")
+                                                            // histogram 그래프 s
+                                                            //.histogram_graph-box
+                                                            // histogram 그래프 e
+                                                    tr.thd_bg--blue
+                                                        th 결과
+                                                        th Segment 유무
+                                                    tr
+                                                        td #{mainRow.result}
+                                                        td #{(mainRow.segmental === "YES") ? "유" : "무"}
+                                                    tr.thd_bg--blue
+                                                        th An(+)
+                                                        th An(-)
+                                                    tr
+                                                        td #{mainRow.anplus}
+                                                        td #{mainRow.anminus}
+                                        .report-rslt-graph
+                                            h2.title.is-5.report-rslt-graph-tit Segment information
+                                            .segment-box
+                                                ul.segment-menu
+                                                    each segRow,key in results.segmentinfo
+                                                        - console.log();
+                                                        li.segment-item #{segRow}
+
+                                        //- li.segment-item [GRCh37] dup(19)(p13.3-p11) chr19:g.60000-24631782
+                                        //- li.segment-item [GRCh37] dup(19)(p13.3-p11) chr19:g.60000-24631782
+                        // 실험 결과 e
+                // table e
+            .tile.is-parent.rght-tree-menu
+                article.tile.is-child.notification
+                    h2.title 레포트
+                    .content
+                        .report-wrap
+                            .columns
+                                .column.is-6
+                                    table.table.table-bg.is-bordered.is-striped.is-narrow.is-fullwidth
+                                        colgroup
+                                            col(width='45%')
+                                            col(width='55%')
+                                        tbody
+                                            tr.thd_bg--blue
+                                                th.has-text-white(style='vertical-align: middle;height:67px;') 접수번호
+                                                td(style='vertical-align: middle;height:67px;') #{id}
+                                    table.table.table-bg.is-bordered.is-striped.is-narrow.is-fullwidth
+                                        colgroup
+                                            col(width='45%')
+                                            col(width='55%')
+                                        tbody
+                                            tr.thd_bg--blue
+                                                th.has-text-white(style='vertical-align: middle;') 의료기관명
+                                                td #{container.mcname}
+                                            tr.thd_bg--blue
+                                                th.has-text-white(style='vertical-align: middle;') 진료과
+                                                td #{container.mcdepart}
+                                            tr.thd_bg--blue
+                                                th.has-text-white(style='vertical-align: middle;') 담당의사명
+                                                td #{mcdoctor}
+                                    table.table.table-bg.is-bordered.is-striped.is-narrow.is-fullwidth
+                                        colgroup
+                                            col(width='45%')
+                                            col(width='55%')
+                                        tbody
+                                            tr.thd_bg--blue
+                                                th.has-text-white(style='vertical-align: middle;') 검체체취일
+                                                td #{collectdate}
+                                            tr.thd_bg--blue
+                                                th.has-text-white(style='vertical-align: middle;') 검체접수일
+                                                td #{container.regdatetime}
+                                .column.is-6
+                                    table.table.table-bg.is-bordered.is-striped.is-narrow.is-fullwidth
+                                        colgroup
+                                            col(width='45%')
+                                            col(width='55%')
+                                        tbody
+                                            tr.thd_bg--blue
+                                                th.has-text-white(style='vertical-align: middle;') 식별코드
+                                                td #{container.gccode}
+                                            tr.thd_bg--blue
+                                                th.has-text-white(style='vertical-align: middle;') 샘플코드
+                                                td #{code}
+                                    table.table.table-bg.is-bordered.is-striped.is-narrow.is-fullwidth
+                                        colgroup
+                                            col(width='45%')
+                                            col(width='55%')
+                                        tbody
+                                            tr.thd_bg--blue
+                                                th.has-text-white(style='vertical-align: middle;') 검사대상자명
+                                                td #{container.name1}#{container.name2}#{container.name3}
+                                            tr.thd_bg--blue
+                                                th.has-text-white(style='vertical-align: middle;') 생년월일/만나이
+                                                td #{container.year}-#{container.month}-#{container.day} / #{container.age}
+                                            tr.thd_bg--blue
+                                                th.has-text-white(style='vertical-align: middle;') 검체종류
+                                                td #{specimentype}
+                                    table.table.table-bg.is-bordered.is-striped.is-narrow.is-fullwidth
+                                        colgroup
+                                            col(width='45%')
+                                            col(width='55%')
+                                        tbody
+                                            tr.thd_bg--blue
+                                                th.has-text-white(style='vertical-align: middle;') 검사의뢰일
+                                                td #{requestdate}
+                                            tr.thd_bg--blue
+                                                th.has-text-white(style='vertical-align: middle;') 결과보고일
+                                                td 
+                            //- .report-rslt-view
+                                table.table.table-bg.is-bordered.is-striped.is-narrow.is-fullwidth
+                                    thead
+                                        tr
+                                            th.has-text-white(colspan='3', style='text-align: center;') 검사결과
+                                    tbody
+                                        tr
+                                            th(rowspan='3', style='vertical-align: middle;') Aneuploidy
+                                            th 증폭
+                                            td 3,4,5,6
+                                        tr
+                                            th 결실
+                                            td 1,2,3,4,5,6,7,8
+                                        tr
+                                            th 소견
+                                            td 의뢰된 배아를 NGS 기반으로 DNA copy number를 분석한 결과 비정상 양상을 나타내는 것을 확인하였습니다.
+                            //- .report-rslt-graph
+                                h2.title.is-5.report-rslt-graph-tit 세부결과
+                                div
+                                    p Whole Genome View
+                                    .graph-box 그래프영역
+                            //- .report-rslt-list-box
+                                p Segmental Aneuploldy Information
+                                ul
+                                    li [GRCH37] dup(2)(p22.1-p11.2) chr2:g.41326626-89630436
+                                    li [GRCH37] dup(2)(p22.1-p11.2) chr2:g.41326626-89630436
+                                    li [GRCH37] dup(2)(p22.1-p11.2) chr2:g.41326626-89630436
+                                    li [GRCH37] dup(2)(p22.1-p11.2) chr2:g.41326626-89630436
+                            .report-comment-box
+                                h2.title.is-5.report-rslt-graph-tit Comment
+                                ul
+                                    //- li 지노브로 검사는 NGS 기반으로 염색체 수적 이상에 대한 선별 검사이며, 확진을 위해서는 FISH나 
+                                    //- li 지노브로 검사는 NGS 기반으로 염색체 수적 이상에 대한 선별 검사이며, 확진을 위해서는 FISH나 
+                                    //- li 지노브로 검사는 NGS 기반으로 염색체 수적 이상에 대한 선별 검사이며, 확진을 위해서는 FISH나 
+                                    //- li 지노브로 검사는 NGS 기반으로 염색체 수적 이상에 대한 선별 검사이며, 확진을 위해서는 FISH나 
+                                    li #{container.etccomment}
+                        .columns.mt-20
+                            .column.is-6
+                                table.table.table-bg.is-bordered.is-striped.is-narrow.is-fullwidth
+                                    colgroup
+                                        col(width='45%')
+                                        col(width='55%')
+                                    tbody
+                                        tr.thd_bg--blue
+                                            th.has-text-white 검사자
+                                            td #{experimentname}
+                                            //- M.S 최동혁
+                            .column.is-6
+                                table.table.table-bg.is-bordered.is-striped.is-narrow.is-fullwidth
+                                    colgroup
+                                        col(width='45%')
+                                        col(width='55%')
+                                    tbody
+                                        tr.thd_bg--blue
+                                            th.has-text-white 확인자
+                                            td 
+                                            //- Ph.D
+                        .columns.mt-20
+                            .column.is-4
+                                .btm-button-box
+                                    label.button.is-warning.is-fullwidth(for="submit1") 반려
+                            .column.is-4
+                                .btm-button-box
+                                    label.button.is-success.is-fullwidth(for="submit2") 승인
+                            .column.is-4
+                                .btm-button-box
+                                    button.button.is-danger.is-fullwidth(data-zone='popup.close') 닫기
+                            - var permissionFlag = (__userData.level === '2' ? "ismanager" : (__userData.level === '3' ? "ishead" : ''));
+                            input(style="display:none;" type='radio' name="data["+(permissionFlag)+"]" value="F" id="submit1" data-action="fake-submit")
+                            input(style="display:none;" type='radio' name="data["+(permissionFlag)+"]" value="Y" id="submit2" data-action="fake-submit")

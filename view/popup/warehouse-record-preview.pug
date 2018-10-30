@@ -1,0 +1,92 @@
+.modal-dialog.modal-xl.modal-dialog-centered(style='z-index:2;')
+    .modal-content
+        .modal-header
+            h5.modal-title 검체기록지
+            button.close(type='button', data-zone='popup.close')
+                span ×
+        .modal-body
+            .modal-container
+                form(data-zone='popup')
+                    .sign_box.clearfix
+                        // Left side
+                        .col-md-4.float-right
+                            table.table.table-row.progress-table.text-center
+                                tbody
+                                    tr
+                                        th(rowspan='2', style='text-align: center;width: 80px;')
+                                            span.txt-v-align 담
+                                            span.txt-v-align 당
+                                            span.txt-v-align 자
+                                        th 담당자
+                                        th 팀장
+                                        th 책임자
+                                    // 승인 이미지 들어가는곳 s
+                                    
+                                    tr
+                                        td 
+                                            img(src='/images/sign/sign_01.jpg', alt='승인1')
+                                        td
+                                            if __data.cnt == __data.ismanagercnt || __data.isAll
+                                                -console.log();
+                                                img(src='/images/sign/sign_01.jpg', alt='승인1')
+                                        td
+                                            if __data.cnt == __data.isheadcnt || __data.isAll
+                                                -console.log();
+                                                img(src='/images/sign/sign_01.jpg', alt='승인1')
+                                    // 승인 이미지 들어가는곳 e
+                            p
+                    // 검체기록지 정보 s
+                    .sign_box(style='margin-bottom: 10px;')
+                        table.table.table-row.progress-table.text-center
+                            colgroup
+                                col(width='5%')
+                                col(width='10%')
+                                col(width='5%')
+                                col(width='10%')
+                                col(width='5%')
+                                col(width='10%')
+                                col(width='5%')
+                                col(width='10%')
+                            tbody
+                                tr
+                                    th.has-background-white-ter 접수일
+                                    td #{__data.regdate}
+                                    th.has-background-white-ter 검사코드
+                                    td  
+                                    th.has-background-white-ter 검사명
+                                    td  
+                                    th.has-background-white-ter 접수자
+                                    td  
+                    // 검체기록지 정보 e
+                    // 검체기록지 내용 s
+                    .sign_box
+                        table.table.table-row.progress-table.text-center.table-990
+                            thead
+                                tr
+                                    th.has-background-white-ter 순번
+                                    th.has-background-white-ter 지놈케어 접수번호
+                                    th.has-background-white-ter 의료재단명
+                                    th.has-background-white-ter 병원명
+                                    th.has-background-white-ter 의료재단ID
+                                    th.has-background-white-ter 전달자
+                                    th.has-background-white-ter 입고여부
+                                    th.has-background-white-ter 비고
+                            tbody
+                                each value,key in data
+                                    - console.log();
+                                    tr
+                                        td #{key+1}
+                                        td #{value.cngccode}
+                                        td #{value.cnciname1}
+                                        td #{value.cnciname3}
+                                        td #{value.spcompanyid}
+                                        td #{value.cncmname2}
+                                        td #{value.spid !== "" ? "입고" : "대기"}
+                                        td #{value.cncomment}
+        .modal-footer
+            if __data.ismanagercnt === __data.cnt && __data.isheadcnt === __data.cnt
+                -console.log();
+                button.btn.btn-success(type='button' href=(API_ROOT+"/approval/recorddownload.php?date="+__date)) 출력
+            button.btn.btn-secondary(type='button' data-zone='popup.close') 닫기
+
+.modal-backdrop.fade.show(data-zone='popup.close' style="z-index:1;")

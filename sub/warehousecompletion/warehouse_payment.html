@@ -1,0 +1,360 @@
+<?php
+
+	include $_SERVER["DOCUMENT_ROOT"].'/include/head.php';
+?>
+
+<body>
+    <!--[if lt IE 8]>
+            <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+    <!-- preloader area start -->
+	<?php
+		include $_SERVER["DOCUMENT_ROOT"].'/include/loader.php';
+	?>
+    <!-- preloader area end -->
+    <!-- page container area start -->
+    <div class="page-container">
+        <!-- sidebar menu area start -->
+        <?php
+			include $_SERVER["DOCUMENT_ROOT"].'/include/menu.php';
+		?>
+        <!-- sidebar menu area end -->
+        <!-- main content area start -->
+        <div class="main-content">
+            <!-- header area start -->
+            <?php
+				include $_SERVER["DOCUMENT_ROOT"].'/include/head_nav.php';
+			?>
+            <!-- header area end -->
+            <!-- main content area start -->
+            <div class="main-content-inner" id="component">
+				<!-- 입고예정 목록 테이블 s-->
+				<div class="col-12 mt-5">
+					<div class="card" id="view">
+						<div class="card-body" data-zone="view.content">
+						</div>
+					</div>
+				</div>
+				<!-- 입고예정 목록 테이블 e-->
+            </div>
+            <!-- main content area end -->
+        </div>
+    </div>
+    <!-- footer area start-->
+    <footer>
+        <div class="footer-area">
+            <p>© Copyright 2018 . All right reserved</p>
+        </div>
+    </footer>
+    <!-- footer area end-->
+	
+	<!-- 샘플등록 s -->
+	<div class="modal fade medi_paper_popup show" id="preview-popup">
+		<!-- <div class="modal-dialog modal-xl modal-dialog-centered">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">검체기록지</h5>
+					<button type="button" class="close" data-dismiss="modal"><span>×</span></button>
+				</div>
+				<div class="modal-body">
+					<div class="modal-container">
+						<form data-zone="popup">
+							<div class="sign_box clearfix">
+								<div class="col-md-4 float-right">
+									<table class="table table-row progress-table text-center">
+										<tbody>
+											<tr>
+												<th rowspan="2" style="text-align: center;width: 80px;"><span class="txt-v-align">담</span><span class="txt-v-align">당</span><span class="txt-v-align">자</span></th>
+												<th>담당자</th>
+												<th>팀장</th>
+												<th>책임자</th>
+											</tr>
+											<tr>
+												<td> <img src="/images/sign/sign_01.jpg" alt="승인1"></td>
+												<td></td>
+												<td></td>
+											</tr>
+										</tbody>
+									</table>
+									<p></p>
+								</div>
+							</div>
+							<div class="sign_box" style="margin-bottom: 10px;">
+								<table class="table table-row progress-table text-center">
+									<colgroup>
+										<col width="5%"/>
+										<col width="10%"/>
+										<col width="5%"/>
+										<col width="10%"/>
+										<col width="5%"/>
+										<col width="10%"/>
+										<col width="5%"/>
+										<col width="10%"/>
+									</colgroup>
+									<tbody>
+										<tr>
+											<th class="has-background-white-ter">접수일</th>
+											<td> </td>
+											<th class="has-background-white-ter">검사코드</th>
+											<td> </td>
+											<th class="has-background-white-ter">검사명</th>
+											<td> </td>
+											<th class="has-background-white-ter">접수자</th>
+											<td> </td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+							<div class="sign_box">
+								<table class="table table-row progress-table text-center table-990">
+									<thead>
+										<tr>
+											<th class="has-background-white-ter">순번</th>
+											<th class="has-background-white-ter">지놈케어 접수번호</th>
+											<th class="has-background-white-ter">의료기관명</th>
+											<th class="has-background-white-ter">병원ID</th>
+											<th class="has-background-white-ter">의료재단명</th>
+											<th class="has-background-white-ter">의료재단ID</th>
+											<th class="has-background-white-ter">전달자</th>
+											<th class="has-background-white-ter">입고여부</th>
+											<th class="has-background-white-ter">비고</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td>1</td>
+											<td>MH-2018-967211</td>
+											<td>미래와희망 산부인과 의원</td>
+											<td>삼광의료재단</td>
+											<td>20180911-77400</td>
+											<td>미래와희망 산부인과 의원</td>
+											<td>장호성</td>
+											<td>입고</td>
+											<td></td>
+										</tr>
+										<tr>
+											<td>2</td>
+											<td>MH-2018-967211</td>
+											<td>미래와희망 산부인과 의원</td>
+											<td>삼광의료재단</td>
+											<td>20180911-77400</td>
+											<td>미래와희망 산부인과 의원</td>
+											<td>장호성</td>
+											<td>입고</td>
+											<td></td>
+										</tr>
+										<tr>
+											<td>3</td>
+											<td>MH-2018-967211</td>
+											<td>미래와희망 산부인과 의원</td>
+											<td>삼광의료재단</td>
+											<td>20180911-77400</td>
+											<td>미래와희망 산부인과 의원</td>
+											<td>장호성</td>
+											<td>입고</td>
+											<td></td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</form>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+				</div>
+			</div>
+		</div> -->
+	</div>
+	<!-- 샘플등록 e -->
+	
+    </div>
+    <!-- page container area end -->
+
+    <script>    
+        const _ = new _Component($("#component"),"component");
+        _.import(
+            new _Component.ImportConf("restApi",true),
+            new _Component.ImportConf("util/pug",false),
+            new _Component.ImportConf("template",false),
+            new _Component.ImportConf("pagination",true),
+            new _Component.ImportConf("view",true),
+            new _Component.ImportConf("util/popup",false),
+            new _Component.ImportConf("util/menu",true),
+            new _Component.ImportConf("util/topNavigation",true),
+            new _Component.ImportConf("util/dateInfo",false),
+            new _Component.ImportConf("__init__",true),
+        )
+        .then(
+            function(selfComponent){
+                const Popup = selfComponent.module.Popup;
+                const restApi = selfComponent.module.restApi;
+                const view = selfComponent.module.view;
+                const pagination = selfComponent.module.pagination;
+                const topNavi = selfComponent.module.topNavigation;
+                const menu = selfComponent.module.menu;
+                const pug = selfComponent.module.Pug;
+                const dateInfo = selfComponent.module.DateInfo.instance;
+                const initalizeData = selfComponent.module.__init__;
+                
+
+                let checkedData = [];
+
+                const recordPreviewPopup = new Popup("/view/popup/warehouse-record-preview",$("#preview-popup"));
+                const requestDatePopup = function(requestDateQuerystr,viewData){
+                    const formData = new FormData();
+                    formData.set('search[date]',requestDateQuerystr);
+                    return restApi
+                        .setExtra("POST",`${API_ROOT}/approval/info.php`,formData,"json")
+                        .send()
+                        .then(
+                            (data) => {
+                                return recordPreviewPopup
+                                    .open(
+                                        Object.assign(
+                                            {
+                                                __date :requestDateQuerystr,
+                                                __data : viewData
+                                            },
+                                            data
+                                        )
+                                    )
+                                    .then(
+                                        function(){
+                                            recordPreviewPopup.$zone.css('display', 'flex').addClass('is-active');
+                                            return Promise.resolve(this);
+                                        }
+                                    );
+                            }
+                        )
+                }
+                recordPreviewPopup.init(function(){
+                    switch(document.activeElement.name){
+                        case "print-pdf" :
+                            restApi
+                                .setExtra("POST",`${API_ROOT}`)
+                                .send()
+                            break;
+                        case "approve" :
+                            debugger;
+                            break;
+                    }
+                });
+
+                view.init($("#view"),"approval","/view/warehouse-approval")
+                .addEventListener(
+                    "beforeRequest",
+                    (refSelf,requestConf)=>{
+                        return {
+                            search : {
+                                page : pagination.page,
+                                limit : 15,//view.limit,
+                            }
+                        } 
+                    }
+                )
+                .request({userInfo : initalizeData.authData});
+                
+                view.trigger(
+                    new _Component.TriggerConf("change","[data-action='selected-view-all']",function(e){
+                        let isChecked = $(this).prop('checked');
+                        const $selectedCheckbox = view.$target.find("[data-action='selected-view']");
+                        if(isChecked){
+                            checkedData = view.__data.data;
+                            $selectedCheckbox.prop('checked',true);
+                        }
+                        else{
+                            checkedData = [];
+                            $selectedCheckbox.prop('checked',false);
+                        }
+                    }),
+                    new _Component.TriggerConf("change","[data-action='selected-view']",function(e){
+                        let isChecked = $(this).prop('checked');
+                        let index = $(this).data('index');
+                        if(isChecked){
+                            checkedData[index] = view.__data.data[index];
+                        }
+                        else{
+                            checkedData.splice(index,1);
+                        }
+                    }),
+                    new _Component.TriggerConf("click","[data-action='approval-success']",function(e){
+                        let formData = new FormData();
+                        let index = $(this).data('index');
+                        formData.append('search[likeregdatetime]',view.__data.data[index].regdate);
+                        if (confirm("승인하시겠습니까?")) {
+                            restApi
+                                .setExtra("POST",`${API_ROOT}/container/approval.php`,formData,"json")
+                                .send()
+                                .then(
+                                    (data) => {
+                                        alert(data.msg);
+                                        view.request();
+                                    },
+                                    (data) => {
+                                        alert(data.msg);
+                                    }
+                                );
+                        };
+                        
+                    }),
+                    new _Component.TriggerConf("click","[data-action='record-preview']",function(e){
+                        let index = $(this).data('index');
+                        let requestDate = view.__data.data[index].regdate;
+                        return requestDatePopup(requestDate,view.__data.data[index]);
+                    })
+                );
+                
+                selfComponent.trigger(
+                    new _Component.TriggerConf("click","[data-action='refresh']",function(e){
+                        return view.request();
+                    }),
+                    new _Component.TriggerConf("click","[data-action='record-preview-multiple']",function(e){
+                        let regSelected = Object.keys(checkedData).map((key) => checkedData[key].regdate).join(',');
+                        if (regSelected.length > 0) {
+                            return requestDatePopup(regSelected,{isAll : true});
+                        }
+                    })
+                );
+                
+                /*selfComponent.trigger(
+                    new _Component.TriggerConf("click","[data-action='insert-experiment']",function(e){
+                        let formData = new FormData();
+                        let idx = '';
+                        let j = 0;
+                        $.each($('table tbody tr td label.checkbox input'), function(i){
+                            let index = $(this).data('index');
+                            if($(this).is(':checked')){
+                                idx += (j > 0 ? ',' : '') + view.__data.data[index].idx;
+                                j++;
+                            }
+                        });
+                        formData.append('search[idx]',idx);
+                        if (j > 0 && confirm("선택하신 샘플을 실험샘플로 등록하시겠습니까?")) {
+                            restApi
+                                .setExtra("POST",`${API_ROOT}/warehouse/experimentinsert.php`,formData,"json")
+                                .send()
+                                .then(
+                                    (data) => {
+                                        alert(data.msg);
+                                        view.request();
+                                    },
+                                    (data) => {
+                                        alert(data.msg);
+                                    }
+                                );
+                        };
+                        
+                    })
+                );*/
+            }, 
+            function(){
+
+            }
+        )
+    </script>
+
+    <?php
+		include $_SERVER["DOCUMENT_ROOT"].'/include/footer_js.php';
+	?>
+	

@@ -1,0 +1,425 @@
+<?php
+
+	include $_SERVER["DOCUMENT_ROOT"].'/include/head.php';
+?>
+
+<body>
+    <!--[if lt IE 8]>
+            <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+    <!-- preloader area start -->
+	<?php
+		include $_SERVER["DOCUMENT_ROOT"].'/include/loader.php';
+	?>
+    <!-- preloader area end -->
+    <!-- page container area start -->
+    <div class="page-container">
+        <!-- sidebar menu area start -->
+        <?php
+			include $_SERVER["DOCUMENT_ROOT"].'/include/menu.php';
+		?>
+        <!-- sidebar menu area end -->
+        <!-- main content area start -->
+        <div class="main-content">
+            <!-- header area start -->
+            <?php
+				include $_SERVER["DOCUMENT_ROOT"].'/include/head_nav.php';
+			?>
+            <!-- header area end -->
+            <!-- main content area start -->
+            <div class="main-content-inner"  id="sample-register-component">
+				<!-- 입고예정 목록 테이블 s-->
+				<div class="col-12 mt-5">
+					<div class="card" id="view">
+						<div class="card-body" data-zone="view.content">
+						</div>
+					</div>
+				</div>
+				<!-- 입고예정 목록 테이블 e-->
+            </div>
+            <!-- main content area end -->
+        </div>
+    </div>
+    <!-- footer area start-->
+    <footer>
+        <div class="footer-area">
+            <p>© Copyright 2018 . All right reserved</p>
+        </div>
+    </footer>
+    <!-- footer area end-->
+	
+    <!-- 샘플등록 s -->
+    <div class="modal fade bd-example-modal-lg show" id="modify-popup" style="overflow-y:auto">
+    </div>
+    <!-- 샘플등록 e -->
+	
+	<!-- 샘플등록 중복확인 팝업 s -->
+	<div class="modal fade confirm_log_popup show" id="db-check-popup">
+	</div>
+	<!-- 샘플등록 중복확인 팝업 e -->
+	
+	<!-- 상세보기 History 팝업 s -->
+	<div class="modal fade histroy_log_popup show" id="log-popup">
+	</div>
+	<!-- 상세보기 History 팝업 e -->
+
+    <script>
+        const _ = new _Component(
+                    $("#sample-register-component"),
+                    "sample-register"
+                )
+                .import(
+                    new _Component.ImportConf("restApi",true),
+                    new _Component.ImportConf("util/pug",false),
+                    new _Component.ImportConf("template",false),
+                    new _Component.ImportConf("pagination",true),
+                    new _Component.ImportConf("view",true),
+                    new _Component.ImportConf("util/popup",false),
+                    new _Component.ImportConf("util/menu",true),
+                    new _Component.ImportConf("util/topNavigation",true),
+                    new _Component.ImportConf("util/dateInfo",true),
+            		new _Component.ImportConf("__init__",true),
+                )
+                .then(
+                    function(selfComponent){
+                        const Popup = selfComponent.module.Popup;
+                        const restApi = selfComponent.module.restApi;
+                        const view = selfComponent.module.view;
+                        const pagination = selfComponent.module.pagination;
+                        const topNavi = selfComponent.module.topNavigation;
+                        const menu = selfComponent.module.menu;
+                        const pug = selfComponent.module.Pug;
+                        const dateInfo = selfComponent.module.DateInfo.instance;
+
+                        const templateStorage  = {};
+
+                        view.init($("#view"),"warehouse","/view/warehouse-db")
+                            .addEventListener(
+                                "beforeRequest",
+                                (refSelf)=>{
+                                	const mergedData = {};
+                                	Object.keys(refSelf)
+                                		.filter((key)=>{
+                                			return typeof refSelf[key] !== "object"
+                                		})
+                                		.forEach((key)=>{
+                                			mergedData[key] = refSelf[key]; 
+                                		});
+		                            return {
+		                                search : Object.assign({
+                                            status : 2,
+		                                    page : pagination.page,
+		                                    limit : 5,//view.limit,
+		                                },mergedData)
+		                            };
+                                }
+                            )
+                            .request()
+                            .then(
+                                ()=>{
+                                    const warehouseSubmit = function(formData){
+                                        return restApi
+                                            .setExtra("POST",`${API_ROOT}/warehouse/update.php`,formData,"json")
+                                            .send()
+                                            .then(
+                                                (data) => {
+                                                    alert(data.msg);
+                                                    return view.request();
+                                                },
+                                                (data) => {
+                                                    alert(data.msg);
+                                                    return Promise.reject("업데이트 실패");
+                                                }
+                                            );
+                                    }
+
+                                    const dbPopup = new Popup("/view/popup/warehouse-db-check",$("#db-check-popup"));
+                                    const insertPopup = new Popup("/view/popup/warehouse-modify",$("#modify-popup"));
+                                    const logPopup = new Popup("/view/popup/prestock-log",$("#log-popup"));
+                                    dbPopup.init(function($form,event){
+                                        let index = parseInt($form.get(0).index.value);
+                                        let selected = null;
+                                        const formData = this.__data['__formData'];
+                                        if(index >= 0){
+                                            selected = this.__data.data[index];
+                                            formData.set('data[container][code]',selected.code);
+                                        }
+                                        return warehouseSubmit(formData);
+                                    })
+                                    insertPopup.init(function($form,event){
+                                        const form = $form.get(0);
+                                        const formData = new FormData(form);
+                                        const searchFormData = new FormData();
+                                        const $sampleList = $form.find('[data-zone="sample-list"]');
+                                        searchFormData.append('search[gccode]',formData.get('data[container][gccode]'));
+                                        
+                                        if (formData.get('data[container][samplecount]') > 0 && $sampleList.length > 0) {
+                                            if(Number.isInteger(this.__data.idx)){
+                                                formData.append('search[idx]',this.__data.idx);
+                                            }
+                                            formData.delete('type');
+                                            formData.delete('code');
+                                            formData.delete('companyid');
+                                            formData.delete('specimentype');
+                                            formData.delete('collectdate');
+                                            formData.delete('requestdate');
+                                            return restApi
+                                                .setExtra("POST",`${API_ROOT}/container/list.php`,searchFormData,'json')
+                                                .send()
+                                                .then(
+                                                    (data) => {
+                                                        if (data.total > 0) {  
+                                                            return dbPopup
+                                                                .open(Object.assign({},data))
+                                                                .then(
+                                                                    function(data){
+                                                                        dbPopup.__data['__formData'] = formData;
+                                                                        dbPopup.$zone.addClass('is-active').css('display', 'flex');
+                                                                    }, 
+                                                                    function(){
+
+                                                                    }
+                                                                );
+                                                        }
+                                                        else{
+                                                            formData.set('data[container][code]','');
+                                                            return warehouseSubmit(formData);
+                                                        }
+                                                    },
+                                                    (data) => {
+
+                                                    }
+                                                )
+                                        }
+                                        else{
+                                            alert('샘플을 한 개 이상 생성하여 주십시오.');
+                                            return Promise.reject("sample-count missing");
+                                        }
+                                    })
+                                    .then((insertPopup)=>{
+                                        insertPopup.trigger(
+                                            new _Component.TriggerConf("click","[data-action='sample-insert']",function(e){
+                                                const list = insertPopup.$form.find("[data-zone='sample-list']");
+                                                const childs = list.children();
+                                                let size = parseInt(insertPopup.$form.find("[data-zone='sample-insert-count']").val());
+                                                let parentSize = childs.length;
+                                                let appendSize = size - parentSize;
+                                                for (; parentSize < size; parentSize++) {
+                                                    let $dom = $(templateStorage.addRow(parentSize));
+                                                    let $wi = $dom.find("[data-plugins=datepicker]")
+                                                        .datepicker(window.datepickerConfig);
+                                                    insertPopup.$zone.css('z-index', '500');
+                                                    list.append($dom);
+                                                }
+                                                if (appendSize < 0) {
+                                                    childs.slice(parentSize+appendSize).remove();
+                                                }
+                                            }),
+                                            new _Component.TriggerConf(
+                                                "input",
+                                                "[name='type'],[name='code'],[name='companyid'],[name='specimentype'],[name='collectdate'],[name='requestdate']",
+                                                function(){
+                                                    let $el = $(this);
+                                                    let name = $el.attr('name');
+                                                    let value = $el.attr('value');
+                                                    let $rowList = insertPopup.$form.find(`[name^='data[sample]'][name$='[${name}]']`);
+                                                    let $firstRow = $rowList.eq(0);
+                                                    let result = "";
+
+                                                    //temp
+                                                    let $selected = null;
+                                                    if($el.prop('checked')){
+                                                        $rowList.map(function(index,selected) {
+                                                            $selected = $(selected);
+                                                            switch(value){
+                                                                case "same":
+                                                                    $selected.val($firstRow.val());
+                                                                    break;
+                                                                case "increase":
+                                                                    if(index > 0){
+                                                                        // data[index] = data[0].slice(0,-1)+String.fromCharCode(parseInt(data[0].charCodeAt(data[0].length-1))+1)
+                                                                        let _val = $($rowList[index-1]).val(); 
+                                                                        let _group = /((?:.*)+\D|^)(\d+)/g.exec(_val);
+                                                                        if(_group[2].length > 0){
+                                                                            $selected.val(_group[1]+(parseInt(_group[2])+1));
+                                                                        }
+                                                                    }
+                                                                    break;
+                                                                default:
+                                                                    break;
+                                                            }
+                                                        });
+                                                    }
+                                                }
+                                            ),
+                                            new _Component.TriggerConf("click","[data-action='sample-list-remove']",function(e){
+                                                const $this = $(this);
+
+                                                $this.parents('tr').remove();
+                                                
+                                                const $inputCounter = $("[data-zone='sample-insert-count']");
+                                                const $list = insertPopup.$form.find("[data-zone='sample-list']");
+                                                const $child = $list.children("[data-index]");
+                                            
+                                                $inputCounter.val($child.length);
+                                                $.each($child, function(index, el) {
+                                                    const $el = $(el);
+                                                    $el.children(':first').text(index+1);
+                                                });
+                                            }),
+                                            new _Component.TriggerConf("change","[data-action='popup-month']",function(e){
+                                                // 시간이 난다면 option 태그들에서 날자에 안맞는건 splice,remove 하거나 append하는것도 방법일것같은데...흐으음..
+                                                const $option = $('<option>',{value : -1});
+
+                                                let selectedMonth = $(this).val();
+                                                let dayEnd = dateInfo.getMonthDays(null,selectedMonth);
+                                                let zone = insertPopup.$form.find("[data-zone='popup-month-days']");
+
+                                                zone.children('option').remove();
+                                                for (var i = 1; i <= dayEnd; i++) {
+                                                    $option.text(i).val(i);
+                                                    zone.append($option.clone());
+                                                }
+                                            }),
+                                            new _Component.TriggerConf("keyup","[data-action='search-company']",function(e){
+                                                const searchFormData = new FormData();
+                                                searchFormData.append('search[ciname1]',insertPopup.$form.find('[name="data[company][name1]"]').val().trim());
+                                                searchFormData.append('search[code]',insertPopup.$form.find('[name="data[company][code]"]').val().trim());
+                                                searchFormData.append('search[ciname2]',insertPopup.$form.find('[name="data[company][name2]"]').val().trim());
+                                                searchFormData.append('search[cmname]',insertPopup.$form.find('[name="data[manager][name1]"]').val().trim());
+                                                searchFormData.append('search[lowercidepth]',2);
+                                                
+                                                restApi
+                                                .setExtra("POST",`${API_ROOT}/company/list.php`,searchFormData,'json')
+                                                .send()
+                                                .then(
+                                                    (data) => {
+                                                        if (data.total > 0) {
+                                                            $("#company-data").empty();
+                                                            $("#company-data").css('display', 'block');
+                                                            for(var i in data.data){
+                                                                if(data.data[i].idx === 0)
+                                                                    $("#company-data").append('<li data-name="' + data.data[i].ciname1 + '" data-code="' + data.data[i].cicode + '" data-area="' + data.data[i].ciname2 + '" data-manager="' + data.data[i].cmname + '">테스트샘플</li>');
+                                                                else
+                                                                    $("#company-data").append('<li data-name="' + data.data[i].ciname1 + '" data-code="' + data.data[i].cicode + '" data-area="' + data.data[i].ciname2 + '" data-manager="' + data.data[i].cmname + '">' + data.data[i].ciname1 + ' / ' + data.data[i].cicode + ' / ' + data.data[i].ciname2 + ' / ' + data.data[i].cmname + '</li>');
+                                                            }
+                                                            $("#company-data li").hover(function(){ $(this).css('background-color', '#dddddd'); }, function(){ $(this).css('background-color', '#fff'); });
+                                                            $("#company-data li").click(function(){
+                                                                insertPopup.$form.find('[name="data[company][name1]"]').val($(this).data('name'));
+                                                                insertPopup.$form.find('[name="data[company][code]"]').val($(this).data('code'));
+                                                                insertPopup.$form.find('[name="data[company][name2]"]').val($(this).data('area'));
+                                                                insertPopup.$form.find('[name="data[manager][name1]"]').val($(this).data('manager'));
+                                                                
+                                                                $("#company-data").empty();
+                                                                $("#company-data").css('display', 'none');
+                                                            });
+                                                        }
+                                                        else{
+                                                            $("#company-data").empty();
+                                                            $("#company-data").css('display', 'none');
+                                                        }
+                                                    },
+                                                    (data) => {
+
+                                                    }
+                                                )
+                                            })
+                                        );
+                                    });
+                                    logPopup.init(function($form,event){
+                                        let index = parseInt($form.get(0).index.value);
+                                        const formData = this.__data['__formData'];
+                                        selected = this.__data.data[index];
+                                    });
+                                    selfComponent.trigger(
+                                        new _Component.TriggerConf("click","[data-action='insert']",function(e){
+                                            insertPopup.open({__pugTemplate : templateStorage}).then(
+                                                function(){
+                                                    insertPopup.$form.find("[data-plugins=chosen]").chosen(window.chosenConfig);
+                                                    insertPopup.$form.find("[data-plugins=datepicker]").datepicker(window.datepickerConfig);
+                                                }, 
+                                                function(){
+                                                    console.log(insertPopup)
+                                                    debugger;
+                                                }
+                                            );
+                                        }),
+                                        new _Component.TriggerConf("click","[data-action='update']",function(e){
+                                            let index = $(this).data('index');
+                                            insertPopup.open(
+                                                    Object.assign(
+                                                        {
+                                                            __pugTemplate : templateStorage
+                                                        },
+                                                        view.__data.data[index]
+                                                    )
+                                                )
+                                                .then(
+                                                    function(){
+                                                        insertPopup.$form.find("[data-plugins=chosen]").chosen(window.chosenConfig);
+                                                        insertPopup.$form.find("[data-plugins=datepicker]").datepicker(window.datepickerConfig);
+                                                    }, 
+                                                    function(){
+                                                        console.log(insertPopup)
+                                                        debugger;
+                                                    }
+                                                );
+                                        }),
+                                        new _Component.TriggerConf("click","[data-action='log']",function(e){
+                                            let index = jQuery(this).data('index');
+                                            logPopup.open(Object.assign(
+                                                view.__data.data[index]
+                                            ))
+                                            .then(
+                                                ()=>{
+                                                    logPopup.$zone.addClass('is-active');
+                                                    logPopup.$zone.addClass('is-active').css('display', 'flex');
+                                                }
+                                            );
+                                        }),
+                                        new _Component.TriggerConf("click","[data-action='select-each']",function(e){
+                                        }),
+                                        new _Component.TriggerConf("click","[data-action='insert-sample']",function(e){
+                                            let formData = new FormData();
+                                            let idx = '';
+                                            let j = 0;
+                                            $.each($('table tbody tr td label.checkbox input'), function(i){
+                                                let index = $(this).data('index');
+                                                if($(this).is(':checked')){
+                                                    idx += (j > 0 ? ',' : '') + view.__data.data[index].idx;
+                                                    j++;
+                                                }
+                                            });
+                                            formData.append('search[idx]',idx);
+                                            if (j > 0 && confirm("선택하신 데이터를 실험샘플로 등록하시겠습니까?")) {
+                                                restApi
+                                                    .setExtra("POST",`${API_ROOT}/warehouse/experimentinsert.php`,formData,"json")
+                                                    .send()
+                                                    .then(
+                                                        (data) => {
+                                                            alert(data.msg);
+                                                            view.request();
+                                                        },
+                                                        (data) => {
+                                                            alert(data.msg);
+                                                        }
+                                                    );
+                                            };
+                                        }),
+                                        new _Component.TriggerConf("click","[data-action='refresh']",function(e){
+                                        	return view.request();
+                                        })
+                                    );
+                                }
+                            )
+                    }, 
+                    function(){
+
+                    }
+                )
+    </script>
+
+    <?php
+		include $_SERVER["DOCUMENT_ROOT"].'/include/footer_js.php';
+	?>
+	

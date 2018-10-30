@@ -1,0 +1,524 @@
+<?php
+
+	include $_SERVER["DOCUMENT_ROOT"].'/include/head.php';
+?>
+
+<body>
+    <!--[if lt IE 8]>
+            <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+    <!-- preloader area start -->
+	<?php
+		include $_SERVER["DOCUMENT_ROOT"].'/include/loader.php';
+	?>
+    <!-- preloader area end -->
+    <!-- page container area start -->
+    <div class="page-container">
+        <!-- sidebar menu area start -->
+        <?php
+			include $_SERVER["DOCUMENT_ROOT"].'/include/menu.php';
+		?>
+        <!-- sidebar menu area end -->
+        <!-- main content area start -->
+        <div class="main-content">
+            <!-- header area start -->
+            <?php
+				include $_SERVER["DOCUMENT_ROOT"].'/include/head_nav.php';
+			?>
+            <!-- header area end -->
+            <!-- main content area start -->
+            <div class="main-content-inner">
+				<!-- 기관관리 table s -->
+				<div class="col-12 mt-5">
+					<div class="card">
+						<div class="card-body">
+							<!-- chosen plugin s -->
+							<div class="input-group mb-3">
+								<div class="search select px-0">
+									<select data-placeholder="검색어를 입력해 주세요">
+										<option vlaue=""></option>
+										<option>검색어</option>
+										<option>검색어1</option>
+									</select>
+								</div>
+								<div class="input-group-append">
+									<input class="btn btn-flat btn-secondary mb-3" type="submit" value="검색">
+								</div>
+								<div class="refresh_btn_box">
+									<button type="button" class="btn mb-3  justify-content-end" data-action='refresh'>
+										<i class="fa fa-refresh" data-perform="panel-refresh"></i>
+									</button>
+								</div>
+							</div>
+							<!-- chosen plugin e -->
+							<div class="single-table" id="view">
+								<div class="table-responsive">
+									<table class="table table-row progress-table text-center table-990 odd-table">
+										<thead class="text-uppercase bg-dark">
+											<tr class="text-white">
+												<th scope="col">순서</th>
+												<th scope="col">분석 담당자</th>
+												<th scope="col">GC S ID</th>
+												<th scope="col">GC T ID</th>
+												<th scope="col">검체 종류</th>
+												<th scope="col">RESULT</th>
+												<th scope="col">Segmental 유/무</th>
+												<th scope="col">No call 사유</th>
+												<th scope="col">결과보기</th>
+												<th scope="col">분석로그</th>
+											</tr>
+										</thead>
+										<tbody id="list" data-zone="view.content">
+											<!-- item01 s -->
+											<!--tr>
+												<td>1</td>
+												<td>홍길동</td>
+												<td>2018-09-13/05:23</td>
+												<td>GC1809P1015</td>
+												<td>Euploidy</td>
+												<td>-</td>
+												<td></td>
+												<td>세포 소실 (DNA not detected)</td>
+												<td>
+													<button type="button" class="btn btn-outline-secondary btn-xs" data-toggle="modal" data-target=".sample_result_popup">보기</button>
+												</td>
+												<td>
+													<button type="button" class="btn btn-outline-secondary btn-xs" data-toggle="modal" data-target=".entry_log_popup">분석로그</button>
+												</td>
+											</tr-->
+											<!-- item01 e -->
+										</tbody>
+                                        <tfoot>
+                                            <tr>
+                                                <td colspan="999">
+                                                    <div class="paging-box" data-zone="pagination"></div>
+                                                </td>
+                                            </tr>
+                                        </tfoot>
+									</table>
+								</div>
+							</div>
+							<!-- 페이지버튼 s-->
+							<!-- nav>
+								<ul class="pagination justify-content-center mt-5">
+									<li class="page-item disabled">
+										<a class="page-link" href="#" aria-label="Previous">
+											<span aria-hidden="true">《</span>
+											<span class="sr-only">first-page</span>
+										</a>
+									</li>
+									<li class="page-item disabled">
+										<a class="page-link" href="#" aria-label="Previous">
+											<span aria-hidden="true">〈</span>
+											<span class="sr-only">Previous</span>
+										</a>
+									</li>
+									<li class="page-item active"><a class="page-link" href="#">1</a></li>
+									<li class="page-item">
+										<a class="page-link" href="#">2 <span class="sr-only">(current)</span></a>
+									</li>
+									<li class="page-item"><a class="page-link" href="#">3</a></li>
+									<li class="page-item">
+										<a class="page-link" href="#" aria-label="Next">
+											<span aria-hidden="true">〉</span>
+											<span class="sr-only">Next</span>
+										</a>
+									</li>
+									<li class="page-item">
+										<a class="page-link" href="#" aria-label="Next">
+											<span aria-hidden="true">》</span>
+											<span class="sr-only">last-page</span>
+										</a>
+									</li>
+								</ul>
+							</nav-->
+							<!-- 페이지버튼 e-->
+						</div>
+					</div>
+                </div>
+				<!-- 기관관리 table e -->
+            </div>
+            <!-- main content area end -->
+        </div>
+    </div>
+    <!-- footer area start-->
+    <footer>
+        <div class="footer-area">
+            <p>© Copyright 2018 . All right reserved</p>
+        </div>
+    </footer>
+    <!-- footer area end-->
+    </div>
+    <!-- page container area end -->
+	
+	<!-- 입고예정 로그 팝업 s-->
+	<div class="modal fade sample_result_popup show">
+		<div class="modal-dialog modal-xl modal-dialog-centered">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"><span>×</span></button>
+				</div>
+				<div class="modal-body">
+					<div class="modal-container">
+						<div class="single-table">
+							<div class="table-responsive">
+								<h5 class="title">샘플정보</h5>
+								<table class="table table-hover progress-table text-center">
+									<tbody>
+										<tr class="bg-dark text-white">
+											<th>GC S ID</th>
+											<th>실험 ID</th>
+											<th>생년월일</th>
+											<th>만나이</th>
+											<th>바코드</th>
+											<th>Ion TS address</th>
+										</tr>
+										<tr>
+											<td>GC1809P1013</td>
+											<td>GC1809P1013_V1</td>
+											<td>--</td>
+											<td>48</td>
+											<td>SingleSeq_006</td>
+											<td><a href="#n">https://49.238.231.118/report/299/</a></td>
+										</tr>
+										<tr class="bg-dark text-white">
+											<th>RSA</th>
+											<th>RIF</th>
+											<th colspan="2">Translocation</th>
+											<th colspan="2">기타소견</th>
+										</tr>
+										<tr>
+											<td>무</td>
+											<td>무</td>
+											<td colspan="2">-</td>
+											<td colspan="2"></td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+							<div class="table-responsive">
+								<h5 class="title">실험결과</h5>
+								<table class="table table-hover progress-table text-center">
+									<tbody>
+										<tr class="bg-dark text-white">
+											<th>Bases</th>
+											<th>>=Q20 Bases</th>
+											<th>Reads</th>
+											<th>MeanReadLength</th>
+											<th>Histogram</th>
+										</tr>
+										<tr>
+											<td>1,066,838</td>
+											<td>784,717</td>
+											<td>12,787</td>
+											<td>83bp</td>
+											<td></td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+							<div class="table-responsive">
+								<h5 class="title">분석결과</h5>
+								<table class="table table-hover progress-table text-center">
+									<tbody>
+										<tr class="bg-dark text-white">
+											<th>Ver.</th>
+											<th>Conf.</th>
+											<th>MAPD</th>
+											<th>MA</th>
+											<th>An+</th>
+											<th>An-</th>
+											<th>Segment</th>
+											<th>Proband</th>
+										</tr>
+										<tr>
+											<td>5.2	</td>
+											<td>10</td>
+											<td>0.145</td>
+											<td>0.0040</td>
+											<td>-</td>
+											<td>-</td>
+											<td>무</td>
+											<td></td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+							<div class="table-responsive">
+								<h5 class="title">분석결과 상세보기</h5>
+								<table class="table table-hover progress-table text-center">
+									<tbody>
+										<tr class="bg-dark text-white">
+											<th></th>
+											<th>chromosome</th>
+											<th>position</th>
+											<th>START-LOCUS</th>
+											<th>END-LOCUS</th>
+											<th>ratio</th>
+											<th>Length</th>
+											<th>STD_Length</th>
+											<th>Segmental</th>
+										</tr>
+										<tr>
+											<td>An(-)</td>
+											<td>18</td>
+											<td>18p11.32q23</td>
+											<td>10000</td>
+											<td>78017248</td>
+											<td>1</td>
+											<td>78007.2kb</td>
+											<td>78007.2kb</td>
+											<td>-</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary">재분석</button>
+					<button type="button" class="btn btn-primary" data-dismiss="modal">완료</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- 입고예정 로그 팝업 e-->
+	
+	<!-- 분석 로그 팝업 s-->
+	<div class="modal fade entry_log_popup show">
+		<div class="modal-dialog modal-lg modal-dialog-centered">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"><span>×</span></button>
+				</div>
+				<div class="modal-body">
+					<div class="modal-container">
+						<div class="single-table">
+							<div class="table-responsive">
+								<table class="table table-hover progress-table text-center">
+									<thead class="text-uppercase bg-dark">
+										<tr class="text-white">
+											<th scope="col">등록/수정 담당자</th>
+											<th scope="col">등록/수정일시</th>
+											<th scope="col">등록/수정내역</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<th scope="row">홍길동</th>
+											<td>
+												<span class="entry_edit_day">2018-09-04</span>/
+												<span class="entry_edit_tiem">18:53</span>
+											</td>
+											<td>초기입력</td>
+										</tr>
+										<tr>
+											<th scope="row">홍길동</th>
+											<td>
+												<span class="entry_edit_day">2018-09-04</span>/
+												<span class="entry_edit_tiem">18:53</span>
+											</td>
+											<td>초기입력</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" data-dismiss="modal">확인</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- 분석 로그 팝업 e-->
+    
+    <script>    
+        const _ = new _Component($("#component"),"component");
+        _.import(
+            new _Component.ImportConf("restApi",true),
+            new _Component.ImportConf("util/pug",false),
+            new _Component.ImportConf("template",false),
+            new _Component.ImportConf("pagination",true),
+            new _Component.ImportConf("view",true),
+            new _Component.ImportConf("util/popup",false),
+            new _Component.ImportConf("util/menu",true),
+            new _Component.ImportConf("util/topNavigation",true),
+            new _Component.ImportConf("util/dateInfo",false),
+            new _Component.ImportConf("__init__",true),
+        )
+        .then(
+            function(selfComponent){
+                const Popup = selfComponent.module.Popup;
+                const restApi = selfComponent.module.restApi;
+                const view = selfComponent.module.view;
+                const pagination = selfComponent.module.pagination;
+                const topNavi = selfComponent.module.topNavigation;
+                const menu = selfComponent.module.menu;
+                const pug = selfComponent.module.Pug;
+                const dateInfo = selfComponent.module.DateInfo.instance;
+
+                const templateStorage  = {};
+
+                view.init($("#view"),"experiment","/view/analysis-status")
+                    .addEventListener(
+                        "beforeRequest",
+                        (refSelf,requestConf)=>{
+                            return {
+                                page : undefined,
+                                limit : undefined,
+                                search : {
+                                    upperstatus : 7,
+                                    page : pagination.page,
+                                    limit : 15,//view.limit,
+                                }
+                            } 
+                        }
+                    )
+                    .request()
+                    .then(
+                        ()=>{
+                            let checkedData = [];
+
+                            const resultPopup = new Popup("/view/popup/analysis-db-log",$("#analysis-db-popup"));
+                            const histogramPopup = new Popup("/view/popup/histogram",$("#histogram-popup"));
+                            const logPopup = new Popup("/view/popup/analysis-log",$("#log-popup"));
+                            resultPopup.init(function(){debugger;});
+                            histogramPopup.init(function(){});
+                            logPopup.init(function(){});
+
+                            view.trigger(
+                                new _Component.TriggerConf("change","[data-action='selected-view']",function(e){
+                                    let isChecked = $(this).prop('checked');
+                                    let index = $(this).data('index');
+                                    if(isChecked){
+                                        checkedData[index] = view.__data.data[index];
+                                    }
+                                    else{
+                                        checkedData.splice(index,1);
+                                    }
+                                }),
+                                new _Component.TriggerConf("click","[data-action='analysis-db-result']",function(e){
+                                    let index = jQuery(this).data('index');
+                                    resultPopup.open(
+                                        Object.assign({
+                                            __index : index
+                                        },
+                                        view.__data.data[index])
+                                    )
+                                    .then(
+                                        function($zone){
+                                            resultPopup.$zone.css('display', 'flex').addClass('is-active');
+                                        },
+                                        function(){
+                                            debugger;
+                                        }
+                                    );
+                                }),
+                                new _Component.TriggerConf("click","[data-action='analysis-log']",function(e){
+                                    let index = jQuery(this).data('index');
+                                    logPopup.open(
+                                        Object.assign({
+                                            __index : index
+                                        },
+                                        view.__data.data[index])
+                                    )
+                                    .then(
+                                        function($zone){
+                                            logPopup.$zone.css('display', 'flex').addClass('is-active');
+                                        },
+                                        function(){
+                                            debugger;
+                                        }
+                                    );
+                                })
+
+                            );
+                            resultPopup.trigger(
+                                new _Component.TriggerConf("click","[data-action='re-report']",function(e){
+                                    let index = jQuery(this).data('index');
+                                    let formData = new FormData();
+                                    formData.set(`${0}[data][status]`,8);
+                                    formData.set(`${0}[search][idx]`,view.__data.data[index].idx);
+                                    if (confirm("선택하신 데이터를 분석 재시작 하시겠습니까?")) {
+                                        return restApi
+                                            .setExtra("POST",`${API_ROOT}/experiment/updateall.php`,formData,"json")
+                                            .send()
+                                            .then(
+                                                (data) => {
+                                                    alert(data.msg);
+                                                    return logPopup.close()
+                                                            .then(view.request.bind(view));
+                                                },
+                                                (data) => {
+                                                    alert(data.msg);
+                                                }
+                                            );
+                                    }
+                                    // data[status] = 4
+                                    
+                                }),
+                                new _Component.TriggerConf("click","[data-action='toggle-histogram'][data-image]",function(e){
+                                    const imageData = $(this).data('image');
+                                    histogramPopup.open({
+                                        image : imageData
+                                    })
+                                    .then(
+                                        function(e){
+                                            histogramPopup.$zone.css('display', 'flex').addClass('is-active');
+                                        }
+                                    );
+                                })
+                            );
+                            selfComponent.trigger(
+                                new _Component.TriggerConf("click", "[data-action='refresh']",function(){
+                                    view.request();
+                                }),
+                                new _Component.TriggerConf("change","[data-action='selected-view-all']",function(e){
+                                    let isChecked = $(this).prop('checked');
+                                    const $selectedCheckbox = view.$target.find("[data-action='selected-view']");
+                                    if(isChecked){
+                                        checkedData = view.__data.data;
+                                        $selectedCheckbox.prop('checked',true);
+                                    }
+                                    else{
+                                        checkedData = [];
+                                        $selectedCheckbox.prop('checked',false);
+                                    }
+                                }),
+                                new _Component.TriggerConf("click","[data-action='update-analysis-wait']",function(e){
+                                    let formData = new FormData();
+                                    if (checkedData.length > 0 && confirm("선택하신 데이터를 분석시작 하시겠습니까?")) {
+                                        checkedData.map(function(rowData,index) {
+                                            formData.set(`${index}[data][status]`,5)
+                                            formData.set(`${index}[search][idx]`,rowData.idx)
+                                        });
+                                        return restApi
+                                            .setExtra("POST",`${API_ROOT}/experiment/updateall.php`,formData,"json")
+                                            .send()
+                                            .then(
+                                                (data) => {
+                                                    alert(data.msg);
+                                                    return view.request();
+                                                },
+                                                (data) => {
+                                                    alert(data.msg);
+                                                }
+                                            );
+                                    };
+                                })
+                            )
+                        }
+                    )
+            }, 
+            function(){
+
+            }
+        )
+    </script>
+	
+    <?php
+		include $_SERVER["DOCUMENT_ROOT"].'/include/footer_js.php';
+	?>

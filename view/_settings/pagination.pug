@@ -1,0 +1,30 @@
+if total > 0
+    - limit = (limit > total) ? total : limit;
+    - var indexStart = Math.floor(page/limit)*limit;
+    - var num = indexStart;
+    - var lastNum = indexStart + limit;
+    nav  
+        ul.pagination.justify-content-center.mt-5
+            li.page-item(class=(page > 0 ? "" : "disabled"))
+                a.page-link(href='#first', aria-label='Previous')
+                    span(aria-hidden='true') 《
+                    span.sr-only first-page
+            li.page-item(class=(page > 0 ? "" : "disabled"))
+                a.page-link(data-zone="pagination.goto" data-page=( (indexStart > 0) ? indexStart-1 : indexStart) href="#prev")
+                    span(aria-hidden='true') 〈
+                    span.sr-only Previous
+            while num < lastNum
+                if num < total
+                    li.page-item(class=(num == page ? "active" : ""))
+                        a.page-link( data-zone="pagination.goto" data-page=(num) href="#") #{num+1}
+                - num++;
+            li.page-item(class=( (page < total-1) ? "" : "disabled"))
+                a.page-link(data-zone="pagination.goto" data-page=(lastNum+1 <= total-1 ? lastNum : total-1) href="#next")
+                    span(aria-hidden='true') 〉
+                    span.sr-only Next
+            li.page-item(class=(page+1 < total ? "" : "disabled"))
+                a.page-link(href='#', aria-label='Next')
+                    span(aria-hidden='true') 》
+                    span.sr-only last-page
+else
+    - debugger;

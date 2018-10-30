@@ -1,0 +1,41 @@
+table.table.table-bg.is-bordered.is-striped.is-narrow.is-fullwidth.table-min_640
+    thead
+        tr
+            th
+                label.checkbox
+                    input(type='checkbox')
+            th 순서
+            th 입력정보
+            th 입고 예정일
+            th 의료 재단명
+            th 지점명
+            th 연락자
+            th 의료기관명
+            th 샘플 개수
+            th 입고예정시간
+            th 특이 사항
+            th 구분
+    tbody
+        each value,index in data
+            -console.log();
+            tr
+                td
+                    label.checkbox
+                        input(type='checkbox' data-action='selected-view' data-index=(index))
+                td #{value.idx}
+                td
+                    a(class="button is-primary is-outlined is-small" data-target="log-popup" data-action="log" data-index=(index)) 보기
+                td #{value.duedate}
+                td #{value.ciname}
+                td #{value.ciarea}
+                td #{value.mcmanager}
+                td #{value.mcname}
+                td #{value.samplecount}
+                td #{value.duetime}
+                td #{value.etccontent}
+                td #{arrStatus[value.status]}
+    tfoot
+        tr
+            td(colspan='999')
+                .paging-box(data-zone='pagination')
+

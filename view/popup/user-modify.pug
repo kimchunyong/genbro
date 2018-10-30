@@ -1,0 +1,41 @@
+#modify-popup.modal.smp_modal.is-active(style='display: flex;')
+    .modal-background(data-zone='popup.close')
+    .modal-dialog.modal-dialog-centered.modal-xl.p-3
+        form.modal-content(data-zone="popup" data-optional=(__type))
+            .modal-body
+                .column.form-group
+                    label.is-vertical-middle 아이디
+                    .field.has-addons
+                        p.control(style='width:100%')
+                            input.input.alert.alert-danger.col-12(type='email' name='id' data-zone="id-zone" required=(true)  disabled=(__type === "update") value=(id))
+                .column.form-group
+                    label.is-vertical-middle 이름
+                    p.control.is-4
+                        input.input.has-text-centered.form-control(name='name' type='text' required=(true) value=(name))
+
+                .column.form-group
+                    label.is-vertical-middle 레벨
+                    span.d-block.select.is-vertical-middle.mb-slc
+                        select(name='level' required=(true) style='font-size: 14px;border: 1px solid rgba(170, 170, 170, .3);padding: .67rem .8rem;width: 100%;border-radius: .25rem;')
+                            each value,index in ["유저","일반관리자","중간관리자","관리자"]
+                                -console.log();
+                                option(value=(index) selected=(index == level)) #{value}
+                            option(value=(-1), disabled=(true), selected=(10 == level)) 최고관리자
+                .column.form-group
+                    label.is-vertical-middle 비밀번호
+                    p.control.is-4
+                        input.input.has-text-centered.form-control(id='disabledTextInput' name='pw' type='password' required=(true))
+                .column.form-group
+                    label.is-vertical-middle 생년월일
+                    p.control.is-4
+                        input.input.has-text-centered.form-control(name="birthday" type='date' value=(birthday) required=(true))
+                .column.form-group
+                    label.is-vertical-middle 연락처
+                    .field.has-addons.input-group
+                        span.select.input-group-prepend
+                            select(name="tel" required=(true))
+                                option(value="82") +82
+                        input.input.form-control(type='text' value=(tel) name='telcode')
+            .modal-footer
+                button.btn.btn-primary(type="submit") 완료
+                button.btn.btn-secondary(data-zone="popup.close") 취소

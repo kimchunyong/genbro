@@ -1,0 +1,50 @@
+.modal-dialog.modal-xl.modal-dialog-centered(style="z-index:2;")
+    form.modal-content(data-zone='popup')
+        .modal-header
+            h5.modal-title 워크리스트
+            button.close(type='button' data-zone='popup.close')
+                span ×
+        .modal-body
+            .modal-container
+                // 검체기록지 정보 s
+                .sign_box(style='margin-bottom: 10px;')
+                    table.table.table-row.progress-table.text-center
+                        colgroup
+                            col(width='5%')
+                            col(width='10%')
+                            col(width='5%')
+                            col(width='10%')
+                        tbody
+                            tr
+                                th.has-background-white-ter 실험일
+                                td #{(new Date()).toISOString().slice(0,10)}
+                                th.has-background-white-ter 실험담당자
+                                td #{userData.name}
+                // 검체기록지 정보 e
+                // 검체기록지 내용 s
+                .sign_box
+                    table.table.table-row.progress-table.text-center.table-990
+                        thead
+                            tr
+                                th.has-background-white-ter 순번
+                                th.has-background-white-ter GC S ID
+                                th.has-background-white-ter 검체번호
+                                th.has-background-white-ter 검체량(ul)
+                                th.has-background-white-ter 바코드
+                                th.has-background-white-ter Qubit 정량값 (ng/ul)
+                        tbody
+                            each index,idx in Object.keys(data)
+                                - console.log();
+                                - var row = data[index];
+                                tr
+                                    td #{parseInt(idx)+1}
+                                    td #{row.sample.id}
+                                    td #{row.sample.code}
+                                    td #{row.ul}
+                                    td #{row.barcode}
+                                    td #{row.sample.qubit}
+        .modal-footer
+            button.btn.btn-success(type='submit') STEP1로 이동
+            button.btn.btn-primary(type='button' data-action='print') 프린트
+
+.modal-backdrop.fade.show(data-zone='popup.close' style="z-index:1;")

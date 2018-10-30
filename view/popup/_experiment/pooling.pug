@@ -1,0 +1,432 @@
+mixin poolSetInsert(index,isActive)
+    ul.pagination.justify-content-center(data-index=(index))
+        li.page-item(data-action="goto-list" data-index=(index))
+            a.page-link(href='#', aria-label='Previous')
+                span(aria-hidden='true') 〈
+                span.sr-only 
+        li.page-item(class=(isActive ? 'active' : '') style='min-width: 120px;' data-action="goto-select" data-zone="pool-is-active" data-index=(index))
+            a.page-link(href='javascript:void(0);', style='cursor: default;') Set #{index+1}
+        li.page-item( data-action="goto-pool" data-index=(index))
+            a.page-link(href='#', aria-label='Next')
+                span(aria-hidden='true') 〉
+                span.sr-only Next
+mixin poolListInsert(value = {sample : {},concentration : 1,volume : 1})
+    - var library = 0;
+    tr
+        td
+            input(type='checkbox' data-action="selected-view" data-index=(value.__index))
+        td #{value.__index+1}
+        td #{value.sample.id}
+        td #{value.code}
+        td #{value.barcode}
+        td(data-zone='calc-qubit') #{value.qubit}
+        td(data-zone='calc-library') #{(library = value.concentration*value.volume/value.qubit).toFixed(2)}
+        td(data-zone='calc-dw') #{(value.volume-library).toFixed(2)}
+mixin poolView(index,rows = [])
+    -console.log();
+    .single-table.mh-800
+        .table-responsive
+            table.table.table-row.progress-table.text-center.odd-table
+                thead.text-uppercase.bg-dark
+                    tr.text-white
+                        th(scope='col') Pooling 설정
+                tbody#list
+                    tr
+                        td
+                            span.text-primary Set #{index+1}
+                    tr
+            table.table.table-row.progress-table.text-center.odd-table
+                thead.text-uppercase.bg-dark
+                    tr.text-white
+                        th(scope='col') 기준농도(ng/ul)
+                        th(scope='col') 기준 pooling Volume(ul)
+                tbody
+                    tr
+                        td
+                            input.form-control(type='text', placeholder='기준 농도(ng/ul)' name=(`data[${index}][concentration]`) data-custom-observer='concentration' data-index=(index) required=(true) value=(rows.concentration))
+                        td
+                            input.form-control(type='text', placeholder='기준 Pooling Volume(ul)' name=(`data[${index}][volume]`) data-custom-observer='volume' data-index=(index) required=(true) value=(rows.volume))
+    .single-table
+        .table-responsive
+            table.table.table-row.progress-table.text-center.odd-table
+                thead.text-uppercase.bg-dark
+                    tr.text-white
+                        th(scope='col', rowspan='2')
+                            input(type='checkbox' data-action='selected-view-all')
+                        th(scope='col', rowspan='2') 순서
+                        th(scope='col', rowspan='2') GC S ID
+                        th(scope='col', rowspan='2') GC T ID
+                        th(scope='col', rowspan='2') 바코드
+                        th(scope='col', rowspan='2') Quibit
+                        th(scope='col', colspan='2') Pooling Volume(ul)
+                    tr.text-white
+                        th Libray
+                        th DW
+                tbody
+                    each row,index in rows
+                        - row.__index = index;
+                        - row.concentration = parseInt(row.concentration || rows.concentration) ;
+                        - row.volume = parseInt(row.volume || rows.volume) ;
+                        +poolListInsert(row)
+//- mixin export
+- var mixinObject = {};
+- mixinObject["poolSetInsert"] = pug_mixins["poolSetInsert"];
+- mixinObject["poolListInsert"] = pug_mixins["poolListInsert"];
+- mixinObject["poolView"] = pug_mixins["poolView"];
+//- logic
+.modal-dialog.modal-xl.modal-dialog-centered(style="z-index:2;")
+    form.modal-content(data-zone='popup')
+        .modal-header
+            button.close(type='button', data-zone='popup.close')
+                span ×
+        .modal-body(style='height: 900px;')
+            #sub-component.modal-container.h-100
+                .row.h-100
+                    .col-md-5
+                        .single-table.mh-800
+                            .table-responsive
+                                table#sub-view.table.table-row.progress-table.text-center.odd-table
+                                    thead.text-uppercase.bg-dark
+                                        tr.text-white
+                                            th(scope='col', rowspan='2')
+                                                input(type='checkbox' data-action="selected-view-all")
+                                            th(scope='col') 순서
+                                            th(scope='col') GC S ID
+                                            th(scope='col') GC T ID
+                                            th(scope='col') 바코드
+                                            th(scope='col') Qubit
+                                    tbody(data-zone="view.content")
+                        .modal-footer(style='position: absolute;bottom: 0;border: 0;')
+                            button.btn.btn-success(type='button' data-zone='popup.close') 리스트 화면으로 이동
+                    .col-md-2
+                        .single-table.mh-800
+                            .table-responsive
+                                table.table.table-row.progress-table.text-center.odd-table
+                                    thead.text-uppercase.bg-dark
+                                        tr.text-white
+                                            th(scope='col') PoolingSet
+                                    tbody
+                                        tr
+                                            //- custom data-zone
+                                            td(data-zone="pool-list")
+                                               +poolSetInsert(0,true) 
+                        div
+                            .btn-cotrl-box.my-3
+                                button.btn.btn-danger(type='button' data-action='remove-pool') 삭제
+                                button.btn.btn-primary(type='button' data-action='insert-pool') 추가
+                                button.btn.btn-success(type='button' data-action='trick-submit') 완료
+                                button(type='submit' style="display:none;" data-zone='real-submit') 실제 전송(만약 보이면 일이 꼬인것 ㅅㄱ)
+                    .col-md-5(data-zone="pool-info")
+                        +poolView(0,[])
+.modal-backdrop.fade.show(data-zone='popup.close' style="z-index:1;")
+script.
+    //mixin trick
+    const mixinModule = {};
+    const mixinTrick = (functor,pug)=>{
+        return (...arg)=>{
+            var functorLogic = functor.toString();
+            try{
+                eval(`(${functorLogic})`)(...arg);
+            }
+            catch(e){
+                console.log(e);
+
+                var pug_html = "";
+                var pugLastTyped = pug_html.length;
+                var pug = {};
+                var pug_mixins = mixinModule.pure;
+                //- 빠지는 믹스인추가
+                var pug_match_html = /["&<>]/;
+                function pug_classes_array(val, escaping) {
+                    var classString = '',
+                        className, padding = '',
+                        escapeEnabled = Array.isArray(escaping);
+                    for (var i = 0; i < val.length; i++) {
+                        className = pug_classes(val[i]);
+                        if (!className) continue;
+                        escapeEnabled && escaping[i] && (className = pug_escape(className));
+                        classString = classString + padding + className;
+                        padding = ' ';
+                    }
+                    return classString;
+                }
+                function pug_classes_object(val) {
+                    var classString = '',
+                        padding = '';
+                    for (var key in val) {
+                        if (key && val[key] && pug_has_own_property.call(val, key)) {
+                            classString = classString + padding + key;
+                            padding = ' ';
+                        }
+                    }
+                    return classString;
+                }
+                //- end
+                !{Object.keys(pug).map((k)=>("pug[\'"+k+"\']=pug_"+k+"=("+pug[k]+");")).reduce((accr,curr)=>(accr+curr),"")};
+                var pug_interp = null;
+                functorLogic = functorLogic.replace(/pug_mixins\[["'](\S{1,})["']\]/g,function(match, contents, offset, input_string){
+                    return `(${pug_mixins[contents].toString()})`;
+                })
+                eval(`(${functorLogic})`)(...arg);
+                return pug_html;
+            }
+        }
+    };
+
+    const mixinInit = (obj,pug)=>{
+        obj.pure = {};
+        obj.pure.poolSetInsert = !{mixinObject.poolSetInsert};
+        obj.pure.poolListInsert = !{mixinObject.poolListInsert};
+        obj.pure.poolView  = !{mixinObject.poolView};
+        obj.poolSetInsert = mixinTrick(obj.pure.poolSetInsert,pug);
+        obj.poolListInsert = mixinTrick(obj.pure.poolListInsert,pug);
+        obj.poolView = mixinTrick(obj.pure.poolView,pug);
+
+    };
+    //logic
+    const _innerComponent = new _Component($("#sub-component"),"sub-pool");
+    _innerComponent.import(
+        new _Component.ImportConf("restApi",true),
+        new _Component.ImportConf("util/pug",false),
+        new _Component.ImportConf("template",false),
+        new _Component.ImportConf("pagination",true),
+        new _Component.ImportConf("view",true),
+        new _Component.ImportConf("util/dateInfo",false),
+    )
+    .then(
+        function(selfComponent){
+            const Popup = selfComponent.module.Popup;
+            const restApi = selfComponent.module.restApi;
+            const view = selfComponent.module.view;
+            const pagination = selfComponent.module.pagination;
+            const pug = selfComponent.module.Pug;
+            const dateInfo = selfComponent.module.DateInfo.instance;
+
+            const checkedPool = [];
+            const selectedData = {
+                list : [],
+                pool : []
+            };
+            const poolConf = {
+                enumerable : false,
+                writable: true,
+                value : 0,
+            };
+            Object.defineProperties(checkedPool,{
+                selected:poolConf,
+                max : poolConf
+            });
+            mixinInit(mixinModule,pug);
+            const checkboxTriggerConf = function(key,getBase = function(){}){
+                return [
+                    new _Component.TriggerConf("click", "[data-action='refresh']",function(){
+                        view.request();
+                    }),
+                    new _Component.TriggerConf("change","[data-action='selected-view-all']",function(e){
+                        const $this = $(this);
+                        let isChecked = $(this).prop('checked');
+                        const base = getBase(key);
+                        const $selectedCheckbox = $this.parents("table").find("[data-action='selected-view']"); // non-safe search dom
+                        if(isChecked){
+                            selectedData[key] = Array.isArray(base) ? base.slice(0) : [];//last is expection
+                            $selectedCheckbox.prop('checked',true);
+                        }
+                        else{
+                            selectedData[key] = [];
+                            $selectedCheckbox.prop('checked',false);
+                        }
+                    }),
+                    new _Component.TriggerConf("change","[data-action='selected-view']",function(e){
+                        let isChecked = $(this).prop('checked');
+                        let index = $(this).data('index');
+                        if(isChecked){
+                            selectedData[key][index] = getBase(key)[index];
+                        }
+                        else{
+                            selectedData[key].splice(index,1);
+                        }
+                    })
+                ]
+            };
+
+            view.isPagination = false;
+            view.init($("#sub-view"),"experiment","/view/popup/__sub/pooling-list")
+                .addEventListener(
+                    "beforeRequest",
+                    (refSelf,requestConf)=>{
+                        return {
+                            page : undefined,
+                            limit : undefined,
+                            search : {
+                                status : 3,
+                                page : pagination.page,
+                                limit : 15,//view.limit,
+                            }
+                        } 
+                    }
+                )
+                .request()
+                .then(
+                    ()=>{
+                        const $poolList = selfComponent.$target.find("[data-zone='pool-list']");
+                        const $poolInfo = selfComponent.$target.find("[data-zone='pool-info']");
+                        const gotoSelect = function($target,isSelf = false){
+                            (isSelf ? $target : $target.find("[data-action='goto-select']")).click();
+                        };
+                        const reRender = function(index){
+                            $poolInfo.children().remove();
+                            $poolInfo.append(mixinModule.poolView(index,checkedPool[index]));
+                            return view
+                                .load(view.__data)
+                                .then(view.refreshDom.bind(view));
+                        }
+                        const swapData = function(selectedKey,lValue,rValue){
+                            for(const val of selectedData[selectedKey]){
+                                lValue.splice(lValue.indexOf(val),1); // non-safe searching
+                                rValue.push(val);
+                            }
+                            selectedData[selectedKey] = [];
+                        }
+                        const nonEnumerableAssign = (instance,prop,value)=>{
+                            if(instance[prop] === undefined){
+                                Object.defineProperty(instance,prop,{
+                                    enumerable : false,
+                                    writable : true,
+                                    value : value
+                                });
+                            }
+                            else{
+                                instance[prop] = value;
+                            }
+                        }
+                        //Core Api
+                        //TODO : 새로운 wrapping API추가하기
+                        _Component.bindTrigger(
+                            $poolInfo,
+                            ...checkboxTriggerConf("pool",(key)=>{
+                                return checkedPool[checkedPool.selected];
+                            }),
+                            //- 아래의 두 이벤트는 차후 로직줄이고 최적화할 필요성이 있음
+                            new _Component.TriggerConf("input","[data-custom-observer=\"concentration\"]",function(e){
+                                const $lib = $poolInfo.find("[data-zone='calc-library']");
+                                const $dw = $poolInfo.find("[data-zone='calc-dw']");
+                                const qubit = $poolInfo.find("[data-zone='calc-qubit']").text();
+                                const concentration = $(this).val();
+                                const volume = $poolInfo.find("[data-custom-observer=\"volume\"]").val();
+                                
+                                const libVal = ((concentration*volume)/qubit).toFixed(2);  
+                                $lib.text(libVal);
+                                $dw.text((volume-libVal).toFixed(2));
+                                //observering 
+                                nonEnumerableAssign(checkedPool[checkedPool.selected],"concentration",concentration);
+                            }),
+                            new _Component.TriggerConf("input","[data-custom-observer=\"volume\"]",function(e){
+                                const $lib = $poolInfo.find("[data-zone='calc-library']");
+                                const $dw = $poolInfo.find("[data-zone='calc-dw']");
+                                const qubit = $poolInfo.find("[data-zone='calc-qubit']").text();
+                                const concentration = $poolInfo.find("[data-custom-observer=\"concentration\"]").val();
+                                const volume = $(this).val();
+                                
+                                const libVal = ((concentration*volume)/qubit).toFixed(2);  
+                                $lib.text(libVal);
+                                $dw.text((volume-libVal).toFixed(2));
+                                //observering 
+                                nonEnumerableAssign(checkedPool[checkedPool.selected],"volume",volume);
+                            })
+                        );
+
+
+                        view.trigger(...checkboxTriggerConf("list",(key)=>{
+                            return view.__data.data;
+                        }));
+                        selfComponent.trigger(
+                            new _Component.TriggerConf("click","[data-action='goto-list']",function(e){
+                                const $this = $(this);
+                                const index = $(this).data('index');
+                                swapData("pool",checkedPool[index],view.__data.data);
+                                gotoSelect($this.next(),true)
+                            }),
+                            new _Component.TriggerConf("click","[data-action='goto-select']",function(e){
+                                const $this = $(this);
+                                const index = $this.data('index');
+                                $poolList.children().find("[data-zone='pool-is-active']").removeClass('active');
+                                $this.addClass('active');
+
+                                checkedPool.selected = index; //side effect예상
+                                reRender(index);
+                            }),
+                            new _Component.TriggerConf("click","[data-action='goto-pool']",function(e){
+                                const $this = $(this);
+                                const index = $this.data('index');
+                                
+                                checkedPool[index] = checkedPool[index] || [];
+                                //- for(const selected in selectedData.pool){
+                                //-     view.__data.data.push(checkedPool[index][selected]);
+                                //-     checkedPool[index].splice(selected,1);
+                                //- }
+
+                                swapData("list",view.__data.data,checkedPool[index]);
+                                gotoSelect($this.prev(),true);
+                            }),
+
+
+
+                            new _Component.TriggerConf("click","[data-action='insert-pool']",function(e){
+                                
+                                ++checkedPool.max;
+                                const $target = $poolList.append(mixinModule.poolSetInsert(checkedPool.max,true));
+                                gotoSelect($target);
+                            }),
+                            new _Component.TriggerConf("click","[data-action='remove-pool']",function(e){
+                                const $target = $poolList.children(`ul[data-index='${checkedPool.selected}']`);
+                                const $prevTarget = $target.prev();
+                                const $goto = $prevTarget.length > 0 ? $prevTarget : $target.next();
+                                if($goto.length > 0){
+                                    selectedData.pool = checkedPool[checkedPool.selected]; //todo : 자연스러운 유지보수를 위해 차후 TRIGGER거는형태로 변형예정
+                                    swapData("pool",checkedPool[checkedPool.selected],view.__data.data);
+                                    gotoSelect($goto);
+                                    $target.remove();
+                                }
+                                else{
+                                    alert("PoolingSet 이 2개 이상이 아닙니다.");
+                                }
+                            }),
+
+                            new _Component.TriggerConf("click","[data-action='trick-submit']",function(e){
+                                const inputTag = (name,value)=>`<input name='${name}' value='${value}' style='display:none;'>`;
+                                const $target = selfComponent.$target;
+                                let errorMessage = "";
+                                $target
+                                    .find('[name]')
+                                    .filter((k,v)=>{
+                                        return !!$(v).val();
+                                    })
+                                    .remove();
+                                for(let key in checkedPool){
+                                    const value = checkedPool[key];
+                                    $target.append(inputTag(`data[${key}][volume]`,value.volume));
+                                    $target.append(inputTag(`data[${key}][concentration]`,value.concentration));
+                                    for(let iterateKey in value){
+                                        $target.append(inputTag(`data[${key}][${iterateKey}]`,value[iterateKey].idx));
+                                    }
+                                    if(!value.volume || !value.concentration){
+                                        errorMessage += `${parseInt(key)+1}번 Set에 입력이 부족합니다 \n`;
+                                    }
+                                }
+                                if(errorMessage.length === 0){
+                                    $target.find("[data-zone='real-submit']").get(0).click();
+                                }
+                                else{
+                                    alert(errorMessage);
+                                    return false;
+                                }
+                            })
+
+                        )
+                    }
+                )
+        }, 
+        function(){
+
+        }
+    )

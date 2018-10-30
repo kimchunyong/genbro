@@ -1,0 +1,16 @@
+each value,index in data
+    -console.log();
+    tr
+        td #{total - ((pagination.page * requestProp.search.limit)+(index))}
+        td #{value.analysisname}
+        td #{value.analysisdate}/#{value.analysistime}
+        td #{value.sample.id}
+        td #{value.code}
+        td #{value.qubitqc}
+        td
+            button.btn.btn-outline-secondary.btn-xs(type='button',data-index=(index), data-action='analysis-db-log') 보기
+        
+
+//- inputname 입고 담당자
+//- experimentname 실험 담당자
+//- analysisname 분석 담당자

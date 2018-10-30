@@ -1,0 +1,102 @@
+-var OptIndex = 0;
+//- 일회용 변수(indexNum)
+-var mainNum = -1;
+
+mixin eachOption(isSub,dataset,whenEnd)
+    -var attrGain = function(prefix){ return {[`data-${!isSub ? "action" : "zone"}`] : `menu-manage-${prefix}-${mainNum}`} };
+    - if (!isSub){mainNum = OptIndex;};
+    input(type='hidden' name=(`data[${OptIndex}][key]`) value=(dataset.key))
+    .s-sw-title.mb-0(class=(!!isSub ? "s-sw-sub" : ""))
+        .p-3
+            p 출력
+            .s-swtich
+                input(id=(`isview${OptIndex}`) type='checkbox' name=(`data[${OptIndex}][isview]`) checked=(dataset.isview === "Y")  value="Y")&attributes(attrGain("isview"))
+                label(for=(`isview${OptIndex}`) ) 출력
+        .p-3
+            p 수정
+            .s-swtich
+                input(id=(`isupdate${OptIndex}`) type='checkbox' name=(`data[${OptIndex}][isupdate]`) checked=(dataset.isupdate === "Y") value="Y")&attributes(attrGain("isupdate"))
+                label(for=(`isupdate${OptIndex}`)) 수정
+        .p-3
+            p 삭제
+            .s-swtich
+                input(id=(`isdelete${OptIndex}`) type='checkbox' name=(`data[${OptIndex}][isdelete]`) checked=(dataset.isdelete === "Y") value="Y")&attributes(attrGain("isdelete"))
+                label(for=(`isdelete${OptIndex}`)) 삭제
+        .p-3
+            p 중간관리자 판정
+            .s-swtich
+                input(id=(`ismidagree${OptIndex}`) type='checkbox' name=(`data[${OptIndex}][ismidagree]`) checked=(dataset.ismidagree === "Y") value="Y")&attributes(attrGain("ismidagree"))
+                label(for=(`ismidagree${OptIndex}`)) 중간관리자 판정
+        .p-3
+            p 검사실책임자 판정
+            .s-swtich
+                input(id=(`issuperagree${OptIndex}`) type='checkbox' name=(`data[${OptIndex}][issuperagree]`) checked=(dataset.issuperagree === "Y") value="Y")&attributes(attrGain("issuperagree"))
+                label(for=(`issuperagree${OptIndex}`)) 검사실책임자 판정
+        .p-3
+            p 절차진행
+            .s-swtich
+                input(id=(`maisnextstep${OptIndex}`) type='checkbox' name=(`data[${OptIndex}][isnextstep]`) checked=(dataset.isnextstep === "Y") value="Y")&attributes(attrGain("isnextstep"))
+                label(for=(`maisnextstep${OptIndex}`)) 절차진행
+        - OptIndex++;
+mixin eachMenu(start=0,count=defaultData.length,data)
+    //- .media.text-muted.px-3
+    //-     .media-body.mb-0.small.lh-125.border-bottom.border-gray.row
+    //-         strong.mr-auto.font-weight-bold.text-gray-dark.col-4.lh-49 입고
+    //-         +eachOption(false,)
+    -var whenEnd = start+count;
+    -console.log(data)
+    -var mergedData = defaultData.map((el,index)=>{return Object.assign({},el,data[el.key]);}).slice(start,whenEnd);
+    each dataset,index in mergedData
+        - console.log(); 
+        - var menuData = dataset.key.split("-");
+        - var isSub = menuData[1] === "1";
+        - var menuName = menuData[0];
+        .media.text-muted(class=(isSub) ? "pl-5" : "px-3")
+            .media-body.mb-0.small.lh-125.row(class=((index === count-1) ? "" : "border-bottom border-gray"))
+                strong.mr-auto.font-weight-bold.text-gray-dark.col-4.lh-49 #{menuName}
+                +eachOption(isSub,dataset,whenEnd) 
+
+.modal-dialog.modal-xl.modal-dialog-centered(style='z-index:2;')
+    form.modal-content(data-zone="popup")
+        .modal-header
+            h5 권한설정
+            button.close(type='button', data-zone='popup.close' )
+                span ×
+        .modal-body.bg-light(style='height:800px;overflow: auto;')
+            .modal-container.row.px-4
+                // 입고 s
+                input(type="hidden" name="data[mbidx]" value=(idx))
+                .bg-white.rounded.box-shadow.col-12
+                    +eachMenu(0,5,auth)
+                // 입고 e
+                // 실험 s
+                .bg-white.rounded.box-shadow.col-12.mt-5
+                    +eachMenu(5,9,auth)
+                // 실험 e
+                // 분석 s
+                .bg-white.rounded.box-shadow.col-12.mt-5
+                    +eachMenu(14,5,auth)
+                // 분석 e
+                // 판정 s
+                .bg-white.rounded.box-shadow.col-12.mt-5
+                    +eachMenu(19,2,auth)
+                // 판정 e
+                // 출고 s
+                .bg-white.rounded.box-shadow.col-12.mt-5
+                    +eachMenu(21,2,auth)
+                // 출고 e
+                // DataBase s
+                .bg-white.rounded.box-shadow.col-12.mt-5
+                    +eachMenu(23,2,auth)
+                // DataBase e
+                // 설정 s
+                .bg-white.rounded.box-shadow.col-12.mt-5
+                    +eachMenu(25,5,auth)
+                // 설정 e
+                // 관리자설정
+                .bg-white.rounded.box-shadow.col-12.mt-5
+                    +eachMenu(30,2,auth)
+        .modal-footer
+            button.btn.btn-secondary(type='button' data-zone='popup.close' ) 취소
+            button.btn.btn-primary(type='submit') 저장
+.modal-backdrop.fade.show(data-zone='popup.close' style="z-index:1;")

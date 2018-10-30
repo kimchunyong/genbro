@@ -1,0 +1,75 @@
+each value,index in data
+    -console.log();
+    tr
+        td
+            input(type="checkbox" data-action='selected-view' data-index=(index))
+        
+        td #{total - ((pagination.page * totalpage)+(index))}
+        td #{value.experimentname}    
+        td #{value.experimentdate}/#{value.experimenttime}
+        td #{value.sample.id}
+        td #{value.code}
+        td
+            .input-group
+                .input-group-prepend
+                    label.input-group-text(for='inputGroupSelect01') SingleSeq_
+                        select#inputGroupSelect01.custom-select( data-view-observer='barcode' data-index=(index) data-plugins="chosen")
+                            if !value.barcode
+                                - console.log();
+                                - value.barcode =  "SingleSeq_001";//SingleSeq_001 은 디폴트값
+                            - for (var i = 1; i <= 96; i++){
+                                - var minNumber = function(n,len=0){ return ("0".repeat(len)+n).slice(len*-1)};
+                                - var num = minNumber(i,3);
+                                - var str = "SingleSeq_" + num;
+                                option(value=(str) selected=(str === value.barcode)) #{num}
+                            - }
+                        -console.log();
+        td
+            input.form-control(type="text" style="min-width:100px;" value=(value.qubit) data-view-observer='qubit' data-index=(index) )
+        td
+            select.custom-select(data-view-observer='qubitqc' data-index=(index) data-action='fail-trigger')
+                option(value="PASS" selected) PASS
+                option(value="PASS(L)" ) PASS(L)
+                option(value="FAIL") FAIL
+        td
+            div.control
+                input.form-control(type="text" style="min-width:100px;" data-view-observer='ionserver' data-index=(index) data-zone='fail-trigger' value=(value.ionserver || "http://49.238.231.118/report/"))
+        td
+            div.control
+                input.form-control(type="text" style="min-width:100px;" data-view-observer='irid' data-index=(index) data-zone='fail-trigger' value=(value.irid))
+
+        td
+            a.button.is-link.detail_btns(href='javascript:void(0)')
+                span.icon.text-primary
+                    i.fas.fa-angle-down.ti-eye
+                span 상세보기
+        td
+            button.btn.btn-outline-secondary.btn-xs(type='button' data-action="insert" data-index=index) 복제
+
+    // 상세보기 s
+    tr.detail_tbl-wrap
+        td.detail_tbl-inner(colspan='13')
+            table.table.table-row.progress-table.text-center.table-990.mt-3
+                thead.text-uppercase.bg-secondary
+                    tr
+                        th.bg-light(colspan='8') 상세보기
+                    tr.text-white
+                        th(colspan="2") 검체정보
+                        th(rowspan="2") 검체량(ul)
+                        th(rowspan="2") 검체 특이사항
+                        th(rowspan="2") 입고 특이 사항
+                    tr.text-white
+                        th 샘플번호
+                        th 검체 종류
+                tbody
+                    td #{value.sample.code}
+                    td #{value.sample.specimentype}
+                    td
+                        input.input(type="text" placeholder="검체량(ul)" style="min-width:100px;" value=(value.ul) data-view-observer='ul' data-index=(index) )
+                    
+                    td
+                        input.input(type="text" placeholder="검체 특이사항" style="min-width:100px;" value=(value.etc) data-view-observer='etc' data-index=(index) )
+                    
+                    td #{value.container.etccomment}
+                            //- 수정필요
+            

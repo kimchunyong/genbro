@@ -1,0 +1,58 @@
+.modal-background(data-zone='popup.close')
+.modal-content
+    form(data-zone='popup')
+        // Any other Bulma elements you want
+        table.table.is-bordered.is-striped.is-narrow.is-hoverable.is-fullwidth
+            tbody
+                tr
+                    th(colspan='1')
+                        label(for='') 입고예정일
+                    td
+                        input.input(type='text' name="data[duedate]" value=(duedate) required=(true) readonly data-plugins="datepicker")
+                tr
+                    th
+                        label(for='') 의료재단명
+                    td
+                        input.input(type='text' name="data[ciname]" value=(ciname) required=(true) )
+                    th
+                        label(for='') 지점명
+                    td
+                        input.input(type='text' name="data[ciarea]" value=(ciarea) required=(true) )
+                tr
+                    th
+                        label(for='') 의료기관명
+                    td
+                        input.input(type='text' name="data[mcname]" value=(mcname) required=(true) )
+                    th
+                        label(for='') 연락자
+                    td
+                        input.input(type='text' name="data[mcmanager]" value=(mcmanager) required=(true) )
+                tr
+                    th(colspan='1')
+                        label(for='') 특이사항
+                    td(colspan='3')
+                        input.input(type='text' name="data[etccontent]" value=(etccontent) required=(true) )
+                tr
+                    th
+                        label(for='') 샘플개수
+                    td
+                        input.input(type='number' name="data[samplecount]" value=(samplecount) required=(true) )
+                    th
+                        label(for='') 입고예정시간
+                    td
+                        -var dueTimeArr = (typeof duetime === "string") ? duetime.split('~') : ["",""];
+                        .field.has-addons
+                            input.input.control(type='text', placeholder='시간을 입력해주세요.' required=(true) name="duetime-1" value=(dueTimeArr[0]))
+                            strong ~
+                            input.input.control(type='text', placeholder='시간을 입력해주세요.' required=(true) name="duetime-2" value=(dueTimeArr[1]))
+                tr
+                    th(colspan='1')
+                        label(for='') 접수상태
+                    td(colspan='3')
+                        .select
+                            select(name='data[status]')
+                                each value,index in [[1,"대기"],[10,"완료"],[2,"삭제"]]
+                                    -console.log();
+                                    option(selected=(value[0] == status) value=(value[0])) #{value[1]}
+        button.button.is-danger(type='button' data-zone='popup.close') 취소
+        button.button.is-success(type='submit') 완료

@@ -1,0 +1,22 @@
+div.modal-background(data-zone='popup.close')
+div.modal-content
+    form(data-zone='popup')
+        table.table.is-fullwidth.table.is-bordered.table-th-bg
+            thead
+                tr
+                    th 등록/수정 담당자
+                    th 등록/수정 일시
+                    th 등록/수정 내역
+            tbody
+                each value,index in logs
+                    - console.log();
+                    tr
+                        td #{value.mbname}
+                        td
+                            div.is-clearfix
+                                span.is-pulled-left
+                                    i.far.fa-calendar-alt(style="padding-right:10px;") #{value.date}
+                                span.is-pulled-right
+                                    i.far.fa-clock(style="padding-right:5px;") #{value.time}
+                        td #{value.content}
+        button.button.is-success(type='button' data-zone='popup.close') 확인

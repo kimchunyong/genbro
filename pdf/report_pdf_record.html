@@ -1,0 +1,156 @@
+<?php
+header('Content-Type: text/html; charset=UTF-8');
+require('/BiO/GenoBro/www/admin/../../conf/php/common.inc');
+require(DIR_MOD.'/php/common.class');
+require(DIR_MOD.'/php/logs.class');
+require(DIR_MOD.'/php/container.class');
+require(DIR_MOD.'/php/user.class');
+require(DIR_MOD.'/php/ees.class');
+$_common = new Common();
+$_user = new User();
+$_container = new Container();
+$date = $_REQUEST['date'];
+$exp = explode(',', $date);
+$arr = array();
+$str = '';
+foreach($exp as $i => $v){
+    $str .= ($i > 0 ? ' OR ' : '').'`lg`.`lgregdatetime` LIKE ?';
+    array_push($arr, '%'.$v.'%');
+}
+
+$date = $date;
+$sql = "SELECT `sp`.*, `cn`.*
+        FROM `genobro_db_ver1`.`sample` `sp`
+        LEFT JOIN `genobro_db_ver1`.`container` `cn` ON `sp`.`cnidx` = `cn`.`cnidx`
+        LEFT JOIN `genobro_db_ver1`.`log` `lg` ON `lg`.`lgmethod` = 'container' AND `lg`.`lgaction` = 'insert' AND `lg`.`lgkey` = `cn`.`cnidx`
+        WHERE `lg`.`lgmethod` = 'container' AND `lg`.`lgaction` = 'insert' AND `lg`.`lgkey` = `cn`.`cnidx` AND (".$str.")
+        ORDER BY `lg`.`lgregdatetime` ASC";
+$rows = $_common->db->r($sql, $arr);
+$totalpage = ceil(sizeof($rows) / 15);
+?>
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="/css/pdf.css">
+    <title>레포트 페이지</title>
+</head>
+
+<body>
+<?php
+for($j = 0; $j < $totalpage; $j++){ ?>
+    <div class="page intro-page-rght type-left">
+        <div class="inner-page">
+            <div class="report-head">
+                <h1 class="reprot-head-tit">검체 기록지</h1>
+                <p>부록 9.검체 기록지</p>
+                <div class="sign-txt-box">
+                    <table>
+                        <tr>
+                            <th rowspan="2" style="padding: 2px;">결<br/>재
+                            </th>
+                            <th>담당자</th>
+                            <th>팀장</th>
+                            <th>책임자</th>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="sign-box">
+                                    <img src="./img/sign_01.jpg" alt="sign1">
+                                </div>
+                            </td>
+                            <td>
+                                <div class="sign-box">
+                                    <img src="./img/sign_01.jpg" alt="sign2">
+                                </div>
+                            </td>
+                            <td>
+                                <div class="sign-box">
+                                    <img src="./img/sign_01.jpg" alt="sign3">
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="tbl-con-01 cont-mt10">
+                <table>
+                    <colgroup>
+                        <col width="110px">
+                        <col width="110px">
+                        <col width="110px">
+                        <col width="110px">
+                        <col width="110px">
+                        <col width="110px">
+                        <col width="74px">
+                        <col width="110px">
+                    </colgroup>
+                    <tr>
+                        <th class="bg-gray">접수일</th>
+                        <td><?php echo $exp[sizeof($exp) - 1] ?></td>
+                        <th class="bg-gray">검사코드</th>
+                        <td></td>
+                        <th class="bg-gray">검사명</th>
+                        <td></td>
+                        <th class="bg-gray">접수자</th>
+                        <td></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="tbl-con-02 cont-mt10">
+                <table>
+                    <colgroup>
+                        <col width="37px">
+                        <col width="150px">
+                        <col width="180px">
+                        <col width="110px">
+                        <col width="110px">
+                        <col width="74px">
+                        <col width="74px">
+                        <col width="74px">
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th class="bg-gray">순번</th>
+                            <th class="bg-gray">지놈케어 접수번호</th>
+                            <th class="bg-gray">의료기관명</th>
+                            <th class="bg-gray">의료재단명</th>
+                            <th class="bg-gray">의료재단 ID</th>
+                            <th class="bg-gray">전달자</th>
+                            <th class="bg-gray">입고여부</th>
+                            <th class="bg-gray">비고</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php
+                        $size = ($j + 1) * 15;
+                        $i = $size - 15;
+                        for($i = $i; $i < $size; $i++){
+                            $arr = isset($rows[$i]) ? $rows[$i] : null;
+                        ?>
+                        <tr>
+                            <td><?php echo $i + 1 ?></td>
+                            <td><?php echo $arr ? $arr['cngccode'] : '' ?></td>
+                            <td><?php echo $arr ? $arr['cnmcname'] : '' ?></td>
+                            <td><?php echo $arr ? $arr['cnciname'] : '' ?></td>
+                            <td><?php echo $arr ? $arr['spcompanyid'] : '' ?></td>
+                            <td><?php echo $arr ? $arr['cncimanager'] : '' ?></td>
+                            <td><?php echo $arr && $arr['spid'] !== '' ? '입고' : ($arr ? '대기' : '') ?></td>
+                            <td></td>
+                        </tr>
+                        <?php } ?>
+                    </tbody>
+                </table>
+            </div>
+            <div class="btm-txt">
+                테라젠지놈케어(주) 유전자 검사실
+            </div>
+        </div>
+    </div>
+    <?php } ?>
+</body>
+
+</html>

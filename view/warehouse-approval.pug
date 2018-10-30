@@ -1,0 +1,67 @@
+// chosen plugin s
+form.input-group.mb-3(data-zone="view.search")
+    .search
+        input(type="hidden" data-zone="view.search.name" value="code")
+        input.form-control(type='search' data-placeholder='검색어를 입력해 주세요' data-zone="view.search.content")
+    .input-group-append
+        input.btn.btn-flat.btn-secondary.mb-3(type='submit', value='검색')
+    .refresh_btn_box
+        button.btn.mb-3.justify-content-end(type='button' data-action='refresh')
+            i.fa.fa-refresh(data-perform='panel-refresh')
+// chosen plugin e
+.single-table
+    .table-responsive
+        table.table.table-row.progress-table.text-center.table-1400
+            thead.text-uppercase.bg-dark
+                tr.text-white
+                    th
+                        input(type='checkbox' data-action='selected-view-all')
+                    th 순서
+                    th 입고일자
+                    th 입고 샘플 수
+                    th 담당자
+                    th 중간 관리자
+                    th 검사실 책임자
+                    th 검체 기록지
+            tbody
+                each value,index in data
+                    -console.log();
+                    tr
+                        td
+                            if (value.isheadcnt === value.cnt && value.ismanagercnt === value.cnt)
+                                -console.log();
+                                label.checkbox
+                                    input(type="checkbox" data-action="selected-view" data-index=(index))
+                        td #{(__data.total - (requestProp.search.page *requestProp.search.limit )) - index}
+                        td(data-view-sort='regdate') #{value.regdate}
+                        td(data-view-sort='cnt') #{value.cnt}
+                        td
+                            button.btn.btn-success 확인
+                        td
+                            if (value.ismanagercnt === value.cnt)
+                                -console.log();
+                                button.btn.btn-success 확인
+                            else if (__extra__.userInfo.level === "2" && value.cnt !== value.ismanagercnt)
+                                -console.log();
+                                button.btn.btn-info(data-action="approval-success" data-index=(index)) 승인
+                            else
+                                -console.log();
+                                button.btn.btn-danger 미확인
+                        td
+                            if (value.isheadcnt === value.cnt)
+                                -console.log(); 
+                                button.btn.button.btn-success 확인
+                            else if(__extra__.userInfo.level === "3" && value.cnt === value.ismanagercnt)
+                                -console.log(); 
+                                button.btn.btn-success(data-action="approval-success" data-index=(index)) 승인
+                            else
+                                button.btn.is-danger 미확인
+                        td
+                            - var buttonCondition = value.ismanagercnt === value.cnt && value.isheadcnt === value.cnt;
+                            a.button(class=(buttonCondition ? 'is-success' : 'is-warning') data-action="record-preview" data-index=(index)) #{buttonCondition ? "출력" : "보기"}
+                // table item e
+// 페이지버튼 s
+div(data-zone="pagination")
+// 페이지버튼 e
+.btn_wrap
+    button.btn.btn-success.mb-3(type='button') 다운로드

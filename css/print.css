@@ -1,0 +1,6 @@
+@media print {
+    body {
+      -webkit-print-color-adjust: exact !important;
+    }
+    .has-background-white-ter{background:#000 !important;}
+}

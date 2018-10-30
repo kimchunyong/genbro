@@ -1,0 +1,76 @@
+//- .modal-background
+//- .modal-content
+    form(data-zone='popup')
+        // 의료재단 정보 s
+        h1.subtitle.has-text-black.has-text-centered.has-text-weight-bold.is-size-5 검사 대상자 식별 코드가 일치하는 기존 DB가 존재합니다.
+        .tb-box
+            table.table.table-bg.is-bordered.is-striped.is-narrow.is-fullwidth.table-min_640
+                tbody
+                    each entities,index in data
+                        -console.log();
+                        tr
+                            td
+                                label.radio
+                                    input(type='radio' name='index' value=(index))
+                            td #{entities.code}
+                            td #{entities.regdatetime}
+                            td #{entities.ciname}
+                            td #{entities.ciarea}
+                            td #{entities.mcname}
+                            td #{`${entities.name1}${entities.name2}${entities.name3}`}
+                            td #{`${entities.year}-${entities.month}-${entities.day}`}
+                    tr
+                        td
+                            label.radio
+                                input(type='radio' name='index' value='-1')
+                        td(colspan='7') 신규 검체 
+        p.control.column.pl-0
+            button.button.is-danger(type='button' data-zone='popup.close') 취소
+            button.button.is-success(type='submit') 확인
+            // 입력완료 팝업 e
+
+            //- 
+
+//- z-index > 1040 
+//- in bootstrap backdrop-hack
+.modal-dialog.modal-lg.modal-dialog-centered(style="z-index:11;")
+    form.modal-content(data-zone='popup')
+        .modal-header
+            h5.modal-title 검사 대상자 식별 코드가 일치하는 기존 DB가 존재합니다.
+            button.close(type='button', data-zone='popup.close')
+                span ×
+        .modal-body
+            .modal-container
+                .single-table
+                    .table-responsive.border
+                        table.table.table-hover.progress-table.text-center
+                            tbody
+                                //- tr
+                                    td
+                                        input(type='checkbox')
+                                    td
+                                        span GC1712PGS089_v1
+                                        | /
+                                        span 2017-12-02
+                                    td 삼광의료재단
+                                    td(scope='row') 중부1
+                                    td
+                                        span B 산부인과
+                                    td 이 * *
+                                    td 생 년 월 일
+                                each entities,index in data
+                                    -console.log();
+                                    tr
+                                        td
+                                            input(type='checkbox' name='index' value=(index))
+                                        td #{entities.code}/#{entities.regdatetime}
+                                        td #{entities.ciname}
+                                        td(scope='row') #{entities.ciarea}
+                                        td
+                                            span #{entities.mcname}
+                                        td #{`${entities.name1}${entities.name2}${entities.name3}`}
+                                        td #{`${entities.year}-${entities.month}-${entities.day}`}
+        .modal-footer
+            button.btn.btn-secondary(type='button', data-zone='popup.close') 취소
+            button.btn.btn-primary(type='submit') 확인
+.modal-backdrop.fade.show(data-zone='popup.close' style="z-index:10;")

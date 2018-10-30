@@ -1,0 +1,198 @@
+<?php
+
+    include $_SERVER["DOCUMENT_ROOT"].'/include/head.php';
+?>
+
+<body>
+    <!--[if lt IE 8]>
+            <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+    <!-- preloader area start -->
+    <?php
+        include $_SERVER["DOCUMENT_ROOT"].'/include/loader.php';
+    ?>
+    <!-- preloader area end -->
+    <!-- page container area start -->
+    <div class="page-container">
+        <!-- sidebar menu area start -->
+        <?php
+            include $_SERVER["DOCUMENT_ROOT"].'/include/menu.php';
+        ?>
+        <!-- sidebar menu area end -->
+        <!-- main content area start -->
+        <div class="main-content">
+            <!-- header area start -->
+            <?php
+                include $_SERVER["DOCUMENT_ROOT"].'/include/head_nav.php';
+            ?>
+            <!-- header area end -->
+            <!-- main content area start -->
+            <div class="main-content-inner" id="component">
+                <!-- 기관관리 table s -->
+                <div class="col-12 mt-5">
+                    <div class="card" id="view">
+                        <div class="card-body" data-zone="view.content">
+                        </div>
+                    </div>
+                </div>
+                <!-- 기관관리 table e -->
+            </div>
+            <!-- main content area end -->
+        </div>
+    </div>
+    <!-- footer area start-->
+    <footer>
+        <div class="footer-area">
+            <p>© Copyright 2018 . All right reserved</p>
+        </div>
+    </footer>
+    <!-- footer area end-->
+    </div>
+    <!-- page container area end -->
+    
+    <script>
+         const _ = new _Component($("#component"),"component");
+        _.import(
+            new _Component.ImportConf("restApi",true),
+            new _Component.ImportConf("util/pug",false),
+            new _Component.ImportConf("template",false),
+            new _Component.ImportConf("pagination",true),
+            new _Component.ImportConf("view",true),
+            new _Component.ImportConf("util/popup",false),
+            new _Component.ImportConf("util/menu",true),
+            new _Component.ImportConf("util/topNavigation",true),
+            new _Component.ImportConf("util/dateInfo",false),
+            new _Component.ImportConf("__init__",true),
+        )
+        .then(
+            function(selfComponent){
+                const Popup = selfComponent.module.Popup;
+                const restApi = selfComponent.module.restApi;
+                const view = selfComponent.module.view;
+                const pagination = selfComponent.module.pagination;
+                const topNavi = selfComponent.module.topNavigation;
+                const menu = selfComponent.module.menu;
+                const pug = selfComponent.module.Pug;
+                const dateInfo = selfComponent.module.DateInfo.instance;
+                const __init__ = selfComponent.module.__init__;
+
+                const templateStorage  = {};
+                view.init($("#view"),"pooling","/view/_experiment/step3")
+                    .addEventListener(
+                        "beforeRequest",
+                        (refSelf,requestConf)=>{
+                            return {
+                                page : undefined,
+                                limit : undefined,
+                                search : {
+                                    status : 1,
+                                    page : pagination.page,
+                                    limit : 15,//view.limit,
+                                }
+                            } 
+                        }
+                    )
+                    .request()
+                    .then(
+                        ()=>{
+                            let checkedData = [];
+                            const validateObj = (setter = function(){},data,...keys) =>{
+                                const nonEmptyKey = keys.filter(function(key) {
+                                    return !!data[key];
+                                });
+                                nonEmptyKey.forEach(setter.bind(data));
+
+                                return nonEmptyKey.length === keys.length;
+                            }
+                            view.trigger(
+                                new _Component.TriggerConf("click", "[data-action='refresh']",function(){
+                                    view.request();
+                                }),
+                                new _Component.TriggerConf("change","[data-action='selected-view-all']",function(e){
+                                    let isChecked = $(this).prop('checked');
+                                    const $selectedCheckbox = view.$target.find("[data-action='selected-view']");
+                                    if(isChecked){
+                                        checkedData = view.__data.data;
+                                        $selectedCheckbox.prop('checked',true);
+                                    }
+                                    else{
+                                        checkedData = [];
+                                        $selectedCheckbox.prop('checked',false);
+                                    }
+                                }),
+                                new _Component.TriggerConf("change","[data-action='selected-view']",function(e){
+                                    let isChecked = $(this).prop('checked');
+                                    let index = $(this).data('index');
+                                    if(isChecked){
+                                        checkedData[index] = view.__data.data[index];
+                                    }
+                                    else{
+                                        checkedData.splice(index,1);
+                                    }
+                                }),
+                                // calc 1nM
+                                new _Component.TriggerConf("input","[data-view-observer='oriqubit'],[data-view-observer='orilibpoolinput']",function(e){
+                                    const $target = view.$target;
+                                    const oriQubit = $target.find("[data-view-observer='oriqubit']").val();
+                                    const oriLibrary = $target.find("[data-view-observer='orilibpoolinput']").val();
+                                    $target.find("[data-zone='calc-1nm-te']").text((oriQubit * 6.061 * oriLibrary) - oriLibrary);
+                                }),
+                                new _Component.TriggerConf("input","[data-view-observer='templating'],[data-view-observer='1nmlibpoolinput']",function(e){
+                                    const $target = view.$target;
+                                    const templatingPM = $target.find("[data-view-observer='templating']").val();
+                                    const OneNMLibrary = $target.find("[data-view-observer='1nmlibpoolinput']").val();
+                                    $target.find("[data-zone='calc-templating-te']").text((templatingPM * 6.061 * 1000 - templatingPM) / (templatingPM / OneNMLibrary));
+                                }),
+                                new _Component.TriggerConf("click","[data-action='goto-step4']",function(e){
+                                    if (checkedData.length > 0) {
+                                        let formData = new FormData();
+                                        checkedData.map(function(rowData,index) {
+                                            if(
+                                                !validateObj(
+                                                    function(key){
+                                                        formData.set(`${index}[data][${key}]`,rowData[key]);
+                                                    },
+                                                    rowData,
+                                                    "oriqubit",
+                                                    "orilibpoolinput",
+                                                    "1nmqubit",
+                                                    "templating",
+                                                    "1nmlibpoolinput",
+                                                    "method",
+                                                    "mid",
+                                                )
+                                            )
+                                            {
+                                                alert(`입력이 부족합니다..`)
+                                                throw new Error("need input");
+                                            }
+                                            formData.set(`${index}[search][idx]`,rowData.idx)
+
+                                        });
+                                        return restApi
+                                            .setExtra("POST",`${API_ROOT}/experiment/poolingupdate.php`,formData,"json")
+                                            .send()
+                                            .then(
+                                                (data) => {
+                                                    alert(data.msg);
+                                                    return view.request();
+                                                },
+                                                (data) => {
+                                                    alert(data.msg);
+                                                }
+                                            );
+                                    };
+                                })
+                            );
+                        }
+                    )
+            }, 
+            function(){
+
+            }
+        )
+    </script>
+    
+    <?php
+        include $_SERVER["DOCUMENT_ROOT"].'/include/footer_js.php';
+    ?>

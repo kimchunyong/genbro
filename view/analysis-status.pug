@@ -1,0 +1,21 @@
+each value,index in data
+    -console.log();
+    tr
+        td #{value.idx}
+        td #{value.analysisname}
+        td #{value.sample.id}
+        td #{value.code}
+        td #{value.sample.specimentype}
+        if Object.keys(value.results).join("") !== ""
+            -console.log();
+            td #{value.results.main[0].result}
+            td #{value.results.main[0].segmental}
+        else
+            td 
+            td 
+
+        td #{value.nocallcomment}
+        td
+            button.btn.btn-outline-secondary.btn-xs(type='button', data-index=(index), data-action='analysis-db-result') 결과보기
+        td
+            button.btn.btn-outline-secondary.btn-xs(type='button', data-index=(index), data-action='analysis-log') 분석로그

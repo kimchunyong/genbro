@@ -1,0 +1,12 @@
+each menuEach,key in __data
+    -console.log(menuEach);
+    li(class=(menuEach.isActive === true ? "active" : ""))
+        a(href='javascript:void(0)', aria-expanded='true')
+            - console.log(menuEach);
+            i(class=(menuEach.class))
+            span #{menuEach.text}
+        ul.collapse(class=(menuEach.isActive === true ? "in" : ""))
+            each subMenu,subKey in menuEach.subMenu
+                -console.log();
+                li(class=(subMenu.isActive === true ? "active" : ""))
+                    a(href=(subMenu.href)) #{subMenu.text}

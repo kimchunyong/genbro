@@ -1,0 +1,104 @@
+
+// chosen plugin s
+form.input-group.mb-3(data-zone="view.search")
+    .search
+        input(type="hidden" data-zone="view.search.name" value="code")
+        input.form-control(type='search' data-placeholder='검색어를 입력해 주세요' data-zone="view.search.content")
+    .input-group-append
+        input.btn.btn-flat.btn-secondary.mb-3(type='submit', value='검색')
+    .refresh_btn_box
+        button.btn.mb-3.justify-content-end(type='button' data-action='refresh')
+            i.fa.fa-refresh(data-perform='panel-refresh')
+// chosen plugin e
+.single-table
+    .table-responsive
+        table.table.table-row.progress-table.text-center.table-990.odd-table
+            thead.text-uppercase.bg-dark.text-white
+                tr.text-white
+                    th(scope='col')
+                        input(type='checkbox' data-action='selected-view-all')
+                    th(scope='col') 순서
+                    th(scope='col') 실험 담당자
+                    th(scope='col') STEP 5 시작 일시
+                    th(scope='col') Pooling
+                    th(scope='col') Templationg ID
+                    th(scope='col') RUN ID
+                    th(scope='col') NGS ID
+                    th(scope='col') Ion TS Report Address
+                    th(scope='col') IR ID
+                    th(scope='col') Results
+                    th(scope='col') Status
+                    th(scope='col') 보기
+            tbody
+                //- TODO : data 메핑하기
+                each value,index in data
+                    -console.log();
+                    tr
+                        td
+                            input(type='checkbox' data-action="selected-view" data-index=(index))
+                        td #{total - ((pagination.page * requestProp.search.limit)+(index))}
+                        td #{value.step3name}
+                        td #{value.step3regdatetime}
+                        td #{value.id}
+                        td #{value.method}-#{value.mid}
+                        td ???
+                        td #{value.ngsid}
+                        td
+                            a(href=(value.tsaddr) target="_blank") #{value.tsaddr}
+                        td #{value.irid}
+                        td
+                            .custom-control.custom-radio.custom-control-inline.pl-0
+                                input#tbl_rs_col1.custom-control-input(type='radio', value='result_01', name='companyid')
+                                label.custom-control-label(for='tbl_rs_col1')
+                        td
+                        td
+                            a.button.is-link.detail_btns(href='javascript:void(0)')
+                                span.icon.text-primary
+                                    i.fas.ti-eye.fa-angle-down
+                                span 상세보기
+                    // table item detail s
+                    tr.detail_tbl-wrap
+                        td.detail_tbl-inner(colspan='13')
+                            table.table.table-row.progress-table.text-center.table-990.mt-3
+                                thead.text-uppercase.bg-secondary
+                                    tr.text-white
+                                        th Loading density(%)
+                                        th Total Bases(M)
+                                        th Key signal
+                                        th Mean Read Length(bp)
+                                        th Sequencing Q/C
+                                tbody
+                                    tr
+                                        td -
+                                        td -
+                                        td -
+                                        td -
+                                        td -
+                            table.table.table-row.progress-table.text-center.table-990.mt-3
+                                thead.text-uppercase.bg-secondary
+                                    tr.text-white
+                                        th GC T ID
+                                        th 바코드
+                                        th Bases
+                                        th >=Q20 Bases
+                                        th Reads
+                                        th Mean Read Length
+                                        th Read Length Histogram
+                                        th QC
+                                tbody
+                                    tr
+                                        td -
+                                        td -
+                                        td -
+                                        td -
+                                        td -
+                                        td -
+                                        td -
+                                        td -
+
+// 페이지버튼 s
+div(data-zone='pagination')
+// 페이지버튼 e
+.btn_wrap
+    a.btn.btn-success.mb-3.mr-1(href='#', data-action='goto-db') 실험DB 로 이동
+

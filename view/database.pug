@@ -1,0 +1,138 @@
+mixin sampleList(index,sampleIndex,row)
+    - var sampleSize = row.sample.length;
+    if typeof row.sample[sampleIndex] === "object" 
+        -console.log();
+        - var sampleData = row.sample[sampleIndex];
+        td #{parseInt(sampleIndex)+1}
+        td #{sampleData.id}
+        td #{sampleData.code}
+        td #{sampleData.companyid}
+        td
+            a.btn.btn-outline-secondary.btn-xs(href=(API_ROOT+"/approval/downloadpdf.php?type=sample&idx="+sampleData.idx) target="_blank") Down
+        if (sampleIndex === 0)
+            - console.log();
+            td(rowspan=(sampleSize))
+                a.btn.btn-outline-secondary.btn-xs(href=(API_ROOT+"/approval/downloadpdf.php?type=container&idx="+row.idx)  target="_blank") Down
+            td(rowspan=(sampleSize)) #{row.ciname}
+            td(rowspan=(sampleSize)) #{row.ciarea}
+            td(rowspan=(sampleSize)) #{row.mcname}
+            td(rowspan=(sampleSize))
+                a.button.is-link.detail_btns(href='javascript:void(0)')
+                    span.icon.text-primary
+                        i.fas.fa-angle-down.ti-eye
+                    span 상세보기
+    else
+        - console.log();
+        td(colspan='7') 데이터가 없습니다.
+
+each rowData,index in data
+    -console.log(); 
+    - var sample = rowData.sample;
+    - var sampleCount = (sample.length > 0) ? sample.length : 1;
+    - var count = 1;
+    tr
+        td(rowspan=(sampleCount)) #{(total - (requestProp.search.page *requestProp.search.limit )) - index}
+        td(rowspan=(sampleCount)) #{rowData.subcode}
+        td(rowspan=(sampleCount)) #{rowData.gccode}
+        td(rowspan=(sampleCount)) #{rowData.samplecount}
+        +sampleList(index,0,rowData)
+            a.button(href='#n') 보기
+    - while (count < sample.length)
+        -console.log();
+        tr
+            +sampleList(index,count,rowData)
+            - count++;
+    - count = 1;
+    // 상세보기 s
+    tr.detail_tbl-wrap
+        td.detail_tbl-inner(colspan='14')
+            table.table.table-row.progress-table.text-center.table-990
+                tbody
+                    tr
+                        th
+                            .detail-tit--bg 의료재단 정보
+                        td.sub-tit--bg 의료재단명
+                        td #{rowData.ciname}
+                        td.sub-tit--bg 지점명
+                        td #{rowData.ciarea}
+                        td.sub-tit--bg 입고 담당자
+                        td #{rowData.cimanager}
+                    tr
+                        th(rowspan='2')
+                            .detail-tit--bg 의료기관 정보
+                        td.sub-tit--bg 의료기관명
+                        td #{rowData.mcname}
+                        td.sub-tit--bg 진료과
+                        td #{rowData.mcdepart}
+                        td.sub-tit--bg 담당의사명
+                        td #{rowData.mcdoctor}
+                    tr
+                        td.sub-tit--bg 소재지
+                        td(colspan='3') #{rowData.mcaddress}
+                        td.sub-tit--bg 연락처
+                        td #{rowData.mctel}
+                    tr
+                        th(rowspan='2')
+                            .detail-tit--bg 검사 대상자 정보
+                        td.sub-tit--bg 성명
+                        td(colspan='3') #{rowData.name1+rowData.name2+rowData.name3}
+                        td.sub-tit--bg 생년월일
+                        td #{`${rowData.year}-${rowData.month}-${rowData.day}`}
+                    tr
+                        td.sub-tit--bg 식별 코드
+                        td(colspan='3') #{rowData.gccode}
+                        td.sub-tit--bg 만나이
+                        td #{rowData.age} 
+                        //- 수정필요
+                    tr
+                        th(rowspan='3')
+                            .detail-tit--bg 임상 소견
+                        td.sub-tit--bg RSA
+                        td #{rowData.isrsa === '' ? 미기재 : (rowData.isrsa === "Y" ? '유' : '무')}
+                        td #{rowData.rsacount}회
+                        td.sub-tit--bg RIF
+                        td #{rowData.isrif === '' ? 미기재 : (rowData.isrif === "Y" ? '유' : '무')}
+                        td #{rowData.rifcount}
+                    tr
+                        td.sub-tit--bg Translocation
+                        td #{rowData.istranslocation === '' ? 미기재 : (rowData.istranslocation === "Y" ? '유' : '무')}
+                        td(colspan='5') #{rowData.translocationcount}
+                    tr
+                        td.sub-tit--bg 기타소견
+                        td(colspan='6') #{rowData.etccomment}
+            table.table.table-row.progress-table.text-center.table-990.mt-3
+                tbody
+                    tr
+                        th(colspan='8')
+                            | 샘플 정보
+                    tr
+                        th 순서
+                        th 구분
+                        th 샘플번호
+                        th 의료재단 ID
+                        th 검체 종류
+                        th 샘플 채취일
+                        th 검사 의뢰일
+                        th 검사 결과
+                    each value,key in rowData.sample
+                        -console.log();
+                        tr
+                            td #{key+1}
+                            td #{value.type}
+                            td #{value.code}
+                            td #{value.companyid}
+                            td #{value.specimentype}
+                            td #{value.regdatetime}
+                            td #{value.requestdate}
+                            td #{ (value.sampleinfo || [{results : ""}])[0].results }
+                            //- 수정필요
+            table.table.table-row.progress-table.text-center.table-990.mt-3
+                colgroup
+                    col(width='15%')
+                    col(width='*')
+                tbody
+                    tr
+                        th 입고 특이사항
+                        td(colspan='7') #{rowData.etccomment}
+            div.invoice-buttons.clearfix.mt-3
+                a.invoice-btn.pull-left(href="#" data-target="log-popup" data-action="log" data-index=(index)) History

@@ -1,0 +1,276 @@
+
+//- mixin function hack
+mixin addRow(index,selected = {})
+    - pugLastTyped = pug_html.length;
+    tr(data-index=(index))
+        td #{index+1}
+        td
+            select.custom-select(name=(`data[sample][${index}][type]`) required=(true))
+                each optTagText,tagIndex in ['테스트','검사','무료']
+                    -console.log();
+                    option(value=(optTagText) selected=(optTagText === selected.type)) #{optTagText}
+        td 
+            input.form-control(type='text', name=(`data[sample][${index}][code]`), value=(selected.code) required=(true))
+        td 
+            input.form-control(type='text', name=(`data[sample][${index}][companyid]`), value=(selected.companyid) required=(true))
+        td
+            select.custom-select(name=(`data[sample][${index}][specimentype]`) required=(true))
+                each optTagText,index in ['Blastomere','가나다']
+                    - console.log();
+                    option(value=(optTagText) selected=(optTagText === selected.specimentype)) #{optTagText}
+        td
+            input.form-control(type='text', readonly='', name=(`data[sample][${index}][collectdate]`) data-plugins='datepicker', value=(selected.collectdate) required=(true))
+        td
+            input.form-control(type='text', readonly='', name=(`data[sample][${index}][requestdate]`) data-plugins='datepicker', value=(selected.requestdate) required=(true))
+        td
+            a.text-danger.tbl_del_ico(data-action='sample-list-remove')
+                i.ti-trash(title='삭제')
+    - return pug_html.slice(pugLastTyped);
+//- mixin pug hack (일반적인 상황에선 사용금지)
+- (__pugTemplate || {}).addRow = pug_mixins["addRow"]; 
+
+//- nomral mixin
+mixin selectContainerField(key,colWidth,...textData)
+    each data,index in textData
+        .pr-0(class=(`col-${colWidth}`))
+            .custom-control.custom-radio.custom-control-inline
+                input.custom-control-input(type='radio', name=(`data[container][${key}]`), value=(data.value), checked=(locals[key] === data.value), id=(`customRadio${key}${index}`))
+                label.custom-control-label(for=(`customRadio${key}${index}`)) &nbsp;#{data.text}
+
+
+//- z-index > 1040 
+//- in bootstrap backdrop-hack
+.modal-dialog.modal-xl.modal-dialog-centered(style="z-index:11;")
+    form.modal-content(data-zone='popup')
+        .modal-header
+            h5.modal-title 샘플등록
+            button.close(type='button', data-zone='popup.close')
+                span ×
+        .modal-body
+            .modal-container
+                // row-item-01 s
+                .row-item.mt-4.row--bg
+                    h5.pb-3 입고구분
+                    .row.px-2.col-form-label
+                        +selectContainerField('istest',2,{value:'N',text:'고객'},{value:'Y',text:'테스트'})
+                .row-item.mt-4.row--bg
+                    h5 의료재단 정보
+                    .row.px-2
+                        .col-md-4
+                            .form-group.form-group--mv
+                                label.col-form-label(for='foundation_name_inp') 의료재단명
+                                input#foundation_name_inp.form-control(type='text', name='data[company][name1]', required, data-action='search-company', value=(ciname1))
+                        //.col-md-3
+                        //    .form-group
+                        //        label.col-form-label(for='foundation_code_inp') 재단코드
+                        //        input#foundation_code_inp.form-control(type='text', name='data[company][code]', required, data-action='search-company', value=(cicode))
+                        .col-md-4
+                            .form-group.form-group--mv
+                                label.col-form-label(for='spot_name_inp') 지점명
+                                input#spot_name_inp.form-control(type='text', name='data[company][name2]', required, data-action='search-company', value=(ciname2))
+                        .col-md-4
+                            .form-group.form-group--mv
+                                label.col-form-label(for='person_charge_inp') 담당자
+                                input#person_charge_inp.form-control(type='text', name='data[manager][name1]', required, data-action='search-company', value=(cmname1))
+                        .column.is-12
+                            ul#company-data.search-data
+                // row-item-01 e
+                // row-item-02 s
+                .row-item.mt-4.row--bg
+                    h5 의료기관 정보
+                    .row.px-2
+                        .col-md-4
+                            .form-group.form-group--mv
+                                label.col-form-label(for='medi_name_inp') 의료기관명
+                                input#medi_name_inp.form-control(type='text', name='data[company][name3]', data-action='search-medical', required, value=(ciname3))
+                        .col-md-4
+                            .form-group.form-group--mv
+                                label.col-form-label(for='medi_office_inp') 진료과
+                                input#medi_office_inp.form-control(type='text', name='data[company][name4]', data-action='search-medical', required, value=(ciname4))
+                        .col-md-4
+                            .form-group.form-group--mv
+                                label.col-form-label(for='doctor_name_inp') 담당의사명
+                                input#doctor_name_inp.form-control(type='text', name='data[manager][name2]', data-action='search-medical', required, value=(cmname2))
+                    .row.px-2
+                        .col-md-8
+                            .form-group.form-group--mv
+                                label.col-form-label(for='residence_inp') 소재지
+                                input#residence_inp.form-control(type='text', name='data[company][address]', required, value=(address))
+                        .col-md-4
+                            .form-group.form-group--mv
+                                label.col-form-label(for='user_phone_inp') 연락처
+                                input#user_phone_inp.form-control(type='tel', name='data[manager][tel]', required, value=(tel))
+						.column.is-12
+                            ul#medical-data.search-data
+                // row-item-02 e
+                // row-item-03 s
+                .row-item.mt-4.row--bg
+                    h5.pb-3 검사 대상자 정보
+                    .row.px-2
+                        .col-md-8
+                            .row
+                                p.col-md-12
+                                    label.col-form-label(for='first_name_inp') 성명
+                                .col-4.pr-0
+                                    .form-group
+                                        input#first_name_inp.form-control(type='text', name='data[container][name1]', value=(name1))
+                                .col-4.px-0
+                                    select.custom-select.slct_h_custom(name='data[container][name2]')
+                                        each middleName,indexed in ["*","**","***","****","*****"]
+                                            -console.log();
+                                            option(value=(middleName), selected=(middleName === name2)) #{middleName}
+                                .col-4.pl-0
+                                    input#last_name_inp.form-control(type='text', name='data[container][name3]', required , value=(name3))
+                        .col-md-4
+                            - var nowDate = new Date();
+                            - var _year = nowDate.getFullYear();
+                            .row
+                                p.col-md-12
+                                    label.col-form-label(for='slct_year') 생년월일
+                                .col-4
+                                    select#slct_year.custom-select.slct_h_custom.slct_year(name='data[container][year]', required)
+                                        - var nthYear = 0;
+                                        while (nthYear < 120)
+                                            - console.log();
+                                            option(value=(_year-nthYear),selected=(year == _year)) #{_year-nthYear}
+                                            - nthYear++;
+                                .col-4
+                                    select.custom-select.slct_h_custom.slct_month(name='data[container][month]', required)
+                                        - var nthMonth = 1;
+                                        while (nthMonth <= 12)
+                                            - console.log();
+                                            option(value=(nthMonth),selected=(month == nthMonth)) #{nthMonth}
+                                            - nthMonth++;
+                                .col-4
+                                    select.custom-select.slct_h_custom.slct_day(name='data[container][day]', required)
+                                        - var nthDay = 1;
+                                        while (nthDay <= (new Date(_year, 1, 0).getDate()))
+                                            - console.log();
+                                            option(value=(nthDay),selected=(day == nthDay)) #{nthDay}
+                                            - nthDay++;
+                    .row.px-2
+                        .col-md-8
+                            .form-group.form-group--mv
+                                label.col-form-label(for='text-input-1') 식별코드
+                                input#text-input-1.form-control(type='text', name='data[container][gccode]', value=(gccode))
+                        .col-md-4
+                            .form-group.form-group--mv
+                                label.col-form-label(for='text-input-2') (만)나이
+                                input#text-input-2.form-control(type='text', name='data[container][age]', value=(age))
+                // row-item-03 e
+                // row-item-04 s
+                .row-item.mt-4.row--bg
+                    h5.pb-3 임상 소견
+                    .row.px-2
+                        .col-md-6
+                            .row
+                                p.col-md-12
+                                    label.col-form-label(for='first_name_inp') 반복적 자연유산(RSA)
+                                +selectContainerField('isrsa',3,{value:'Y',text:'유'},{value:'N',text:'무'})
+                                .col-6.pr-0
+                                    .form-group
+                                        input#first_name_inp.form-control(type='text', name='data[container][rsacount]', value=(rsacount))
+                        .col-md-6
+                            .row
+                                p.col-md-12
+                                    label.col-form-label(for='first_name_inp') 반복적 착상 실패(RIF)
+                                +selectContainerField('isrif',3,{value:'Y',text:'유'},{value:'N',text:'무'})
+                                .col-6.pr-0
+                                    .form-group
+                                        input#first_name_inp.form-control(type='text', name='data[container][rifcount]', value=(rifcount))
+                        .col-md-6
+                            .row
+                                p.col-md-12
+                                    label.col-form-label(for='first_name_inp') Translocation
+                                
+                                +selectContainerField('istranslocation',3,{value:'Y',text:'유'},{value:'N',text:'무'})
+                                .col-6.pr-0
+                                    .form-group
+                                        input#first_name_inp.form-control(type='text', name='data[container][translocation]', value=(translocation))
+                        .col-md-12
+                            .row
+                                .col-12.pr-0
+                                    .form-group
+                                        label(for='exampleFormControlTextarea1') 기타소견
+                                        textarea#exampleFormControlTextarea1.form-control(name='data[container][etccomment]', placeholder='내용을 입력해주세요.', style='resize:none;') #{etccomment}
+                // row-item-04 e
+                // row-item-05 s
+                .row-item.mt-4.row--bg
+                    h5.pb-3 상품정보
+                    .row.px-2
+                        .input-group.col-6.mt-3
+                            input.form-control.text-center(type='number', placeholder='샘플개수를 입력하세요.', aria-label='샘플개수', aria-describedby='button-addon2', name='data[container][samplecount]', data-zone='sample-insert-count' value=(samplecount))
+                            .input-group-append
+                                button#button-addon2.btn.btn-outline-secondary(type='button', data-action='sample-insert') 생성
+                        .col-12.mt-3
+                            .single-table
+                                .table-responsive
+                                    table.table.table-row.progress-table.text-center.table-990
+                                        thead.text-uppercase.bg-dark
+                                            tr.text-white
+                                                th(rowspan='2') 순서
+                                                th 구분
+                                                th 샘플번호
+                                                th 의료재단ID
+                                                th 검체종류
+                                                th 샘플 채취일
+                                                th 검사 의뢰일
+                                                th(rowspan='2') 삭제
+                                            tr.text-white
+                                                th
+                                                    .custom-control.custom-control-inline.custom-checkbox
+                                                        input#customCheck1.custom-control-input(type='checkbox', value='same', name='type')
+                                                        label.text-white.custom-control-label(for='customCheck1') 동일
+                                                th
+                                                    .custom-control.custom-control-inline.custom-checkbox
+                                                        input#customCheck2.custom-control-input(type='checkbox', value='increase', name='code')
+                                                        label.text-white.custom-control-label(for='customCheck2') 연속
+                                                th
+                                                    .custom-control.custom-radio.custom-control-inline
+                                                        input#tbl_id_col1.custom-control-input(type='radio', value='same', name='companyid')
+                                                        label.text-white.custom-control-label(for='tbl_id_col1') 동일
+                                                    .custom-control.custom-radio.custom-control-inline
+                                                        input#tbl_id_col2.custom-control-input(type='radio', value='increase', name='companyid')
+                                                        label.text-white.custom-control-label(for='tbl_id_col2') 연속
+                                                    .custom-control.custom-radio.custom-control-inline
+                                                        input#tbl_id_col3.custom-control-input(type='radio', value='none', name='companyid')
+                                                        label.text-white.custom-control-label(for='tbl_id_col3') 입력
+                                                th
+                                                    .custom-control.custom-control-inline.custom-checkbox
+                                                        input#customCheck3.custom-control-input(type='checkbox', value='same', name='specimentype')
+                                                        label.text-white.custom-control-label(for='customCheck3') 동일
+                                                th
+                                                    .custom-control.custom-control-inline.custom-checkbox
+                                                        input#customCheck4.custom-control-input(type='checkbox', value='same', name='collectdate')
+                                                        label.text-white.custom-control-label(for='customCheck4') 동일
+                                                th
+                                                    .custom-control.custom-control-inline.custom-checkbox
+                                                        input#customCheck5.custom-control-input(type='checkbox', value='same', name='requestdate')
+                                                        label.text-white.custom-control-label(for='customCheck5') 동일
+                                        tbody(data-zone='sample-list')
+                                            // 차후 탬플릿에 반영필요
+                                            // table item s
+
+                                            if Array.isArray(sample)
+                                                -console.log();
+                                                each sampleEach,sampleIndex in sample
+                                                    -console.log();
+                                                    +addRow(sampleIndex,sampleEach)
+                                            // table item e
+                                            // row-item-05 e
+                                    // row-item-05 s
+                .row-item.mt-4.row--bg
+                    h5.pb-3 입고특이사항
+                    .row.px-2.mt-3
+                        .col-12.pr-0
+                            .form-group
+                                textarea#unique_write_form.form-control(name='data[comment]', placeholder='내용을 입력해주세요.', style='resize:none;') #{comment}
+                // row-item-05 e
+        .modal-footer
+            button.btn.btn-secondary(type='button', data-zone='popup.close') 취소
+            button.btn.btn-primary(type='submit') 입력완료
+.modal-backdrop.fade.show(data-zone='popup.close' style="z-index:10;")
+
+//- 위의 mixin hack 을 위한 용도 쓰는 이상 지우지 않길 바람
+div(style='display:none;')
+    +addRow(0)

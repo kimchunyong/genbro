@@ -1,0 +1,384 @@
+<?php
+
+	include $_SERVER["DOCUMENT_ROOT"].'/include/head.php';
+?>
+
+<body>
+    <!--[if lt IE 8]>
+            <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+    <!-- preloader area start -->
+	<?php
+		include $_SERVER["DOCUMENT_ROOT"].'/include/loader.php';
+	?>
+    <!-- preloader area end -->
+    <!-- page container area start -->
+    <div class="page-container">
+        <!-- sidebar menu area start -->
+        <?php
+			include $_SERVER["DOCUMENT_ROOT"].'/include/menu.php';
+		?>
+        <!-- sidebar menu area end -->
+        <!-- main content area start -->
+        <div class="main-content">
+            <!-- header area start -->
+            <?php
+				include $_SERVER["DOCUMENT_ROOT"].'/include/head_nav.php';
+			?>
+            <!-- header area end -->
+            <!-- page title area start -->
+            <div class="page-title-area">
+                <div class="row align-items-center">
+                    <div class="col-md-6">
+                        <div class="breadcrumbs-area clearfix">
+                            <h4 class="page-title pull-left">입고예정</h4>
+                            <ul class="breadcrumbs pull-left">
+                                <li><a href="index.html">Home</a></li>
+                                <li><span>입력 및 목록</span></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-6 clearfix">
+                        <div class="user-profile pull-right">
+                            <img class="avatar user-thumb" src="/images/author/avatar.png" alt="avatar">
+                            <h4 class="user-name dropdown-toggle" data-toggle="dropdown">홍길동 <i class="fa fa-angle-down"></i></h4>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" href="#">Log Out</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- page title area end -->
+            <!-- main content area start -->
+            <div class="main-content-inner">
+				<div class="row">
+					<!-- 입고예정 정보등록 s -->
+					<div class="col-12 mt-5">
+						<div class="card">
+							<div class="card-body">
+								<h4 class="header-title">입고예정 정보등록</h4>
+								<div class="form-group">
+									<label for="example-text-input" class="col-form-label">입고예정일</label>
+									<div class="row">
+										<div class='col-md-12'>
+											<input type='text' class="form-control" id='dateInp' />
+										</div>
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="example-search-input" class="col-form-label">의료재단명</label>
+									<input class="form-control" type="text" id="example-search-input">
+								</div>
+								<div class="form-group">
+									<label for="example-email-input" class="col-form-label">지점명</label>
+									<input class="form-control" type="text" id="example-email-input">
+								</div>
+								<div class="form-group">
+									<label for="example-url-input" class="col-form-label">의료기관명</label>
+									<input class="form-control" type="text" id="example-url-input">
+								</div>
+								<div class="form-group">
+									<label for="example-tel-input" class="col-form-label">연락자</label>
+									<input class="form-control" type="tel" id="example-tel-input">
+								</div>
+								<div class="form-group">
+									<label for="example-tel-input" class="col-form-label">특이사항</label>
+									<input class="form-control" type="text" id="example-tel-input">
+								</div>
+								<div class="invoice-buttons">
+									<a href="#" class="invoice-btn">등록</a>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- 입고예정 정보등록 e -->
+					<!-- 입고예정 목록 테이블 s-->
+					<div class="col-12 mt-5">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="header-title">입고예정 목록</h4>
+								<!-- chosen plugin s -->
+								<div class="input-group mb-3 ">
+									<div class="search select px-0">
+										<select data-placeholder="검색어를 입력해 주세요">
+											<option vlaue=""></option>
+											<option>검색어</option>
+											<option>검색어1</option>
+										</select>
+									</div>
+									<div class="input-group-append">
+										<input class="btn btn-flat btn-secondary mb-3" type="submit" value="검색">
+									</div>
+								</div>
+								<!-- chosen plugin s -->
+                                <div class="single-table">
+                                    <div class="table-responsive">
+                                        <table class="table table-hover progress-table text-center table-990">
+                                            <thead class="text-uppercase bg-dark">
+                                                <tr class="text-white">
+                                                    <th scope="col">
+														<input type="checkbox">
+													</th>
+                                                    <th scope="col">순서</th>
+                                                    <th scope="col">입고 예정일</th>
+                                                    <th scope="col">의료 재단명</th>
+                                                    <th scope="col">지점명</th>
+                                                    <th scope="col">연락자</th>
+                                                    <th scope="col">의료기관명</th>
+                                                    <th scope="col">샘플개수</th>
+                                                    <th scope="col">입고예정시간</th>
+                                                    <th scope="col">특이사항</th>
+                                                    <th scope="col">접수 상태</th>
+                                                    <th scope="col">관리</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+													<th>
+														<input type="checkbox">
+													</th>
+                                                    <th scope="row">1</th>
+                                                    <td>2018-09-04</td>
+                                                    <td>서울대학</td>
+                                                    <td>서울</td>
+                                                    <td>홍길동</td>
+                                                    <td>서울대학병원</td>
+                                                    <td>2</td>
+                                                    <td>09 / 07 / 2018</td>
+                                                    <td>특이사항</td>
+                                                    <td>
+                                                        <span class="status-p bg-primary">대기</span>
+                                                    </td>
+                                                    <td>
+                                                        <ul class="d-flex justify-content-center">
+                                                            <li class="mr-3"><a href="#n" class="text-secondary" data-toggle="modal" data-target=".entry_edit_popup"><i class="fa fa-edit" title="수정"></i></a></li>
+															<li class="mr-3"><a href="#n"><i class="fa fa-newspaper-o" data-toggle="modal" data-target=".entry_log_popup" title="로그"></i></a></li>
+                                                            <li><a href="#n" class="text-danger tbl_del_ico"><i class="ti-trash" title="삭제"></i></a></li>
+                                                        </ul>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+													<th>
+														<input type="checkbox">
+													</th>
+                                                    <th scope="row">2</th>
+                                                    <td>2018-09-04</td>
+                                                    <td>서울대학</td>
+                                                    <td>서울</td>
+                                                    <td>홍길동</td>
+                                                    <td>서울대학병원</td>
+                                                    <td>2</td>
+                                                    <td>09 / 07 / 2018</td>
+                                                    <td>특이사항</td>
+                                                    <td>
+                                                        <span class="status-p bg-success">완료</span>
+                                                    </td>
+                                                    <td>
+                                                        <ul class="d-flex justify-content-center">
+                                                            <li class="mr-3"><a href="#n" class="text-secondary" data-toggle="modal" data-target=".entry_edit_popup"><i class="fa fa-edit" title="수정"></i></a></li>
+															<li class="mr-3"><a href="#n"><i class="fa fa-newspaper-o" data-toggle="modal" data-target=".entry_log_popup" title="로그"></i></a></li>
+                                                            <li><a href="#n" class="text-danger tbl_del_ico"><i class="ti-trash" title="삭제"></i></a></li>
+                                                        </ul>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+								<!-- 페이지버튼 s-->
+								<nav>
+                                    <ul class="pagination justify-content-center mt-5">
+                                        <li class="page-item disabled">
+                                            <a class="page-link" href="#" aria-label="Previous">
+                                                <span aria-hidden="true">《</span>
+                                                <span class="sr-only">first-page</span>
+                                            </a>
+                                        </li>
+										<li class="page-item disabled">
+                                            <a class="page-link" href="#" aria-label="Previous">
+                                                <span aria-hidden="true">〈</span>
+                                                <span class="sr-only">Previous</span>
+                                            </a>
+                                        </li>
+                                        <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                                        <li class="page-item">
+                                            <a class="page-link" href="#">2 <span class="sr-only">(current)</span></a>
+                                        </li>
+                                        <li class="page-item"><a class="page-link" href="#">3</a></li>
+										<li class="page-item">
+                                            <a class="page-link" href="#" aria-label="Next">
+                                                <span aria-hidden="true">〉</span>
+                                                <span class="sr-only">Next</span>
+                                            </a>
+                                        </li>
+                                        <li class="page-item">
+                                            <a class="page-link" href="#" aria-label="Next">
+                                                <span aria-hidden="true">》</span>
+                                                <span class="sr-only">last-page</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </nav>
+								<!-- 페이지버튼 e-->
+								<div class="btn_wrap">
+									<button type="button" class="btn btn-danger mb-3">삭제</button>
+									<button type="button" class="btn btn-success mb-3">입고완료</button>
+								</div>
+                            </div>
+                        </div>
+                    </div>
+					<!-- 입고예정 목록 테이블 e-->
+				</div>
+            </div>
+            <!-- main content area end -->
+        </div>
+    </div>
+    <!-- footer area start-->
+    <footer>
+        <div class="footer-area">
+            <p>© Copyright 2018 . All right reserved</p>
+        </div>
+    </footer>
+    <!-- footer area end-->
+    </div>
+    <!-- page container area end -->
+	
+	<!-- 입고예정목록 팝업 s-->
+	<div class="modal fade entry_edit_popup show">
+		<div class="modal-dialog modal-lg modal-dialog-centered">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">입고 예정 목록 수정</h5>
+					<button type="button" class="close" data-dismiss="modal"><span>×</span></button>
+				</div>
+				<div class="modal-body">
+					<div class="modal-container">
+						<div class="form-group">
+							<label for="example-text-input" class="col-form-label">입고예정일</label>
+							<div class="row">
+								<div class='col-md-12'>
+									<input type='text' class="form-control" id='dateInp' />
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="example-search-input" class="col-form-label">의료재단명</label>
+							<input class="form-control" type="text" id="example-search-input">
+						</div>
+						<div class="form-group">
+							<label for="example-email-input" class="col-form-label">지점명</label>
+							<input class="form-control" type="text" id="example-email-input">
+						</div>
+						<div class="form-group">
+							<label for="example-url-input" class="col-form-label">의료기관명</label>
+							<input class="form-control" type="text" id="example-url-input">
+						</div>
+						<div class="form-group">
+							<label for="example-tel-input" class="col-form-label">연락자</label>
+							<input class="form-control" type="tel" id="example-tel-input">
+						</div>
+						<div class="form-group">
+							<label for="example-tel-input" class="col-form-label">특이사항</label>
+							<input class="form-control" type="text" id="example-tel-input">
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+					<button type="button" class="btn btn-primary">저장</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- 입고예정목록 팝업 e-->
+	
+	<!-- 입고예정 로그 팝업 s-->
+	<div class="modal fade entry_log_popup show">
+		<div class="modal-dialog modal-lg modal-dialog-centered">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">입고 예정 로그</h5>
+					<button type="button" class="close" data-dismiss="modal"><span>×</span></button>
+				</div>
+				<div class="modal-body">
+					<div class="modal-container">
+						<div class="single-table">
+							<div class="table-responsive">
+								<table class="table table-hover progress-table text-center">
+									<thead class="text-uppercase bg-dark">
+										<tr class="text-white">
+											<th scope="col">등록/수정 담당자</th>
+											<th scope="col">등록/수정일시</th>
+											<th scope="col">등록/수정내역</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<th scope="row">홍길동</th>
+											<td>
+												<span class="entry_edit_day">2018-09-04</span>/
+												<span class="entry_edit_tiem">18:53</span>
+											</td>
+											<td>초기입력</td>
+										</tr>
+										<tr>
+											<th scope="row">홍길동</th>
+											<td>
+												<span class="entry_edit_day">2018-09-04</span>/
+												<span class="entry_edit_tiem">18:53</span>
+											</td>
+											<td>초기입력</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- 페이지버튼 s-->
+				<nav>
+					<ul class="pagination justify-content-center mt-5 mb-5">
+						<li class="page-item disabled">
+							<a class="page-link" href="#" aria-label="Previous">
+								<span aria-hidden="true">《</span>
+								<span class="sr-only">first-page</span>
+							</a>
+						</li>
+						<li class="page-item disabled">
+							<a class="page-link" href="#" aria-label="Previous">
+								<span aria-hidden="true">〈</span>
+								<span class="sr-only">Previous</span>
+							</a>
+						</li>
+						<li class="page-item active"><a class="page-link" href="#">1</a></li>
+						<li class="page-item">
+							<a class="page-link" href="#">2 <span class="sr-only">(current)</span></a>
+						</li>
+						<li class="page-item"><a class="page-link" href="#">3</a></li>
+						<li class="page-item">
+							<a class="page-link" href="#" aria-label="Next">
+								<span aria-hidden="true">〉</span>
+								<span class="sr-only">Next</span>
+							</a>
+						</li>
+						<li class="page-item">
+							<a class="page-link" href="#" aria-label="Next">
+								<span aria-hidden="true">》</span>
+								<span class="sr-only">last-page</span>
+							</a>
+						</li>
+					</ul>
+				</nav>
+				<!-- 페이지버튼 e-->
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" data-dismiss="modal">확인</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- 입고예정 로그 팝업 e-->
+
+    <?php
+		include $_SERVER["DOCUMENT_ROOT"].'/include/footer_js.php';
+	?>

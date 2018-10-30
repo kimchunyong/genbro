@@ -1,0 +1,321 @@
+<?php
+
+	include $_SERVER["DOCUMENT_ROOT"].'/include/head.php';
+?>
+
+<body>
+	<!--[if lt IE 8]>
+			<p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+		<![endif]-->
+	<!-- preloader area start -->
+	<?php
+		include $_SERVER["DOCUMENT_ROOT"].'/include/loader.php';
+	?>
+	<!-- preloader area end -->
+	<!-- page container area start -->
+	<div class="page-container">
+		<!-- sidebar menu area start -->
+		<?php
+			include $_SERVER["DOCUMENT_ROOT"].'/include/menu.php';
+		?>
+		<!-- sidebar menu area end -->
+		<!-- main content area start -->
+		<div class="main-content">
+			<!-- header area start -->
+			<?php
+				include $_SERVER["DOCUMENT_ROOT"].'/include/head_nav.php';
+			?>
+			<!-- header area end -->
+			<!-- main content area start -->
+			<div class="main-content-inner" id="component">
+                <!-- 기관관리 table s -->
+                <div class="col-12 mt-5">
+                    <div class="card" id="view">
+                        <div class="card-body" data-zone="view.content">
+                        </div>
+                    </div>
+                </div>
+                <!-- 기관관리 table e -->
+            </div>
+			<!-- main content area end -->
+		</div>
+	</div>
+	<!-- footer area start-->
+	<footer>
+		<div class="footer-area">
+			<p>© Copyright 2018 . All right reserved</p>
+		</div>
+	</footer>
+	<!-- footer area end-->
+	</div>
+	<!-- page container area end -->
+	
+	<!-- 기관관리 팝업 s-->
+	<div class="modal fade agency_pop show"  id="hospital-insert">
+
+	</div>
+	<!-- 기관관리 팝업 e-->
+	
+	
+	<script>	
+        const getCompanyInfo = function(restApi){
+            // {search : { idx2 : 0}}
+            return restApi
+                .setExtra("POST",`${API_ROOT}/companyinfo/list.php`,{},"json")
+                .send()
+                .then(function(companyInfo){
+                    const keyRegex = /idx(\d{1,})/g;
+                    const filtedData = {};
+                    companyInfo = companyInfo.data;
+                    companyInfo.forEach(function(el,index,arr){
+                        let key = `idx${el.depth}`;
+                        if (!Array.isArray(filtedData[key])) {
+                            filtedData[key] = [el];
+                        }
+                        else{
+                            filtedData[key].push(el);
+                        }
+                    });
+                    return Promise.resolve(filtedData);
+                });
+        }
+        const _ = new _Component(
+                    $("#component"),
+                    "warehouse-register"
+                );
+
+                _.import(
+                    new _Component.ImportConf("restApi",true),
+                    new _Component.ImportConf("util/pug",false),
+                    new _Component.ImportConf("template",false),
+                    new _Component.ImportConf("pagination",true),
+                    new _Component.ImportConf("view",true),
+                    new _Component.ImportConf("util/popup",false),
+                    new _Component.ImportConf("util/menu",true),
+                    new _Component.ImportConf("util/topNavigation",true),
+                    new _Component.ImportConf("util/dateInfo",true),
+                    new _Component.ImportConf("__init__",true),
+                )
+                .then(
+                    (selfComponent) => { 
+                        return getCompanyInfo(selfComponent.module.restApi)
+                            .then((companyInfo)=>{
+                                return Promise.resolve([selfComponent,companyInfo])
+                            })
+                    }
+                )
+                .then(
+                    ([selfComponent,companyInfo])=>{
+                        const Popup = selfComponent.module.Popup;
+                        const restApi = selfComponent.module.restApi;
+                        const view = selfComponent.module.view;
+                        const pagination = selfComponent.module.pagination;
+                        const topNavi = selfComponent.module.topNavigation;
+                        const menu = selfComponent.module.menu;
+                        const pug = selfComponent.module.Pug;
+                        const dateInfo = selfComponent.module.DateInfo.instance;
+                        const insertPopup = new Popup("/view/popup/_settings/hospital-insert",$("#hospital-insert"));
+
+                        view.init($("#view"),"company","/view/_settings/hospital")
+                            .addEventListener(
+                                "beforeRequest",
+                                (refSelf,requestConf)=>{
+                                    return {
+                                        search : {
+                                            cidepth : 3,
+                                            page : pagination.page,
+                                            limit : view.limit,
+                                        }
+                                    } 
+                                }
+                            )
+                            .request()
+                            .then(
+                                function(){
+                                    // debugger;
+                                    const insertBasicConf = {
+                                        __pugTemplate : {},
+                                        companyInfo : companyInfo
+                                    };
+                                    insertPopup
+                                        .init(function($form,e){
+                                            const formData = new FormData($form.get(0));
+                                            restApi
+                                                .setExtra("POST",`${API_ROOT}/company/update.php`,formData,"json")
+                                                .send()
+                                                .then(
+                                                    (data)=>{
+                                                        alert(data.msg || "알수없는 오류입니다.");
+                                                        return view.request();
+                                                    },
+                                                    (data)=>{
+                                                        alert(data.msg || "알수없는 오류입니다.");
+                                                    }
+                                                );
+                                        })
+                                        .then(
+                                            (popup)=>{
+                                                let counter = 0;
+                                                popup.trigger(
+                                                    new _Component.TriggerConf("click","[data-action='list-insert']",function(e){
+                                                        const addSubView = insertBasicConf.__pugTemplate.subView;
+                                                        const $subList = popup.$form.find("[data-zone='list']");
+                                                        counter = counter >= 0 ? (counter) : (counter = $subList.children("tr").length)
+                                                        $subList.append(addSubView({},++counter));
+                                                    }),
+                                                    new _Component.TriggerConf("click","[data-action='list-remove']",function(e){
+                                                        const $this = $(this);
+                                                        const $target = $this.parents('tr');
+                                                        const idx = $this.data('index');
+                                                        const onRemove = function(){
+                                                            $target.remove();
+                                                            return view.request();
+                                                        };
+                                                        if(idx > -1 && confirm('정말 삭제하시겟습니까?')){
+                                                            restApi
+                                                                .setExtra("POST",`${API_ROOT}/companymanager/delete.php`,{search : {idx : idx}},"json")
+                                                                .send()
+                                                                .then(
+                                                                	(data)=>{
+                                                                		alert(data.msg);
+                                                                		onRemove();
+                                                                	}
+                                                                )
+                                                        }
+                                                        else{
+                                                            onRemove();
+                                                        }
+                                                    }),
+                                                    new _Component.TriggerConf("change","[data-zone='parent-select']",function(){
+                                                        const $this = $(this);
+                                                        const selectedVal = $this.val();
+
+                                                        const isReset = (selectedVal === "-1");
+                                                        const selectedIndex = $this.data('index');
+                                                        const updateOpt = insertBasicConf.__pugTemplate.updateOpt;
+                                                        const companyInfo = insertBasicConf.companyInfo;
+                                                        const mergedCompanyInfo = Array.concat.apply([],Object.values(companyInfo));
+
+
+                                                        const $selectParents = popup.$form.find("[data-zone='parent-select']");
+                                                        $.each($selectParents,function(filtedIndex, el) {
+                                                            const $el = $(el);
+                                                            const index = $el.data('index');
+                                                            const parentKey = `idx${index-1}`;
+                                                            const selectedKey = `idx${index}`;
+                                                            const eachData = companyInfo[selectedKey];
+
+                                                            $el.children().slice(1).remove();
+                                                             const selectedObj = mergedCompanyInfo.find((val)=>{
+                                                                return val.idx === selectedVal;
+                                                            });
+                                                            const data = eachData.filter((val)=>{
+                                                                return index === 1 || isReset ||(val[parentKey] === selectedObj[parentKey]);
+                                                            });
+                                                            $el.append(updateOpt(index,(selectedObj !== undefined ? selectedObj[selectedKey] : "-1"),data));
+                                                             
+                                                        });
+                                                        // $this.chosen(window.chosenConfig)
+                                                    })
+                                                )
+                                            }
+                                        );
+                                    selfComponent.trigger(
+                                        new _Component.TriggerConf("click","[data-action=insert]",function(e){
+                                            insertPopup.open(insertBasicConf);
+                                        })
+                                    )
+                                    view.trigger(
+                                        new _Component.TriggerConf("click","[data-action=update]",function(e){
+                                            const index = $(this).data('index');
+                                            insertPopup.open(
+                                                Object.assign(
+                                                    {},
+                                                    insertBasicConf,
+                                                    view.__data.data[index],
+                                                )
+                                            );
+                                        })
+                                    )
+
+                                },
+                                function(){
+                                    console.log(arguments[0]);
+                                }
+                            )
+                            // ci붙은 대이터가 재단명(통합) row
+                            // cm붙은 대이터는 담당자(단일) row
+                    },
+                    ()=>{
+
+                    }
+                );
+		/*
+			$('#button-addon2').click(function(){
+				$('#list-manager tbody').append($('#list-manager tbody tr:eq(0)').clone());
+				$('#list-manager tbody .ti-trash').unbind('click');
+				$('#list-manager tbody .ti-trash').click(function(){
+					if($('#list-manager tbody tr').length < 2){
+						alert('한 명 이상 입력하셔야합니다.');
+						return false;
+					}
+					$('#list-manager tbody').find($(this).parents('tr')).remove();
+				});
+			});
+			$('#list-manager tbody .ti-trash').click(function(){
+				if($('#list-manager tbody tr').length < 2){
+					alert('한 명 이상 등록하셔야합니다.');
+					return false;
+				}
+				$('#list-manager tbody').find($(this).parents('tr')).remove();
+			});
+		*/
+		/*
+		var globalData = new Object();
+		$.ajax({
+			url: 'http://api.geno-bro2.tk/companyinfo/list.php',
+			type: 'post',
+			dataType: 'json',
+			data: {
+			},xhrFields : {withCredentials : true},
+			success:function(data){
+				//$('#list').empty();
+				globalData = data.data;
+				var html =  '<tr>';
+					html_prev += '   <td rowspan="--rows--"><input type="checkbox"></td>';
+					html_prev += '   <td rowspan="--rows--" class="text-left parent-node" style="padding-left:0.75em;">SML</td>';
+					html_prev += '   <td rowspan="--rows--">M</td>';
+					html_prev += '   <td rowspan="--rows--">동부2</td>';
+					html += '   <td>사원</td>';
+					html += '   <td>홍길동</td>';
+					html += '   <td>1234@naver.com</td>';
+					html += '   <td>010-0000-0000</td>';
+					html_next += '   <td rowspan="--rows--">';
+					html_next += '	   <ul class="d-flex justify-content-center">';
+					html_next += '		   <li class="mr-3"><a href="#"><i class="ti-plus" title="하위 등록"></i></a></li>';
+					html_next += '		   <li class="mr-3"><a href="#" class="text-secondary" data-toggle="modal" data-target=".agency_pop"><i class="fa fa-edit" title="수정"></i></a></li>';
+					html_next += '		   <li><a href="#" class="text-danger"><i class="ti-trash" title="삭제"></i></a></li>';
+					html_next += '	   </ul>';
+					html_next += '   </td>';
+					html += '</tr>';
+				
+				$.each(globalData, function(i, a){
+					var oddeven = a.level % 2 == 1 ? 'odd' : 'even';
+					$('#list').append('<tr class="' + oddeven + '" data-order="' + i + '"><td class="text-left" style="padding-left:' + padding + 'em;">' + a.name + '</td><td>' + a.code + '</td><td>' + (a.area || '') + '</td><td><ul class="d-flex justify-content-center"><li class="mr-3"><a href="#"><i class="ti-plus" title="하위 등록"></i></a></li><li class="mr-3"><a href="#" class="text-secondary" data-toggle="modal" data-target=".bd-example-modal-lg"><i class="fa fa-edit" title="수정"></i></a></li><li><a href="#" class="text-danger"><i class="ti-trash" title="삭제"></i></a></li></ul></td></tr><tr class="addarea add-' + i + '" style="display:none;"></tr>');
+				});
+			}
+		});
+		
+		function addEvenet(){
+			$('.ti-plus').click(function(){
+				$('.addarea').css('display', 'none');
+				var i = $(this).parents('tr').data('order');
+				var a = globalData[i];
+				$('.add-' + i).css('display', 'block');
+			});
+		}
+		*/
+	</script>
+	<?php
+		include $_SERVER["DOCUMENT_ROOT"].'/include/footer_js.php';
+	?>

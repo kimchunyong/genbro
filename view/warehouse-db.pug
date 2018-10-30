@@ -1,0 +1,199 @@
+mixin sampleList(index,sampleData)
+    td #{parseInt(index)+1}
+    td #{sampleData.id}
+    td #{sampleData.code}
+    td #{sampleData.companyid}
+form.input-group.mb-3(data-zone="view.search")
+    .search
+        input(type="hidden" data-zone="view.search.name" value="code")
+        input.form-control(type='search' data-placeholder='검색어를 입력해 주세요' data-zone="view.search.content")
+    .input-group-append
+        input.btn.btn-flat.btn-secondary.mb-3(type='submit', value='검색')
+    .refresh_btn_box
+        button.btn.mb-3.justify-content-end(type='button' data-action='refresh')
+            i.fa.fa-refresh(data-perform='panel-refresh')
+
+.single-table
+    .table-responsive
+        table.table.table-row.progress-table.text-center.table-1400
+            thead.text-uppercase.bg-dark
+                tr.text-white
+                    th(rowspan='2')
+                        input(type='checkbox' data-action='selected-view-all')
+                    th(rowspan='2') 순서
+                    th(rowspan='2' data-view-sort='code') GC P ID
+                    th(rowspan='2' data-view-sort='gccode') 검사 대상자 식별코드
+                    th(colspan='4') 샘플정보
+                    th(rowspan='2' data-view-sort='ciname1') 의료재단명
+                    th(rowspan='2' data-view-sort='ciname2') 지점명
+                    th(rowspan='2' data-view-sort='ciname3') 의료기관명
+                    th(rowspan='2') 상세 보기
+                    th(rowspan='2') 수정
+                tr.text-white
+                    th 샘플순서
+                    th GC S ID
+                    th 샘플 ID
+                    th 의료재단 ID
+            tbody
+                each entities,index in data
+                        - console.log();
+                        - var sample = entities.sample;
+                        - var sampleCount = (sample.length > 0) ? sample.length : 1;
+                        - var count = 1;    
+                        // 실험 > 수령대기 s
+                        tr
+                            td(rowspan=(sampleCount))
+                                label.checkbox
+                                    input(type='checkbox' data-action='selected-view' data-index=(index))
+                            td.tbl-nums(rowspan=(sampleCount)) #{(__data.total - (requestProp.search.page *requestProp.search.limit )) - index}
+                            td(rowspan=(sampleCount)) #{entities.code}
+                            td(rowspan=(sampleCount)) #{entities.gccode}
+                            if sample.length > 0
+                                - console.log();
+                                +sampleList(0,entities.sample[0])
+                            else
+                                - console.log();
+                                td(colspan='4') 데이터가 없습니다.
+                            td(rowspan=(sampleCount)) #{entities.ciname1}
+                            td(rowspan=(sampleCount)) #{entities.ciname2}
+                            td(rowspan=(sampleCount)) #{entities.ciname3}
+                            td(rowspan=(sampleCount))
+                                a.button.is-link.detail_btns(href="javascript:void(0)")
+                                    span.icon
+                                        i.fas.fa-angle-down.ti-eye
+                                    span 상세보기
+                            td(rowspan=(sampleCount))
+                                a.text-secondary(data-action='update' data-index=index href="javascript:void(0)")
+                                    i.fa.fa-edit(title="수정")
+                        - while (count < sample.length)
+                            -console.log();
+                            tr
+                                +sampleList(count,sample[count])
+                                - count++;         
+                        - count = 1;
+                        // 상세보기 s
+                        tr.detail_tbl-wrap
+                            td.detail_tbl-inner(colspan='12')
+                                table.table.table-row.progress-table.text-center.table-990
+                                    tbody
+                                        //tr
+                                            //th.detail-tit-bg 검사현황
+                                            //td(colspan='6')
+                                                //| 실험 > 수령대기
+                                        tr
+                                            th.detail-tit--bg 
+                                                span 의료재단 정보
+                                            td.sub-tit--bg 의료재단명
+                                            td #{entities.ciname}
+                                            td.sub-tit--bg 지점명
+                                            td #{entities.ciarea}
+                                            td.sub-tit--bg 입고 담당자
+                                            td #{entities.cimanager}
+                                        tr
+                                            th.detail-tit--bg(rowspan='2')
+                                                span 의료기관 정보
+                                            td.sub-tit--bg 의료기관명
+                                            td #{entities.mcname}
+                                            td.sub-tit--bg 진료과
+                                            td #{entities.mcdepart}
+                                            td.sub-tit--bg 담당의사명
+                                            td #{entities.mcdoctor}
+                                        tr
+                                            td.sub-tit--bg 소재지
+                                            td(colspan='3') #{entities.mcaddress}
+                                            td.sub-tit--bg 연락처
+                                            td #{entities.mctel}
+                                        tr
+                                            th.detail-tit--bg(rowspan='2')
+                                                span 검사 대상자 정보
+                                            td.sub-tit--bg 성명
+                                            td(colspan='3') #{entities.name1+entities.name2+entities.name3}
+                                            td.sub-tit--bg 생년월일
+                                            td #{`${entities.year}-${entities.month}-${entities.day}`}
+                                        tr
+                                            td.sub-tit--bg 식별 코드
+                                            td(colspan='3') #{entities.gccode}
+                                            td.sub-tit--bg 만나이
+                                            td #{entities.age} 
+                                            //- 수정필요
+                                        tr
+                                            th.detail-tit--bg(rowspan='3')
+                                                span 임상 소견
+                                            td.sub-tit--bg RSA
+                                            td #{entities.isrsa === '' ? 미기재 : (entities.isrsa === "Y" ? '유' : '무')}
+                                            td #{entities.rsacount}회
+                                            td.sub-tit--bg RIF
+                                            td #{entities.isrif === '' ? 미기재 : (entities.isrif === "Y" ? '유' : '무')}
+                                            td #{entities.rifcount}
+                                        tr
+                                            td.sub-tit--bg Translocation
+                                            td #{entities.istranslocation === '' ? 미기재 : (entities.istranslocation === "Y" ? '유' : '무')}
+                                            td(colspan='5') #{entities.translocationcount}
+                                        tr
+                                            td.sub-tit--bg 기타소견
+                                            td(colspan='6') #{entities.etccomment}
+                                table.table.table-row.progress-table.text-center.table-990.mt-3
+                                    thead.text-uppercase.bg-secondary
+                                        tr
+                                            th.bg-light(colspan='8') 샘플 정보
+                                        tr.text-white
+                                            th 순서
+                                            th 구분
+                                            th 샘플번호
+                                            th 의료재단 ID
+                                            th 검체 종류
+                                            th 샘플 채취일
+                                            th 검사 의뢰일
+                                            th 검사 결과
+                                    tbody
+                                        each value,key in entities.sample
+                                            -console.log();
+                                            tr
+                                                td #{key+1}
+                                                td #{value.type}
+                                                td #{value.code}
+                                                td #{value.companyid}
+                                                td #{value.specimentype}
+                                                td #{value.regdatetime}
+                                                td #{value.requestdate}
+                                                td No call 
+                                                //- 수정필요
+                                table.table.table-row.progress-table.text-center.table-990.mt-3
+                                    colgroup
+                                        col(width='15%')
+                                        col(width='*')
+                                    tbody
+                                        tr
+                                            th 입고 특이사항
+                                            td(colspan='7') #{entities.etccomment}
+                                .invoice-buttons.clearfix.mt-3
+                                    a.invoice-btn.pull-left(href="#log" data-action="log" data-index=(index)) History
+div(data-zone='pagination')
+    //- ul.pagination.justify-content-center.mt-5
+        li.page-item.disabled
+            a.page-link(href='#', aria-label='Previous')
+                span(aria-hidden='true') 《
+                span.sr-only first-page
+        li.page-item.disabled
+            a.page-link(href='#', aria-label='Previous')
+                span(aria-hidden='true') 〈
+                span.sr-only Previous
+        li.page-item.active
+            a.page-link(href='#') 1
+        li.page-item
+            a.page-link(href='#')
+                | 2 
+                span.sr-only (current)
+        li.page-item
+            a.page-link(href='#') 3
+        li.page-item
+            a.page-link(href='#', aria-label='Next')
+                span(aria-hidden='true') 〉
+                span.sr-only Next
+        li.page-item
+            a.page-link(href='#', aria-label='Next')
+                span(aria-hidden='true') 》
+                span.sr-only last-page
+.btn_wrap
+    //- button.btn.btn-danger.mb-3(type='button') 수정
+    button.btn.btn-success.mb-3(type='button' data-action="download-sample") 다운로드

@@ -1,0 +1,21 @@
+each value,index in data
+    -console.log();
+    tr
+        td
+            input(type='checkbox' data-action='selected-view' data-index=(index))
+        td #{total - ((pagination.page * requestProp.search.limit)+(index))}
+        td #{value.experimentname}
+        td #{value.experimentdate + ' ' + value.experimenttime}
+        td #{value.sample.id}
+        td #{value.code}        
+        td #{value.sample.code}
+        td #{value.sample.specimentype}
+        td #{value.barcode}
+        td
+            div.select
+                select.custom-select(data-view-observer='qubitqc' data-index=(index) )
+                    each selectValue,selectIndex in ["PASS","PASS(L)","FAIL"]
+                        - console.log();
+                        option(value=(selectValue) selected=(value.qubitqc == selectValue)) #{selectValue}
+        td(class=(value.qubitqc == "FAIL") ? 'is-gray' : '') #{value.ionserver}
+        td(class=(value.qubitqc == "FAIL") ? 'is-gray' : '') #{value.irid}

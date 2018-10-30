@@ -1,0 +1,95 @@
+<?php
+
+	include $_SERVER["DOCUMENT_ROOT"].'/include/head.php';
+?>
+
+<body>
+    <!--[if lt IE 8]>
+            <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+    <!-- preloader area start -->
+    <div id="preloader">
+        <div class="loader"></div>
+    </div>
+    <!-- preloader area end -->
+    <!-- login area start -->
+    <div class="login-area" id="auth">
+        <div class="container">
+            <div class="login-box ptb--100">
+                <form id="login">
+                    <div class="login-form-head">
+                        <h4>LOGIN</h4>
+                        <p>GenoBro 관리자페이지에 로그인 해주세요.</p>
+                    </div>
+                    <div class="login-form-body">
+                        <div class="form-gp">
+                            <label for="exampleInputEmail1">ID</label>
+                            <input type="email" id="exampleInputEmail1" name="id" required="">
+                            <i class="ti-user"></i>
+                        </div>
+                        <div class="form-gp">
+                            <label for="exampleInputPassword1">Password</label>
+                            <input type="password" id="exampleInputPassword1" name="pw" required="">
+                            <i class="ti-lock"></i>
+                        </div>
+                        <div class="row mb-4 rmber-area">
+                            <div class="col-6">
+                                <div class="custom-control custom-checkbox mr-sm-2">
+                                    <input type="checkbox" class="custom-control-input" id="customControlAutosizing" name="autologin" value="1">
+                                    <label class="custom-control-label" for="customControlAutosizing">로그인 정보 저장</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="submit-btn-area">
+                            <button id="form_submit" type="submit">로그인 <i class="ti-arrow-right"></i></button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- login area end -->
+    <script>
+        const _ = new _Component($("#auth"),"auth");
+        _.import(
+            new _Component.ImportConf("restApi",true)
+        )
+        .then(
+            function(selfComponent){
+                const restApi = selfComponent.module.restApi;
+                restApi
+                    .setExtra("POST",`${API_ROOT}/user/logincheck.php`,{},"text")
+                    .send()
+                    .then(
+                        (data)=>{
+                            window.location.href = '/sub/warehousecompletion/sample_register.html';
+                        },
+                        (data)=>{
+                            selfComponent.trigger(
+                                new _Component.TriggerConf("submit","form#login",function(e){
+                                    e.preventDefault();
+                                    const formData = new FormData(this);
+                                    return restApi
+                                        .setExtra("POST",`${API_ROOT}/user/login.php`,formData,"json")
+                                        .send()
+                                        .then(
+                                            (data)=>{
+                                                alert(data.msg);
+                                                location.href = '/sub/warehousecompletion/sample_register.html';
+                                            },
+                                            (data)=>{
+                                                alert(data.msg || "아이디 혹은 비밀번호를 틀리셧습니다.");
+                                            }
+                                        )
+                                })
+                            )
+                        }
+                    )
+            }
+        );
+
+    </script>
+
+    <?php
+		include $_SERVER["DOCUMENT_ROOT"].'/include/footer_js.php';
+	?>

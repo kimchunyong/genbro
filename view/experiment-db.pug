@@ -1,0 +1,46 @@
+each value,index in data
+    -console.log();
+    tr
+        td
+            input(type="checkbox" data-action='selected-view' data-index=(index))
+        //- limit
+        td #{total - ((pagination.page * requestProp.search.limit)+(index))}
+        td
+            span.ti-eye.text-primary(data-action="log" data-index=index)
+        td #{value.sample.specimentype}
+        td #{value.sample.id}
+        td #{value.code}
+        td
+            span #{value.barcode}
+        td #{value.qubit}
+        td #{value.qubitqc}
+        td #{value.ionserver}
+        td #{value.irid}
+        td
+            a.button.is-link.detail_btns(href='javascript:void(0)')
+                span.icon.text-primary
+                    i.fas.fa-angle-down.ti-eye
+                span 상세보기
+
+    // 상세보기 s
+    tr.detail_tbl-wrap
+        td.detail_tbl-inner(colspan='13')
+            table.table.table-row.progress-table.text-center.table-990.mt-3
+                thead.bg-secondary
+                    tr
+                        th.bg-light(colspan='8') 상세보기
+                    tr.text-white
+                        th(colspan="2") 검체정보
+                        th(rowspan="2") 검체량(ul)
+                        th(rowspan="2") 검체 특이사항
+                        th(rowspan="2") 입고 특이 사항
+                    tr.text-white
+                        th 샘플번호
+                        th 검체 종류
+                tbody
+                    td #{value.sample.code}
+                    td #{value.sample.specimentype}
+                    td #{value.ul} 
+                    td #{value.etc}
+                    td #{value.container.etccomment}
+                            //- 수정필요

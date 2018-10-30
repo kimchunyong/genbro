@@ -1,0 +1,320 @@
+<?php
+
+	include $_SERVER["DOCUMENT_ROOT"].'/include/head.php';
+?>
+
+<body>
+    <!--[if lt IE 8]>
+            <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+    <!-- preloader area start -->
+	<?php
+		include $_SERVER["DOCUMENT_ROOT"].'/include/loader.php';
+	?>
+    <!-- preloader area end -->
+    <!-- page container area start -->
+    <div class="page-container">
+        <!-- sidebar menu area start -->
+        <?php
+			include $_SERVER["DOCUMENT_ROOT"].'/include/menu.php';
+		?>
+        <!-- sidebar menu area end -->
+        <!-- main content area start -->
+        <div class="main-content">
+            <!-- header area start -->
+            <?php
+				include $_SERVER["DOCUMENT_ROOT"].'/include/head_nav.php';
+			?>
+            <!-- header area end -->
+            <!-- main content area start -->
+            <div class="main-content-inner" id="view">
+				<!-- 기관관리 table s -->
+				<div class="col-12 mt-5">
+					<div class="card" id="view">
+						<div class="card-body" data-zone="view.content">
+							<!-- <div class="input-group mb-3">
+								<div class="search select px-0">
+									<select data-placeholder="검색어를 입력해 주세요">
+										<option vlaue=""></option>
+										<option>검색어</option>
+										<option>검색어1</option>
+									</select>
+								</div>
+								<div class="input-group-append">
+									<input class="btn btn-flat btn-secondary mb-3" type="submit" value="검색">
+								</div>
+								<div class="refresh_btn_box">
+									<button type="button" class="btn mb-3  justify-content-end" data-action='refresh'>
+										<i class="fa fa-refresh" data-perform="panel-refresh"></i>
+									</button>
+								</div>
+							</div>
+							<div class="single-table">
+								<div class="table-responsive">
+									<table class="table table-row progress-table text-center table-990 odd-table">
+										<thead class="text-uppercase bg-dark">
+											<tr class="text-white">
+												<th scope="col"><input type="checkbox"></th>
+												<th scope="col">순서</th>
+												<th scope="col">실험 담당자</th>
+												<th scope="col">STEP 5 시작 일시</th>
+												<th scope="col">Pooling</th>
+												<th scope="col">Templationg ID</th>
+												<th scope="col">RUN ID</th>
+												<th scope="col">NGS ID</th>
+												<th scope="col">Ion TS Report Address</th>
+												<th scope="col">IR ID</th>
+												<th scope="col">Results</th>
+												<th scope="col">Status</th>
+												<th scope="col">보기</th>
+											</tr>
+										</thead>
+										<tbody id="list">
+											<tr>
+												<td><input type="checkbox"></td>
+												<td>1</td>
+												<td>홍길동</td>
+												<td>2018-09-13/05:23</td>
+												<td>P180001</td>
+												<td>CHEF-1</td>
+                                                <td>P180001</td>
+												<td>S5XL01</td>
+												<td>
+                                                    <u>http://49.238.231.118/report/359/</u>
+                                                </td>
+												<td>genobro52</td>
+												<td>
+                                                    <div class="custom-control custom-radio custom-control-inline pl-0"><input class="custom-control-input" id="tbl_rs_col1" type="radio" value="result_01" name="companyid"><label class="custom-control-label" for="tbl_rs_col1"></label></div>
+                                                </td>
+												<td></td>
+												<td>
+                                                    <a class="button is-link detail_btns" href="javascript:void(0)">
+														<span class="icon text-primary"><i class="fas ti-eye fa-angle-down"></i></span>
+														<span>상세보기</span>
+													</a>
+                                                </td>
+											</tr>
+											<tr class="detail_tbl-wrap">
+												<td class="detail_tbl-inner" colspan="13">
+													<table class="table table-row progress-table text-center table-990 mt-3">
+														<thead class="text-uppercase bg-secondary">
+															<tr class="text-white">
+																<th>Loading density(%)</th>
+																<th>Total Bases(M)</th>
+																<th>Key signal</th>
+																<th>Mean Read Length(bp)</th>
+																<th>Sequencing Q/C</th>
+															</tr>
+														</thead>
+														<tbody>
+															<tr>
+																<td>-</td>
+																<td>-</td>
+																<td>-</td>
+																<td>-</td>
+																<td>-</td>
+															</tr>
+														</tbody>
+													</table>
+                                                    
+                                                    <table class="table table-row progress-table text-center table-990 mt-3">
+														<thead class="text-uppercase bg-secondary">
+															<tr class="text-white">
+																<th>GC T ID</th>
+																<th>바코드</th>
+																<th>Bases</th>
+																<th>>=Q20 Bases</th>
+																<th>Reads</th>
+																<th>Mean Read Length</th>
+																<th>Read Length Histogram</th>
+																<th>QC</th>
+															</tr>
+														</thead>
+														<tbody>
+															<tr>
+																<td>-</td>
+																<td>-</td>
+																<td>-</td>
+																<td>-</td>
+																<td>-</td>
+																<td>-</td>
+																<td>-</td>
+																<td>-</td>
+															</tr>
+														</tbody>
+													</table>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+							<nav>
+								<ul class="pagination justify-content-center mt-5">
+									<li class="page-item disabled">
+										<a class="page-link" href="#" aria-label="Previous">
+											<span aria-hidden="true">《</span>
+											<span class="sr-only">first-page</span>
+										</a>
+									</li>
+									<li class="page-item disabled">
+										<a class="page-link" href="#" aria-label="Previous">
+											<span aria-hidden="true">〈</span>
+											<span class="sr-only">Previous</span>
+										</a>
+									</li>
+									<li class="page-item active"><a class="page-link" href="#">1</a></li>
+									<li class="page-item">
+										<a class="page-link" href="#">2 <span class="sr-only">(current)</span></a>
+									</li>
+									<li class="page-item"><a class="page-link" href="#">3</a></li>
+									<li class="page-item">
+										<a class="page-link" href="#" aria-label="Next">
+											<span aria-hidden="true">〉</span>
+											<span class="sr-only">Next</span>
+										</a>
+									</li>
+									<li class="page-item">
+										<a class="page-link" href="#" aria-label="Next">
+											<span aria-hidden="true">》</span>
+											<span class="sr-only">last-page</span>
+										</a>
+									</li>
+								</ul>
+							</nav>
+							<div class="btn_wrap">
+								<a href="#n" class="btn btn-success mb-3" data-action="">실험 DB로 이동</a>
+							</div> -->
+						</div>
+					</div>
+                </div>
+				<!-- 기관관리 table e -->
+            </div>
+            <!-- main content area end -->
+        </div>
+    </div>
+    <!-- footer area start-->
+    <footer>
+        <div class="footer-area">
+            <p>© Copyright 2018 . All right reserved</p>
+        </div>
+    </footer>
+    <!-- footer area end-->
+    </div>
+    <!-- page container area end -->
+    <script>
+         const _ = new _Component($("#component"),"component");
+        _.import(
+            new _Component.ImportConf("restApi",true),
+            new _Component.ImportConf("util/pug",false),
+            new _Component.ImportConf("template",false),
+            new _Component.ImportConf("pagination",true),
+            new _Component.ImportConf("view",true),
+            new _Component.ImportConf("util/popup",false),
+            new _Component.ImportConf("util/menu",true),
+            new _Component.ImportConf("util/topNavigation",true),
+            new _Component.ImportConf("util/dateInfo",false),
+            new _Component.ImportConf("__init__",true),
+        )
+        .then(
+            function(selfComponent){
+                const Popup = selfComponent.module.Popup;
+                const restApi = selfComponent.module.restApi;
+                const view = selfComponent.module.view;
+                const pagination = selfComponent.module.pagination;
+                const topNavi = selfComponent.module.topNavigation;
+                const menu = selfComponent.module.menu;
+                const pug = selfComponent.module.Pug;
+                const dateInfo = selfComponent.module.DateInfo.instance;
+                const __init__ = selfComponent.module.__init__;
+
+                const templateStorage  = {};
+                view.init($("#view"),"pooling","/view/_experiment/step5")
+                    .addEventListener(
+                        "beforeRequest",
+                        (refSelf,requestConf)=>{
+                            return {
+                                page : undefined,
+                                limit : undefined,
+                                search : {
+                                    status : 3,
+                                    page : pagination.page,
+                                    limit : 15,//view.limit,
+                                }
+                            } 
+                        }
+                    )
+                    .request()
+                    .then(
+                        ()=>{
+                            let checkedData = [];
+                            const validateObj = (setter = function(){},data,...keys) =>{
+                                const nonEmptyKey = keys.filter(function(key) {
+                                    return !!data[key];
+                                });
+                                nonEmptyKey.forEach(setter.bind(data));
+
+                                return nonEmptyKey.length === keys.length;
+                            }
+                            view.trigger(
+                                new _Component.TriggerConf("click", "[data-action='refresh']",function(){
+                                    view.request();
+                                }),
+                                new _Component.TriggerConf("change","[data-action='selected-view-all']",function(e){
+                                    let isChecked = $(this).prop('checked');
+                                    const $selectedCheckbox = view.$target.find("[data-action='selected-view']");
+                                    if(isChecked){
+                                        checkedData = view.__data.data;
+                                        $selectedCheckbox.prop('checked',true);
+                                    }
+                                    else{
+                                        checkedData = [];
+                                        $selectedCheckbox.prop('checked',false);
+                                    }
+                                }),
+                                new _Component.TriggerConf("change","[data-action='selected-view']",function(e){
+                                    let isChecked = $(this).prop('checked');
+                                    let index = $(this).data('index');
+                                    if(isChecked){
+                                        checkedData[index] = view.__data.data[index];
+                                    }
+                                    else{
+                                        checkedData.splice(index,1);
+                                    }
+                                }),
+                                new _Component.TriggerConf("click","[data-action='goto-db']",function(e){
+                                    if (checkedData.length > 0) {
+                                        let formData = new FormData();
+                                        checkedData.map(function(rowData,index) {
+                                            formData.set(`${index}[data][status]`,4)
+                                            formData.set(`${index}[search][idx]`,rowData.idx)
+
+                                        });
+                                        return restApi
+                                            .setExtra("POST",`${API_ROOT}/experiment/poolingupdate.php`,formData,"json")
+                                            .send()
+                                            .then(
+                                                (data) => {
+                                                    alert(data.msg);
+                                                    return view.request();
+                                                },
+                                                (data) => {
+                                                    alert(data.msg);
+                                                }
+                                            );
+                                    };
+                                })
+                            );
+                        }
+                    )
+            }, 
+            function(){
+
+            }
+        )
+    </script>
+    
+	
+    <?php
+		include $_SERVER["DOCUMENT_ROOT"].'/include/footer_js.php';
+	?>

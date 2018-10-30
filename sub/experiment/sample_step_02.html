@@ -1,0 +1,213 @@
+<?php
+
+	include $_SERVER["DOCUMENT_ROOT"].'/include/head.php';
+?>
+
+<body>
+    <!--[if lt IE 8]>
+            <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+    <!-- preloader area start -->
+	<?php
+		include $_SERVER["DOCUMENT_ROOT"].'/include/loader.php';
+	?>
+    <!-- preloader area end -->
+    <!-- page container area start -->
+    <div class="page-container">
+        <!-- sidebar menu area start -->
+        <?php
+			include $_SERVER["DOCUMENT_ROOT"].'/include/menu.php';
+		?>
+        <!-- sidebar menu area end -->
+        <!-- main content area start -->
+        <div class="main-content">
+            <!-- header area start -->
+            <?php
+				include $_SERVER["DOCUMENT_ROOT"].'/include/head_nav.php';
+			?>
+            <!-- header area end -->
+            <!-- main content area start -->
+            <div class="main-content-inner" id="component">
+				<!-- 기관관리 table s -->
+				<div class="col-12 mt-5">
+					<div class="card" id="view">
+						<div class="card-body" data-zone="view.content">
+						</div>
+					</div>
+                </div>
+				<!-- 기관관리 table e -->
+            </div>
+            <!-- main content area end -->
+        </div>
+    </div>
+    <!-- footer area start-->
+    <footer>
+        <div class="footer-area">
+            <p>© Copyright 2018 . All right reserved</p>
+        </div>
+    </footer>
+    <!-- footer area end-->
+    </div>
+    <!-- page container area end -->
+    
+    <!-- 샘플대기 팝업 s -->
+	<div class="modal fade step02_popup show" id="pooling-popup">
+	</div>
+	<!-- 샘플대기 팝업 e -->
+    <script>
+        const _ = new _Component($("#component"),"component");
+        _.import(
+            new _Component.ImportConf("restApi",true),
+            new _Component.ImportConf("util/pug",false),
+            new _Component.ImportConf("template",false),
+            new _Component.ImportConf("pagination",true),
+            new _Component.ImportConf("view",true),
+            new _Component.ImportConf("util/popup",false),
+            new _Component.ImportConf("util/menu",true),
+            new _Component.ImportConf("util/topNavigation",true),
+            new _Component.ImportConf("util/dateInfo",false),
+            new _Component.ImportConf("__init__",true),
+        )
+        .then(
+            function(selfComponent){
+                const Popup = selfComponent.module.Popup;
+                const restApi = selfComponent.module.restApi;
+                const view = selfComponent.module.view;
+                const pagination = selfComponent.module.pagination;
+                const topNavi = selfComponent.module.topNavigation;
+                const menu = selfComponent.module.menu;
+                const pug = selfComponent.module.Pug;
+                const dateInfo = selfComponent.module.DateInfo.instance;
+                const __init__ = selfComponent.module.__init__;
+
+                const templateStorage  = {};
+                const poolingPopup = new Popup("/view/popup/_experiment/pooling",$("#pooling-popup"));
+                poolingPopup.init(($form,e)=>{
+                    const formData = new FormData($form.get(0));
+                    return restApi
+                        .setExtra("POST",`${API_ROOT}/experiment/poolinginsert.php`,formData,"json",{
+                            headers : new Headers([
+                               ["Accept", "application/json"] 
+                            ])
+                        })
+                        .send()
+                        .then(
+                            (data)=>{
+                                alert(data.msg);
+                                return view.request();
+                            }, 
+                            (data)=>{
+                                alert(data.msg);
+                            }
+                        )
+                });
+                view.init($("#view"),"experiment","/view/_experiment/step2")
+                    .addEventListener(
+                        "beforeRequest",
+                        (refSelf,requestConf)=>{
+                            return {
+                                page : undefined,
+                                limit : undefined,
+                                search : {
+                                    status : 3,
+                                    page : pagination.page,
+                                    limit : 15,//view.limit,
+                                }
+                            } 
+                        }
+                    )
+                    .request()
+                    .then(
+                        ()=>{
+                            let checkedData = [];
+                            view.trigger(
+                                new _Component.TriggerConf("click", "[data-action='refresh']",function(){
+                                    view.request();
+                                }),
+                                new _Component.TriggerConf("change","[data-action='selected-view-all']",function(e){
+                                    let isChecked = $(this).prop('checked');
+                                    const $selectedCheckbox = view.$target.find("[data-action='selected-view']");
+                                    if(isChecked){
+                                        checkedData = view.__data.data;
+                                        $selectedCheckbox.prop('checked',true);
+                                    }
+                                    else{
+                                        checkedData = [];
+                                        $selectedCheckbox.prop('checked',false);
+                                    }
+                                }),
+                                new _Component.TriggerConf("change","[data-action='selected-view']",function(e){
+                                    let isChecked = $(this).prop('checked');
+                                    let index = $(this).data('index');
+                                    if(isChecked){
+                                        checkedData[index] = view.__data.data[index];
+                                    }
+                                    else{
+                                        checkedData.splice(index,1);
+                                    }
+                                }),
+                                new _Component.TriggerConf("click","[data-action='send-re-experiment']",function(e){
+                                    const formData = new FormData();
+                                    checkedData.forEach(function(element, index) {
+                                        formData.append(`${index}[search][idx]`,element.idx);
+                                    });
+                                    if(checkedData.length > 0 && confirm("선택하신 실험을 재실험으로 등록하시겟습니까?")){
+                                        return restApi
+                                                .setExtra("POST",`${API_ROOT}/experiment/insert.php`,formData,"json")
+                                                .send()
+                                                .then(
+                                                    (data)=>{
+                                                        alert(data.msg);
+                                                        view.request();
+                                                    },
+                                                    (data)=>{
+                                                        alert(data.msg);
+                                                    }
+                                                );
+                                    }
+                                }),
+                                new _Component.TriggerConf("click","[data-action='goto-pooling']",function(e){
+                                    return poolingPopup.open({viewData : view.__data.data,...view,pagination : pagination,total : view.__data.total});
+                                }),
+                                // new _Component.TriggerConf("click","[data-action='goto-step2']",function(e){
+                                //     if (checkedData.length > 0) {
+                                //         let formData = new FormData();
+                                //         checkedData.map(function(rowData,index) {
+                                //             if(!rowData.barcode || !rowData.qubit || !rowData.qubitqc){
+                                //                 alert(`입력이 부족합니다..`)
+                                //                 throw new Error("need input");
+                                //             }
+                                //             formData.set(`${index}[data][status]`,4)
+                                //             formData.set(`${index}[data][barcode]`,rowData.barcode)
+                                //             formData.set(`${index}[data][qubit]`,rowData.qubit)
+                                //             formData.set(`${index}[data][qubitqc]`,rowData.qubitqc)
+                                //             formData.set(`${index}[search][idx]`,rowData.idx)
+
+                                //         });
+                                //         return restApi
+                                //             .setExtra("POST",`${API_ROOT}/experiment/updateall.php`,formData,"json")
+                                //             .send()
+                                //             .then(
+                                //                 (data) => {
+                                //                     alert(data.msg);
+                                //                     return view.request();
+                                //                 },
+                                //                 (data) => {
+                                //                     alert(data.msg);
+                                //                 }
+                                //             );
+                                //     };
+                                // })
+                            );
+                        }
+                    )
+            }, 
+            function(){
+
+            }
+        );   
+    </script>
+	
+    <?php
+		include $_SERVER["DOCUMENT_ROOT"].'/include/footer_js.php';
+	?>

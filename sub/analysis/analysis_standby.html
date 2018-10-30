@@ -1,0 +1,272 @@
+<?php
+
+	include $_SERVER["DOCUMENT_ROOT"].'/include/head.php';
+?>
+
+<body>
+    <!--[if lt IE 8]>
+            <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+    <!-- preloader area start -->
+	<?php
+		include $_SERVER["DOCUMENT_ROOT"].'/include/loader.php';
+	?>
+    <!-- preloader area end -->
+    <!-- page container area start -->
+    <div class="page-container">
+        <!-- sidebar menu area start -->
+        <?php
+			include $_SERVER["DOCUMENT_ROOT"].'/include/menu.php';
+		?>
+        <!-- sidebar menu area end -->
+        <!-- main content area start -->
+        <div class="main-content">
+            <!-- header area start -->
+            <?php
+				include $_SERVER["DOCUMENT_ROOT"].'/include/head_nav.php';
+			?>
+            <!-- header area end -->
+            <!-- main content area start -->
+            <div class="main-content-inner">
+				<!-- 기관관리 table s -->
+				<div class="col-12 mt-5">
+					<div class="card">
+						<div class="card-body">
+							<!-- chosen plugin s -->
+							<div class="input-group mb-3">
+								<div class="search select px-0">
+									<select data-placeholder="검색어를 입력해 주세요">
+										<option vlaue=""></option>
+										<option>검색어</option>
+										<option>검색어1</option>
+									</select>
+								</div>
+								<div class="input-group-append">
+									<input class="btn btn-flat btn-secondary mb-3" type="submit" value="검색">
+								</div>
+								<div class="refresh_btn_box">
+									<button type="button" class="btn mb-3  justify-content-end">
+										<i class="fa fa-refresh" data-perform="panel-refresh"></i>
+									</button>
+								</div>
+							</div>
+							<!-- chosen plugin e -->
+							<div class="single-table" id="view">
+								<div class="table-responsive">
+									<table class="table table-row progress-table text-center table-990 odd-table">
+										<thead class="text-uppercase bg-dark">
+											<tr class="text-white">
+												<th scope="col" rowspan="2"><input type="checkbox" data-action="selected-view-all"></th>
+												<th scope="col" rowspan="2">순서</th>
+												<th scope="col" rowspan="2">실험 담당자</th>
+												<th scope="col" rowspan="2">실험 완료일시</th>
+												<th scope="col" rowspan="2">GC S ID</th>
+												<th scope="col" rowspan="2">GC T ID</th>
+												<th scope="col" colspan="2">검체정보</th>
+												<th scope="col" rowspan="2">Barcode</th>
+												<th scope="col" rowspan="2">Qubit Q/C</th>
+												<th scope="col" rowspan="2">Ion TS Report Adress</th>
+												<th scope="col" rowspan="2">IR ID</th>
+											</tr>
+											<tr class="text-white">
+												<th scope="col">샘플번호</th>
+												<th scope="col">검체종류</th>
+											</tr>
+										</thead>
+										<tbody id="list" data-zone='view.content'>
+											<!-- item01 s -->
+											<!--tr>
+												<td><input type="checkbox"></td>
+												<td>1</td>
+												<td>홍길동</td>
+												<td>2018-09-13/05:23</td>
+												<td>GC1809P1015</td>
+												<td>GC1809P1015_V1</td>
+												<td>A2</td>
+												<td>Blastomere</td>
+												<td>SingleSeq_006</td>
+												<td>
+													<select class="custom-select">
+														<option selected="">PASS</option>
+														<option value="1">PASS(L)</option>
+														<option value="2">FAIL</option>
+													</select>
+												</td>
+												<td>https://49.238.231.118/report/299/</td>
+												<td></td>
+											</tr-->
+											<!-- item01 e -->
+										</tbody>
+                                        <tfoot>
+                                            <tr>
+                                                <td colspan="999">
+                                                    <div class="paging-box" data-zone="pagination"></div>
+                                                </td>
+                                            </tr>
+                                        </tfoot>
+									</table>
+								</div>
+							</div>
+							<!-- 페이지버튼 s-->
+							<!-- nav>
+								<ul class="pagination justify-content-center mt-5">
+									<li class="page-item disabled">
+										<a class="page-link" href="#" aria-label="Previous">
+											<span aria-hidden="true">《</span>
+											<span class="sr-only">first-page</span>
+										</a>
+									</li>
+									<li class="page-item disabled">
+										<a class="page-link" href="#" aria-label="Previous">
+											<span aria-hidden="true">〈</span>
+											<span class="sr-only">Previous</span>
+										</a>
+									</li>
+									<li class="page-item active"><a class="page-link" href="#">1</a></li>
+									<li class="page-item">
+										<a class="page-link" href="#">2 <span class="sr-only">(current)</span></a>
+									</li>
+									<li class="page-item"><a class="page-link" href="#">3</a></li>
+									<li class="page-item">
+										<a class="page-link" href="#" aria-label="Next">
+											<span aria-hidden="true">〉</span>
+											<span class="sr-only">Next</span>
+										</a>
+									</li>
+									<li class="page-item">
+										<a class="page-link" href="#" aria-label="Next">
+											<span aria-hidden="true">》</span>
+											<span class="sr-only">last-page</span>
+										</a>
+									</li>
+								</ul>
+							</nav -->
+							<!-- 페이지버튼 e-->
+							<div class="btn_wrap">
+								<button type="button" class="btn btn-success mb-3" data-action='update-analysis-wait'>분석시작</button>
+							</div>
+						</div>
+					</div>
+                </div>
+				<!-- 기관관리 table e -->
+            </div>
+            <!-- main content area end -->
+        </div>
+    </div>
+    <!-- footer area start-->
+    <footer>
+        <div class="footer-area">
+            <p>© Copyright 2018 . All right reserved</p>
+        </div>
+    </footer>
+    <!-- footer area end-->
+    </div>
+    <!-- page container area end -->
+    
+    <script>    
+        const _ = new _Component($("#component"),"component");
+        _.import(
+            new _Component.ImportConf("restApi",true),
+            new _Component.ImportConf("util/pug",false),
+            new _Component.ImportConf("template",false),
+            new _Component.ImportConf("pagination",true),
+            new _Component.ImportConf("view",true),
+            new _Component.ImportConf("util/popup",false),
+            new _Component.ImportConf("util/menu",true),
+            new _Component.ImportConf("util/topNavigation",true),
+            new _Component.ImportConf("util/dateInfo",false),
+            new _Component.ImportConf("__init__",true),
+        )
+        .then(
+            function(selfComponent){
+                const Popup = selfComponent.module.Popup;
+                const restApi = selfComponent.module.restApi;
+                const view = selfComponent.module.view;
+                const pagination = selfComponent.module.pagination;
+                const topNavi = selfComponent.module.topNavigation;
+                const menu = selfComponent.module.menu;
+                const pug = selfComponent.module.Pug;
+                const dateInfo = selfComponent.module.DateInfo.instance;
+
+                const templateStorage  = {};
+                view.init($("#view"),"experiment","/view/analysis")
+                    .addEventListener(
+                        "beforeRequest",
+                        (refSelf,requestConf)=>{
+                            return {
+                                page : undefined,
+                                limit : undefined,
+                                search : {
+                                    status : 7,
+                                    page : pagination.page,
+                                    limit : 15,//view.limit,
+                                }
+                            } 
+                        }
+                    )
+                    .request()
+                    .then(
+                        ()=>{
+                            let checkedData = [];
+                            view.trigger(
+                                new _Component.TriggerConf("click", "[data-action='refresh']",function(){
+                                    view.request();
+                                }),
+                                new _Component.TriggerConf("change","[data-action='selected-view']",function(e){
+                                    let isChecked = $(this).prop('checked');
+                                    let index = $(this).data('index');
+                                    if(isChecked){
+                                        checkedData[index] = view.__data.data[index];
+                                    }
+                                    else{
+                                        checkedData.splice(index,1);
+                                    }
+                                }),
+                            );
+                            selfComponent.trigger(
+                                new _Component.TriggerConf("change","[data-action='selected-view-all']",function(e){
+                                    let isChecked = $(this).prop('checked');
+                                    const $selectedCheckbox = view.$target.find("[data-action='selected-view']");
+                                    if(isChecked){
+                                        checkedData = view.__data.data;
+                                        $selectedCheckbox.prop('checked',true);
+                                    }
+                                    else{
+                                        checkedData = [];
+                                        $selectedCheckbox.prop('checked',false);
+                                    }
+                                }),
+                                new _Component.TriggerConf("click","[data-action='update-analysis-wait']",function(e){
+                                    let formData = new FormData();
+                                    if (checkedData.length > 0 && confirm("선택하신 데이터를 분석시작 하시겠습니까?")) {
+                                        checkedData.map(function(rowData,index) {
+                                            formData.set(`${index}[data][status]`,8)
+                                            formData.set(`${index}[search][idx]`,rowData.idx)
+                                        });
+                                        return restApi
+                                            .setExtra("POST",`${API_ROOT}/experiment/updateall.php`,formData,"json")
+                                            .send()
+                                            .then(
+                                                (data) => {
+                                                    alert(data.msg);
+                                                    return view.request();
+                                                },
+                                                (data) => {
+                                                    alert(data.msg);
+                                                }
+                                            );
+                                    };
+                                })
+                            )
+                        }
+                    )
+            }, 
+            function(){
+
+            }
+        )
+    </script>
+	
+    <?php
+		include $_SERVER["DOCUMENT_ROOT"].'/include/footer_js.php';
+	?>

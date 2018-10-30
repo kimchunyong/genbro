@@ -1,0 +1,514 @@
+<?php
+
+    include $_SERVER["DOCUMENT_ROOT"].'/include/head.php';
+?>
+
+<body>
+    <!--[if lt IE 8]>
+            <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+    <!-- preloader area start -->
+    <?php
+        include $_SERVER["DOCUMENT_ROOT"].'/include/loader.php';
+    ?>
+    <!-- preloader area end -->
+    <!-- page container area start -->
+    <div class="page-container">
+        <!-- sidebar menu area start -->
+        <?php
+            include $_SERVER["DOCUMENT_ROOT"].'/include/menu.php';
+        ?>
+        <!-- sidebar menu area end -->
+        <!-- main content area start -->
+        <div class="main-content">
+            <!-- header area start -->
+            <?php
+                include $_SERVER["DOCUMENT_ROOT"].'/include/head_nav.php';
+            ?>
+            <!-- header area end -->
+            <!-- main content area start -->
+            <div class="main-content-inner" id="component">
+                <!-- 기관관리 table s -->
+                <div class="col-12 mt-5">
+                    <div class="card" id="view">
+                        <div class="card-body" data-zone="view.content">
+                        <!-- 
+                            <div class="single-table">
+                                <div class="table-responsive">
+                                    <table class="table table-row progress-table text-center table-990 odd-table">
+                                        <thead class="text-uppercase bg-dark">
+                                            <tr class="text-white">
+                                                <th scope="col" rowspan="2"><input type="checkbox"></th>
+                                                <th scope="col" rowspan="2">기관/병원명</th>
+                                                <th scope="col" rowspan="2">코드</th>
+                                                <th scope="col" rowspan="2">지점명</th>
+                                                <th scope="col" colspan="4">담당자</th>
+                                                <th scope="col" rowspan="2">관리</th>
+                                            </tr>
+                                            <tr class="text-white">
+                                                <th scope="col">직책</th>
+                                                <th scope="col">담당자명</th>
+                                                <th scope="col">메일주소</th>
+                                                <th scope="col">휴대폰</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="list">
+                                            <tr>
+                                                <td rowspan="3"><input type="checkbox"></td>
+                                                <td rowspan="3" class="text-left parent-node" style="padding-left:0.75em;">SML</td>
+                                                <td rowspan="3">M</td>
+                                                <td rowspan="3">동부2</td>
+                                                <td>사원</td>
+                                                <td>홍길동</td>
+                                                <td>1234@naver.com</td>
+                                                <td>010-0000-0000</td>
+                                                <td rowspan="3">
+                                                    <ul class="d-flex justify-content-center">
+                                                        <li class="mr-3"><a href="#" data-toggle="modal" data-target=".agency_pop"><i class="ti-plus" title="등록"></i></a></li>
+                                                        <li><a href="#" class="text-danger"><i class="ti-trash" title="삭제"></i></a></li>
+                                                    </ul>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>사원</td>
+                                                <td>홍길동</td>
+                                                <td>1234@naver.com</td>
+                                                <td>010-0000-0000</td>
+                                            </tr>
+                                            <tr>
+                                                <td>사원</td>
+                                                <td>홍길동</td>
+                                                <td>1234@naver.com</td>
+                                                <td>010-0000-0000</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <nav>
+                                <ul class="pagination justify-content-center mt-5">
+                                    <li class="page-item disabled">
+                                        <a class="page-link" href="#" aria-label="Previous">
+                                            <span aria-hidden="true">《</span>
+                                            <span class="sr-only">first-page</span>
+                                        </a>
+                                    </li>
+                                    <li class="page-item disabled">
+                                        <a class="page-link" href="#" aria-label="Previous">
+                                            <span aria-hidden="true">〈</span>
+                                            <span class="sr-only">Previous</span>
+                                        </a>
+                                    </li>
+                                    <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                                    <li class="page-item">
+                                        <a class="page-link" href="#">2 <span class="sr-only">(current)</span></a>
+                                    </li>
+                                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                    <li class="page-item">
+                                        <a class="page-link" href="#" aria-label="Next">
+                                            <span aria-hidden="true">〉</span>
+                                            <span class="sr-only">Next</span>
+                                        </a>
+                                    </li>
+                                    <li class="page-item">
+                                        <a class="page-link" href="#" aria-label="Next">
+                                            <span aria-hidden="true">》</span>
+                                            <span class="sr-only">last-page</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </nav>
+                            <div class="btn_wrap">
+                                <button type="button" class="btn btn-success mb-3" data-action='insert'>등록</button>
+                            </div>
+                         -->
+                        </div>
+                    </div>
+                </div>
+                <!-- 기관관리 table e -->
+            </div>
+            <!-- main content area end -->
+        </div>
+    </div>
+    <!-- footer area start-->
+    <footer>
+        <div class="footer-area">
+            <p>© Copyright 2018 . All right reserved</p>
+        </div>
+    </footer>
+    <!-- footer area end-->
+    </div>
+    <!-- page container area end -->
+    
+    <!-- 기관관리 팝업 s-->
+    <div class="modal fade agency_pop show" id="branch-insert">
+        <!-- <div class="modal-dialog modal-xl modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">지점관리</h5>
+                    <button type="button" class="close" data-dismiss="modal"><span>×</span></button>
+                </div>
+                <div class="modal-body scroll_pop">
+                    <div class="modal-container">
+                        <form name="frmReg">
+                            <div class="row">
+                                <div class="form-row col-md-4">
+                                    <div class="col-2" style="min-width:90px">
+                                        <label for="validationCustom01" style='line-height: 44px;'>기관/지점명</label>
+                                    </div>
+                                    <div class="col-md-10">
+                                        <input type="text" class="form-control" id="validationCustom01" placeholder="기관/지점명을 입력해주세요." required="">
+                                    </div>
+                                </div>
+                                
+                                <div class="form-row col-md-4">
+                                    <div class="col-2" style="min-width:90px">
+                                        <label for="validationCustom01" style='line-height: 44px;'>코드</label>
+                                    </div>
+                                    <div class="col-md-10">
+                                        <input type="text" class="form-control" id="validationCustom01" placeholder="코드를 입력해주세요." required="">
+                                    </div>
+                                </div>
+                                
+                                <div class="form-row col-md-4">
+                                    <div class="col-2" style="min-width:90px">
+                                        <label for="validationCustom01" style='line-height: 44px;'>대표번호</label>
+                                    </div>
+                                    <div class="col-md-10">
+                                        <input type="text" class="form-control" id="validationCustom01" placeholder="대표번호" required="">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-row col-md-6">
+                                    <div class="col-2" style="min-width:90px">
+                                        <label for="validationCustom01" style='line-height: 44px;'>사업자등록번호</label>
+                                    </div>
+                                    <div class="col-md-10">
+                                        <input type="text" class="form-control" id="validationCustom01" placeholder="사업자등록번호" required="">
+                                    </div>
+                                </div>
+                                
+                                <div class="form-row col-md-6">
+                                    <div class="col-2" style="min-width:90px">
+                                        <label for="validationCustom01" style='line-height: 44px;'>FAX</label>
+                                    </div>
+                                    <div class="col-md-10">
+                                        <input type="text" class="form-control" id="validationCustom01" placeholder="FAX" required="">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-row col-md-6">
+                                    <div class="col-2" style="min-width:90px">
+                                        <label for="validationCustom01" style='line-height: 44px;'>홈페이지</label>
+                                    </div>
+                                    <div class="col-md-10">
+                                        <input type="text" class="form-control" id="validationCustom01" placeholder="홈페이지" required="">
+                                    </div>
+                                </div>
+                                
+                                <div class="form-row col-md-6">
+                                    <div class="col-2" style="min-width:90px">
+                                        <label for="validationCustom01" style='line-height: 44px;'>주소</label>
+                                    </div>
+                                    <div class="col-md-10">
+                                        <input type="text" class="form-control" id="validationCustom01" placeholder="주소" required="">
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="row-item mt-3">
+                                <div class="row px-2">
+                                    <div class="col-12 mt-3">
+                                        <div class="single-table">
+                                            <div class="table-responsive">
+                                                <table class="table table-row progress-table text-center table-990" id="list-manager">
+                                                    <thead class="text-uppercase bg-dark">
+                                                        <tr class="text-white">
+                                                            <th colspan="7">담당자</th>
+                                                            <th>
+                                                                <button class="btn btn-warning btn-xs" type="button" id="button-addon2">추가</button>
+                                                            </th>
+                                                        </tr>
+                                                        <tr class="text-white">
+                                                            <th>직책</th>
+                                                            <th>담당자명</th>
+                                                            <th>메일주소</th>
+                                                            <th>TEL</th>
+                                                            <th>휴대폰</th>
+                                                            <th>주연락망</th>
+                                                            <th>기타사항</th>
+                                                            <th>관리</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td><input class="form-control" type="text" placeholder="직책"></td>
+                                                            <td><input class="form-control" type="text" placeholder="이름"></td>
+                                                            <td><input class="form-control" type="text" placeholder="이메일"></td>
+                                                            <td><input class="form-control" type="tel" placeholder="TEL"></td>
+                                                            <td><input class="form-control" type="tel" placeholder="휴대폰"></td>
+                                                            <td>
+                                                                <input type="checkbox">
+                                                            </td>
+                                                            <td><input class="form-control" type="text" placeholder="기타사항"></td>
+                                                            <td><a href="#" class="text-danger tbl_del_ico"><i class="ti-trash" title="삭제"></i></a></td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+                    <button type="button" class="btn btn-primary">저장</button>
+                </div>
+            </div>
+        </div> -->
+    </div>
+    <!-- 기관관리 팝업 e-->
+    
+    
+    <script>
+        const getCompanyInfo = function(restApi){
+            // {search : { idx2 : 0}}
+            return restApi
+                .setExtra("POST",`${API_ROOT}/companyinfo/list.php`,{},"json")
+                .send()
+                .then(function(companyInfo){
+                    const keyRegex = /idx(\d{1,})/g;
+                    const filtedData = {};
+                    companyInfo = companyInfo.data;
+                    companyInfo.forEach(function(el,index,arr){
+                        let key = `idx${el.depth}`;
+                        if (!Array.isArray(filtedData[key])) {
+                            filtedData[key] = [el];
+                        }
+                        else{
+                            filtedData[key].push(el);
+                        }
+                    });
+                    return Promise.resolve(filtedData);
+                });
+        }
+        const _ = new _Component(
+                    $("#component"),
+                    "warehouse-register"
+                );
+
+                _.import(
+                    new _Component.ImportConf("restApi",true),
+                    new _Component.ImportConf("util/pug",false),
+                    new _Component.ImportConf("template",false),
+                    new _Component.ImportConf("pagination",true),
+                    new _Component.ImportConf("view",true),
+                    new _Component.ImportConf("util/popup",false),
+                    new _Component.ImportConf("util/menu",true),
+                    new _Component.ImportConf("util/topNavigation",true),
+                    new _Component.ImportConf("util/dateInfo",true),
+                    new _Component.ImportConf("__init__",true),
+                )
+                .then(
+                    (selfComponent) => { 
+                        return getCompanyInfo(selfComponent.module.restApi)
+                            .then((companyInfo)=>{
+                                return Promise.resolve([selfComponent,companyInfo])
+                            })
+                    }
+                )
+                .then(
+                    ([selfComponent,companyInfo])=>{
+                        const Popup = selfComponent.module.Popup;
+                        const restApi = selfComponent.module.restApi;
+                        const view = selfComponent.module.view;
+                        const pagination = selfComponent.module.pagination;
+                        const topNavi = selfComponent.module.topNavigation;
+                        const menu = selfComponent.module.menu;
+                        const pug = selfComponent.module.Pug;
+                        const dateInfo = selfComponent.module.DateInfo.instance;
+
+                        const insertPopup = new Popup("/view/popup/_settings/branch-insert",$("#branch-insert"));
+
+                        view.init($("#view"),"company","/view/_settings/branch")
+                            .addEventListener(
+                                "beforeRequest",
+                                (refSelf,requestConf)=>{
+                                    return {
+                                        search : {
+                                            cidepth : 2,
+                                            page : pagination.page,
+                                            limit : view.limit,
+                                        }
+                                    } 
+                                }
+                            )
+                            .request()
+                            .then(
+                                function(){
+                                    // debugger;
+                                    const insertBasicConf = {
+                                        __pugTemplate : {},
+                                        companyInfo : companyInfo
+                                    };
+                                    insertPopup
+                                        .init(function($form,e){
+                                            const formData = new FormData($form.get(0));
+                                            restApi
+                                                .setExtra("POST",`${API_ROOT}/company/update.php`,formData,"json")
+                                                .send()
+                                                .then(
+                                                    (data)=>{
+                                                        alert(data.msg || "알수없는 오류입니다.");
+                                                        return view.request();
+                                                    },
+                                                    (data)=>{
+                                                        debugger;
+                                                        alert(data.msg || "알수없는 오류입니다.");
+                                                    }
+                                                );
+                                        })
+                                        .then(
+                                            (popup)=>{
+                                                let counter = 0;
+                                                popup.trigger(
+                                                    new _Component.TriggerConf("click","[data-action='list-insert']",function(e){
+                                                        const addSubView = insertBasicConf.__pugTemplate.subView;
+                                                        const $subList = popup.$form.find("[data-zone='list']");
+                                                        counter = counter >= 0 ? (counter) : (counter = $subList.children("tr").length)
+                                                        $subList.append(addSubView({},++counter));
+                                                    }),
+                                                    new _Component.TriggerConf("click","[data-action='list-remove']",function(e){
+                                                        const $this = $(this);
+                                                        const $target = $this.parents('tr');
+                                                        const idx = $this.data('index');
+                                                        const onRemove = function(){
+                                                            $target.remove();
+                                                            return view.request();
+                                                        };
+                                                        if(idx > -1 && confirm('정말 삭제하시겟습니까?')){
+                                                            restApi
+                                                                .setExtra("POST",`${API_ROOT}/companymanager/delete.php`,{search : {idx : idx}},"json")
+                                                                .send()
+                                                                .then(
+                                                                	(data)=>{
+                                                                		alert(data.msg);
+                                                                		onRemove();
+                                                                	}
+                                                                )
+                                                        }
+                                                        else{
+                                                            onRemove();
+                                                        }
+                                                    }),
+                                                )
+                                            }
+                                        );
+                                    selfComponent.trigger(
+                                        new _Component.TriggerConf("click","[data-action=insert]",function(e){
+                                            insertPopup.open(insertBasicConf);
+                                        })
+                                    )
+                                    view.trigger(
+                                        new _Component.TriggerConf("click","[data-action=update]",function(e){
+                                            const index = $(this).data('index');
+                                            insertPopup.open(
+                                                Object.assign(
+                                                    {},
+                                                    insertBasicConf,
+                                                    view.__data.data[index],
+                                                )
+                                            );
+                                        })
+                                    )
+
+                                },
+                                function(){
+                                    console.log(arguments[0]);
+                                    debugger;
+                                }
+                            )
+                            // ci붙은 대이터가 재단명(통합) row
+                            // cm붙은 대이터는 담당자(단일) row
+                    },
+                    ()=>{
+
+                    }
+                );
+
+        // $('#button-addon2').click(function(){
+        //  $('#list-manager tbody').append($('#list-manager tbody tr:eq(0)').clone());
+        //  $('#list-manager tbody .ti-trash').unbind('click');
+        //  $('#list-manager tbody .ti-trash').click(function(){
+        //      if($('#list-manager tbody tr').length < 2){
+        //          alert('한 명 이상 입력하셔야합니다.');
+        //          return false;
+        //      }
+        //      $('#list-manager tbody').find($(this).parents('tr')).remove();
+        //  });
+        // });
+        // $('#list-manager tbody .ti-trash').click(function(){
+        //  if($('#list-manager tbody tr').length < 2){
+        //      alert('한 명 이상 등록하셔야합니다.');
+        //      return false;
+        //  }
+        //  $('#list-manager tbody').find($(this).parents('tr')).remove();
+        // });
+        // 
+        // 
+        // depth2
+        // 
+        /*
+        var globalData = new Object();
+        $.ajax({
+            url: 'http://api.geno-bro2.tk/companyinfo/list.php',
+            type: 'post',
+            dataType: 'json',
+            data: {
+            },xhrFields : {withCredentials : true},
+            success:function(data){
+                //$('#list').empty();
+                globalData = data.data;
+                var html =  '<tr>';
+                    html_prev += '   <td rowspan="--rows--"><input type="checkbox"></td>';
+                    html_prev += '   <td rowspan="--rows--" class="text-left parent-node" style="padding-left:0.75em;">SML</td>';
+                    html_prev += '   <td rowspan="--rows--">M</td>';
+                    html_prev += '   <td rowspan="--rows--">동부2</td>';
+                    html += '   <td>사원</td>';
+                    html += '   <td>홍길동</td>';
+                    html += '   <td>1234@naver.com</td>';
+                    html += '   <td>010-0000-0000</td>';
+                    html_next += '   <td rowspan="--rows--">';
+                    html_next += '     <ul class="d-flex justify-content-center">';
+                    html_next += '         <li class="mr-3"><a href="#"><i class="ti-plus" title="하위 등록"></i></a></li>';
+                    html_next += '         <li class="mr-3"><a href="#" class="text-secondary" data-toggle="modal" data-target=".agency_pop"><i class="fa fa-edit" title="수정"></i></a></li>';
+                    html_next += '         <li><a href="#" class="text-danger"><i class="ti-trash" title="삭제"></i></a></li>';
+                    html_next += '     </ul>';
+                    html_next += '   </td>';
+                    html += '</tr>';
+                
+                $.each(globalData, function(i, a){
+                    var oddeven = a.level % 2 == 1 ? 'odd' : 'even';
+                    $('#list').append('<tr class="' + oddeven + '" data-order="' + i + '"><td class="text-left" style="padding-left:' + padding + 'em;">' + a.name + '</td><td>' + a.code + '</td><td>' + (a.area || '') + '</td><td><ul class="d-flex justify-content-center"><li class="mr-3"><a href="#"><i class="ti-plus" title="하위 등록"></i></a></li><li class="mr-3"><a href="#" class="text-secondary" data-toggle="modal" data-target=".bd-example-modal-lg"><i class="fa fa-edit" title="수정"></i></a></li><li><a href="#" class="text-danger"><i class="ti-trash" title="삭제"></i></a></li></ul></td></tr><tr class="addarea add-' + i + '" style="display:none;"></tr>');
+                });
+            }
+        });
+        
+        function addEvenet(){
+            $('.ti-plus').click(function(){
+                $('.addarea').css('display', 'none');
+                var i = $(this).parents('tr').data('order');
+                var a = globalData[i];
+                $('.add-' + i).css('display', 'block');
+            });
+        }
+        */
+    </script>
+    <?php
+        include $_SERVER["DOCUMENT_ROOT"].'/include/footer_js.php';
+    ?>

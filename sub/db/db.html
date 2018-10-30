@@ -1,0 +1,501 @@
+<?php
+
+    include $_SERVER["DOCUMENT_ROOT"].'/include/head.php';
+?>
+
+<body>
+    <!--[if lt IE 8]>
+            <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+    <!-- preloader area start -->
+    <?php
+        include $_SERVER["DOCUMENT_ROOT"].'/include/loader.php';
+    ?>
+    <!-- preloader area end -->
+    <!-- page container area start -->
+    <div class="page-container">
+        <!-- sidebar menu area start -->
+        <?php
+            include $_SERVER["DOCUMENT_ROOT"].'/include/menu.php';
+        ?>
+        <!-- sidebar menu area end -->
+        <!-- main content area start -->
+        <div class="main-content">
+            <!-- header area start -->
+            <?php
+                include $_SERVER["DOCUMENT_ROOT"].'/include/head_nav.php';
+            ?>
+            <!-- header area end -->
+            <!-- main content area start -->
+            <div class="main-content-inner">
+                <!-- 입고예정 목록 테이블 s-->
+                <div class="col-12 mt-5">
+                    <div class="card" id="sample-insert-view">
+                        <div class="card-body">
+                            <!-- chosen plugin s -->
+                            <div class="input-group mb-3">
+								<div class="search select px-0">
+									<select data-placeholder="검색어를 입력해 주세요">
+										<option vlaue=""></option>
+										<option>검색어</option>
+										<option>검색어1</option>
+									</select>
+								</div>
+								<div class="input-group-append">
+									<input class="btn btn-flat btn-secondary mb-3" type="submit" value="검색">
+								</div>
+								<div class="refresh_btn_box">
+									<button type="button" class="btn mb-3  justify-content-end">
+										<i class="fa fa-refresh" data-perform="panel-refresh"></i>
+									</button>
+								</div>
+							</div>
+                            <!-- chosen plugin e -->
+                            <div class="single-table" id="view">
+                                <div class="table-responsive">
+                                    <table class="table table-row progress-table text-center table-1400">
+                                        <thead class="text-uppercase bg-dark">
+                                            <tr class="text-white">
+                                                <th rowspan="2">순서</th>
+                                                <th rowspan="2">GC P ID</th>
+                                                <th rowspan="2">검사 대상자<br/>식별코드</th>
+                                                <th rowspan="2">총 샘플 수</th>
+                                                <th colspan="4">샘플정보</th>
+                                                <th colspan="2" rowspan="2">결과지</th>
+                                                <th rowspan="2">의료재단명</th>
+                                                <th rowspan="2">지점명</th>
+                                                <th rowspan="2">의료기관명</th>
+                                                <th rowspan="2">상세 보기</th>
+                                            </tr>
+                                            <tr class="text-white">
+                                                <th>샘플순서</th>
+                                                <th>GC S ID</th>
+                                                <th>샘플 ID</th>
+                                                <th>의료재단 ID</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody data-zone="view.content">
+                                            <!-- table item s -->
+                                            <!--tr>
+                                                <td rowspan="2">4735</td>
+                                                <td rowspan="2">
+                                                    MH-2018-967211
+                                                </td>
+                                                <td rowspan="2">1</td>
+                                                <td rowspan="2">EDC-TEST</td>
+                                                <td>1</td>
+                                                <td>1</td>
+                                                <td>삼광으료재단</td>
+                                                <td>GC1809P0001_R1</td>
+                                                <td><button type="button" class="btn btn-outline-secondary btn-xs">DOWN</button></td>
+                                                <td rowspan="2"><button type="button" class="btn btn-outline-secondary btn-xs">DOWN</button></td>
+                                                <td rowspan="2">TEST</td>
+                                                <td rowspan="2">TEST</td>
+                                                <td rowspan="2">TEST</td>
+                                                <td rowspan="2">
+                                                    <a class="button is-link detail_btns" href="javascript:void(0)">
+                                                        <span class="icon text-primary"><i class="fas fa-angle-down ti-eye"></i></span>
+                                                        <span>상세보기</span>
+                                                    </a>
+                                                </td>
+                                            </tr>
+											<tr>
+												<td>1</td>
+                                                <td>1</td>
+                                                <td>삼광으료재단</td>
+                                                <td>GC1809P0001_R1</td>
+												<td><button type="button" class="btn btn-outline-secondary btn-xs">DOWN</button></td>
+											</tr>
+                                            <tr class="detail_tbl-wrap">
+                                                <td class="detail_tbl-inner" colspan="14">
+                                                    <table class="table table-row progress-table text-center table-990">
+                                                        <tbody>
+                                                            <tr>
+                                                                <th class="detail-tit-bg">검사현황</th>
+                                                                <td colspan="6">실험 &gt; 수령대기</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th class="detail-tit-bg">
+                                                                    <div>의료재단 정보</div>
+                                                                </th>
+                                                                <td class="sub-tit--bg">의료재단명</td>
+                                                                <td>TEST</td>
+                                                                <td class="sub-tit--bg">지점명</td>
+                                                                <td>TEST</td>
+                                                                <td class="sub-tit--bg">입고 담당자</td>
+                                                                <td>TEST</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th rowspan="2" class="detail-tit-bg">의료기관 정보</th>
+                                                                <td class="sub-tit--bg">의료기관명</td>
+                                                                <td>TEST</td>
+                                                                <td class="sub-tit--bg">진료과</td>
+                                                                <td>TEST</td>
+                                                                <td class="sub-tit--bg">담당의사명</td>
+                                                                <td>TEST</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="sub-tit--bg">소재지</td>
+                                                                <td colspan="3">TEST</td>
+                                                                <td class="sub-tit--bg">연락처</td>
+                                                                <td>병원연락처</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th rowspan="2" class="detail-tit-bg">검사 대상자 정보</th>
+                                                                <td class="sub-tit--bg">성명</td>
+                                                                <td colspan="3">유*근</td>
+                                                                <td class="sub-tit--bg">생년월일</td>
+                                                                <td>2018-1-1</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="sub-tit--bg">식별 코드</td>
+                                                                <td colspan="3">EDC-TEST</td>
+                                                                <td class="sub-tit--bg">만나이</td>
+                                                                <td>0 </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th rowspan="3" class="detail-tit-bg">임상 소견</th>
+                                                                <td class="sub-tit--bg">RSA</td>
+                                                                <td>무</td>
+                                                                <td>0회</td>
+                                                                <td class="sub-tit--bg">RIF</td>
+                                                                <td>무</td>
+                                                                <td>0</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="sub-tit--bg">Translocation</td>
+                                                                <td>무</td>
+                                                                <td colspan="5"></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="sub-tit--bg">기타소견</td>
+                                                                <td colspan="6">기타소견</td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                    <table class="table table-row progress-table text-center table-990 mt-3">
+                                                        <thead class="text-uppercase bg-secondary">
+                                                            <tr>
+                                                                <th colspan="8" class="bg-light">샘플 정보</th>
+                                                            </tr>
+                                                            <tr class="text-white">
+                                                                <th>순서</th>
+                                                                <th>구분</th>
+                                                                <th>샘플번호</th>
+                                                                <th>의료재단 ID</th>
+                                                                <th>검체 종류</th>
+                                                                <th>샘플 채취일</th>
+                                                                <th>검사 의뢰일</th>
+                                                                <th>검사 결과</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr>
+                                                                <td>1</td>
+                                                                <td>테스트</td>
+                                                                <td>셈플번호-1</td>
+                                                                <td>의료재단-1</td>
+                                                                <td>Blastomere</td>
+                                                                <td>2018-09-13 10:05:33</td>
+                                                                <td>2018-09-20</td>
+                                                                <td>No call </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                    <table class="table table-row progress-table text-center table-990 mt-3">
+                                                        <colgroup>
+                                                            <col width="15%">
+                                                            <col width="*">
+                                                        </colgroup>
+                                                        <tbody>
+                                                            <tr>
+                                                                <td class="detail-tit-bg">입고 특이사항</td>
+                                                                <td colspan="7">기타소견</td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                    <div class="invoice-buttons clearfix mt-3">
+                                                       <a href="#" class="invoice-btn pull-left" data-toggle="modal" data-target=".histroy_log_popup">History</a>
+                                                    </div>
+                                                </td>
+                                            </tr-->
+                                            <!-- table item detail e -->
+                                        </tbody>
+                                        <tfoot>
+                                            <tr>
+                                                <td colspan="999">
+                                                    <div class="paging-box" data-zone="pagination"></div>
+                                                </td>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+                            </div>
+                            <!-- 페이지버튼 s-->
+                            <!--nav>
+                                <ul class="pagination justify-content-center mt-5">
+                                    <li class="page-item disabled">
+                                        <a class="page-link" href="#" aria-label="Previous">
+                                            <span aria-hidden="true">《</span>
+                                            <span class="sr-only">first-page</span>
+                                        </a>
+                                    </li>
+                                    <li class="page-item disabled">
+                                        <a class="page-link" href="#" aria-label="Previous">
+                                            <span aria-hidden="true">〈</span>
+                                            <span class="sr-only">Previous</span>
+                                        </a>
+                                    </li>
+                                    <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                                    <li class="page-item">
+                                        <a class="page-link" href="#">2 <span class="sr-only">(current)</span></a>
+                                    </li>
+                                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                    <li class="page-item">
+                                        <a class="page-link" href="#" aria-label="Next">
+                                            <span aria-hidden="true">〉</span>
+                                            <span class="sr-only">Next</span>
+                                        </a>
+                                    </li>
+                                    <li class="page-item">
+                                        <a class="page-link" href="#" aria-label="Next">
+                                            <span aria-hidden="true">》</span>
+                                            <span class="sr-only">last-page</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </nav-->
+                            <!-- 페이지버튼 e-->
+                        </div>
+                    </div>
+                </div>
+                <!-- 입고예정 목록 테이블 e-->
+            </div>
+            <!-- main content area end -->
+        </div>
+    </div>
+    <!-- footer area start-->
+    <footer>
+        <div class="footer-area">
+            <p>© Copyright 2018 . All right reserved</p>
+        </div>
+    </footer>
+    <!-- footer area end-->
+	
+    </div>
+    <!-- page container area end -->
+	
+	<!-- 상세보기 History 팝업 s -->
+	<div class="modal fade histroy_log_popup show">
+		<div class="modal-dialog modal-lg modal-dialog-centered">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"><span>×</span></button>
+				</div>
+				<div class="modal-body">
+					<div class="modal-container">
+						<div class="single-table">
+							<div class="table-responsive">
+								<table class="table table-hover progress-table text-center">
+									<thead class="text-uppercase bg-dark">
+										<tr class="text-white">
+											<th scope="col">등록/수정 담당자</th>
+											<th scope="col">등록/수정일시</th>
+											<th scope="col">등록/수정내역</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<th scope="row">홍길동</th>
+											<td>
+												<span class="entry_edit_day">2018-09-04</span>/
+												<span class="entry_edit_tiem">18:53</span>
+											</td>
+											<td>초기입력</td>
+										</tr>
+										<tr>
+											<th scope="row">홍길동</th>
+											<td>
+												<span class="entry_edit_day">2018-09-04</span>/
+												<span class="entry_edit_tiem">18:53</span>
+											</td>
+											<td>초기입력</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- 페이지버튼 s-->
+				<nav>
+					<ul class="pagination justify-content-center mt-5 mb-5">
+						<li class="page-item disabled">
+							<a class="page-link" href="#" aria-label="Previous">
+								<span aria-hidden="true">《</span>
+								<span class="sr-only">first-page</span>
+							</a>
+						</li>
+						<li class="page-item disabled">
+							<a class="page-link" href="#" aria-label="Previous">
+								<span aria-hidden="true">〈</span>
+								<span class="sr-only">Previous</span>
+							</a>
+						</li>
+						<li class="page-item active"><a class="page-link" href="#">1</a></li>
+						<li class="page-item">
+							<a class="page-link" href="#">2 <span class="sr-only">(current)</span></a>
+						</li>
+						<li class="page-item"><a class="page-link" href="#">3</a></li>
+						<li class="page-item">
+							<a class="page-link" href="#" aria-label="Next">
+								<span aria-hidden="true">〉</span>
+								<span class="sr-only">Next</span>
+							</a>
+						</li>
+						<li class="page-item">
+							<a class="page-link" href="#" aria-label="Next">
+								<span aria-hidden="true">》</span>
+								<span class="sr-only">last-page</span>
+							</a>
+						</li>
+					</ul>
+				</nav>
+				<!-- 페이지버튼 e-->
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" data-dismiss="modal">확인</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- 상세보기 History 팝업 e -->
+    
+    <!-- front-end data-sync and filter -->
+    
+    <script>
+        const _ = new _Component($("#component"),"component");
+        _.import(
+            new _Component.ImportConf("restApi",true),
+            new _Component.ImportConf("util/pug",false),
+            new _Component.ImportConf("template",false),
+            new _Component.ImportConf("pagination",true),
+            new _Component.ImportConf("view",true),
+            new _Component.ImportConf("util/popup",false),
+            new _Component.ImportConf("util/menu",true),
+            new _Component.ImportConf("util/topNavigation",true),
+            new _Component.ImportConf("util/dateInfo",false),
+                    new _Component.ImportConf("__init__",true),
+        )
+        .then(
+            function(selfComponent){
+                const Popup = selfComponent.module.Popup;
+                const restApi = selfComponent.module.restApi;
+                const view = selfComponent.module.view;
+                const pagination = selfComponent.module.pagination;
+                const topNavi = selfComponent.module.topNavigation;
+                const menu = selfComponent.module.menu;
+                const pug = selfComponent.module.Pug;
+                const dateInfo = selfComponent.module.DateInfo.instance;
+
+                const templateStorage  = {};
+                const logPopup = new Popup("/view/popup/prestock-log",$("#log-popup"));
+                logPopup.init(function($form,event){
+                    let index = parseInt($form.get(0).index.value);
+                    const formData = this.__data['__formData'];
+                    selected = this.__data.data[index];
+                });
+                view.init($("#view"),"warehouse","/view/database")
+                    .addEventListener(
+                        "beforeRequest",
+                        (refSelf,requestConf)=>{
+                            return {
+                                page : undefined,
+                                limit : undefined,
+                                search : {
+                                    status : 10,
+                                    page : pagination.page,
+                                    limit : 15,//view.limit,
+                                }
+                            } 
+                        }
+                    )
+                    .request()
+                    .then(
+                        ()=>{
+                            let checkedData = [];
+                            view.trigger(
+                                new _Component.TriggerConf("change","[data-action='selected-view']",function(e){
+                                    let isChecked = $(this).prop('checked');
+                                    let index = $(this).data('index');
+                                    if(isChecked){
+                                        checkedData[index] = view.__data.data[index];
+                                    }
+                                    else{
+                                        checkedData.splice(index,1);
+                                    }
+                                }),
+                                new _Component.TriggerConf("click","[data-action='log']",function(e){
+                                    let index = jQuery(this).data('index');
+                                    logPopup.open(Object.assign(
+                                        view.__data.data[index]
+                                    ))
+                                    .then(
+                                        ()=>{
+                                            logPopup.$zone.addClass('is-active').css('display', 'flex');
+                                        },
+                                        ()=>{
+                                            debugger;
+                                        }
+                                    );
+                                })
+                            );
+                            selfComponent.trigger(
+                                new _Component.TriggerConf("click", "[data-action='refresh']",function(){
+                                    view.request();
+                                }),
+                                new _Component.TriggerConf("change","[data-action='selected-view-all']",function(e){
+                                    let isChecked = $(this).prop('checked');
+                                    const $selectedCheckbox = view.$target.find("[data-action='selected-view']");
+                                    if(isChecked){
+                                        checkedData = view.__data.data;
+                                        $selectedCheckbox.prop('checked',true);
+                                    }
+                                    else{
+                                        checkedData = [];
+                                        $selectedCheckbox.prop('checked',false);
+                                    }
+                                }),
+                                new _Component.TriggerConf("click","[data-action='update-analysis-wait']",function(e){
+                                    let formData = new FormData();
+                                    if (checkedData.length > 0 && confirm("선택하신 데이터를 분석시작 하시겠습니까?")) {
+                                        checkedData.map(function(rowData,index) {
+                                            formData.set(`${index}[data][status]`,4)
+                                            formData.set(`${index}[search][idx]`,rowData.idx)
+                                        });
+                                        return restApi
+                                            .setExtra("POST",`${API_ROOT}/experiment/updateall.php`,formData,"json")
+                                            .send()
+                                            .then(
+                                                (data) => {
+                                                    alert(data.msg);
+                                                    return view.request();
+                                                },
+                                                (data) => {
+                                                    alert(data.msg);
+                                                }
+                                            );
+                                    };
+                                })
+                            )
+                        }
+                    )
+            }, 
+            function(){
+
+            }
+        )
+    </script>
+    
+    <?php
+        include $_SERVER["DOCUMENT_ROOT"].'/include/footer_js.php';
+    ?>

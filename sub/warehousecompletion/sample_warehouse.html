@@ -1,0 +1,1162 @@
+<?php
+
+	include $_SERVER["DOCUMENT_ROOT"].'/include/head.php';
+?>
+
+<body>
+    <!--[if lt IE 8]>
+            <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+    <!-- preloader area start -->
+	<?php
+		include $_SERVER["DOCUMENT_ROOT"].'/include/loader.php';
+	?>
+    <!-- preloader area end -->
+    <!-- page container area start -->
+    <div class="page-container">
+        <!-- sidebar menu area start -->
+        <?php
+			include $_SERVER["DOCUMENT_ROOT"].'/include/menu.php';
+		?>
+        <!-- sidebar menu area end -->
+        <!-- main content area start -->
+        <div class="main-content">
+            <!-- header area start -->
+            <?php
+				include $_SERVER["DOCUMENT_ROOT"].'/include/head_nav.php';
+			?>
+            <!-- header area end -->
+            <!-- main content area start -->
+            <div class="main-content-inner"  id="sample-warehouse-component">
+				<!-- 입고예정 목록 테이블 s-->
+				<div class="col-12 mt-5">
+					<div class="card" id="view">
+						<div class="card-body" data-zone="view.content">
+							<!-- chosen plugin s -->
+							<div class="input-group mb-3">
+								<div class="search select px-0">
+									<select data-placeholder="검색어를 입력해 주세요">
+										<option vlaue=""></option>
+										<option>검색어</option>
+										<option>검색어1</option>
+									</select>
+								</div>
+								<div class="input-group-append">
+									<input class="btn btn-flat btn-secondary mb-3" type="submit" value="검색">
+								</div>
+								<div class="refresh_btn_box">
+									<button type="button" class="btn mb-3  justify-content-end">
+										<i class="fa fa-refresh" data-perform="panel-refresh"></i>
+									</button>
+								</div>
+							</div>
+							<!-- chosen plugin e -->
+							<div class="single-table">
+								<div class="table-responsive">
+									<table class="table table-row progress-table text-center table-1400">
+										<thead class="text-uppercase bg-dark">
+											<tr class="text-white">
+												<th rowspan="2">
+													<input type="checkbox">
+												</th>
+												<th rowspan="2">순서</th>
+												<th rowspan="2">GC P ID</th>
+												<th rowspan="2">검사 대상자<br/>식별코드</th>
+												<th rowspan="2">샘플총개수</th>
+												<th colspan="4">샘플정보</th>
+												<th rowspan="2">의료재단명</th>
+												<th rowspan="2">지점명</th>
+												<th rowspan="2">의료기관명</th>
+												<th rowspan="2">상세 보기</th>
+												<th rowspan="2">수정</th>
+											</tr>
+											<tr class="text-white">
+												<th>샘플순서</th>
+												<th>GC S ID</th>
+												<th>샘플 ID</th>
+												<th>의료재단 ID</th>
+											</tr>
+										</thead>
+										<tbody>
+											<!-- table item s -->
+											<tr>
+												<td rowspan="3">
+													<input type="checkbox">
+												</td>
+												<td rowspan="3">1</td>
+												<td rowspan="3">MH-2018-967211</td>
+												<td rowspan="3">
+													MH-2018-967211
+												</td>
+												<td rowspan="3">3</td>
+												<td>1</td>
+												<td></td>
+												<td>1</td>
+												<td>20180911-77400</td>
+												<td>삼광의료재단</td>
+												<td>동부2</td>
+												<td>미래와희망 산부인과 의원</td>
+												<td rowspan="3">
+													<a class="button is-link detail_btns" href="javascript:void(0)">
+														<span class="icon text-primary"><i class="fas fa-angle-down ti-eye"></i></span>
+														<span>상세보기</span>
+													</a>
+												</td>
+												<td rowspan="3">
+													<a href="#" class="text-secondary" data-toggle="modal" data-target=".bd-example-modal-lg"><i class="fa fa-edit" title="수정"></i></a>
+												</td>
+											</tr>
+											<tr>
+												<td>2</td>
+												<td></td>
+												<td>1</td>
+												<td>20180911-77400</td>
+												<td>삼광의료재단</td>
+												<td>동부2</td>
+												<td>미래와희망 산부인과 의원</td>
+											</tr>
+											<tr>
+												<td>3</td>
+												<td></td>
+												<td>1</td>
+												<td>20180911-77400</td>
+												<td>삼광의료재단</td>
+												<td>동부2</td>
+												<td>미래와희망 산부인과 의원</td>
+											</tr>
+											<!-- table item e -->
+											<!-- table item detail s -->
+											<tr class="detail_tbl-wrap">
+												<td class="detail_tbl-inner" colspan="14">
+													<table class="table table-row progress-table text-center table-990">
+														<tbody>
+															<tr>
+																<th class="detail-tit-bg">검사현황</th>
+																<td colspan="6">실험 &gt; 수령대기</td>
+															</tr>
+															<tr>
+																<th class="detail-tit-bg">
+																	<div>의료재단 정보</div>
+																</th>
+																<td class="sub-tit--bg">의료재단명</td>
+																<td>TEST</td>
+																<td class="sub-tit--bg">지점명</td>
+																<td>TEST</td>
+																<td class="sub-tit--bg">입고 담당자</td>
+																<td>TEST</td>
+															</tr>
+															<tr>
+																<th rowspan="2" class="detail-tit-bg">의료기관 정보</th>
+																<td class="sub-tit--bg">의료기관명</td>
+																<td>TEST</td>
+																<td class="sub-tit--bg">진료과</td>
+																<td>TEST</td>
+																<td class="sub-tit--bg">담당의사명</td>
+																<td>TEST</td>
+															</tr>
+															<tr>
+																<td class="sub-tit--bg">소재지</td>
+																<td colspan="3">TEST</td>
+																<td class="sub-tit--bg">연락처</td>
+																<td>병원연락처</td>
+															</tr>
+															<tr>
+																<th rowspan="2" class="detail-tit-bg">검사 대상자 정보</th>
+																<td class="sub-tit--bg">성명</td>
+																<td colspan="3">유*근</td>
+																<td class="sub-tit--bg">생년월일</td>
+																<td>2018-1-1</td>
+															</tr>
+															<tr>
+																<td class="sub-tit--bg">식별 코드</td>
+																<td colspan="3">EDC-TEST</td>
+																<td class="sub-tit--bg">만나이</td>
+																<td>0 </td>
+															</tr>
+															<tr>
+																<th rowspan="3" class="detail-tit-bg">임상 소견</th>
+																<td class="sub-tit--bg">RSA</td>
+																<td>무</td>
+																<td>0회</td>
+																<td class="sub-tit--bg">RIF</td>
+																<td>무</td>
+																<td>0</td>
+															</tr>
+															<tr>
+																<td class="sub-tit--bg">Translocation</td>
+																<td>무</td>
+																<td colspan="5"></td>
+															</tr>
+															<tr>
+																<td class="sub-tit--bg">기타소견</td>
+																<td colspan="6">기타소견</td>
+															</tr>
+														</tbody>
+													</table>
+													<table class="table table-row progress-table text-center table-990 mt-3">
+														<thead class="text-uppercase bg-secondary">
+															<tr>
+																<th colspan="8" class="bg-light">샘플 정보</th>
+															</tr>
+															<tr class="text-white">
+																<th>순서</th>
+																<th>구분</th>
+																<th>샘플번호</th>
+																<th>의료재단 ID</th>
+																<th>검체 종류</th>
+																<th>샘플 채취일</th>
+																<th>검사 의뢰일</th>
+																<th>검사 결과</th>
+															</tr>
+														</thead>
+														<tbody>
+															<tr>
+																<td>1</td>
+																<td>테스트</td>
+																<td>셈플번호-1</td>
+																<td>의료재단-1</td>
+																<td>Blastomere</td>
+																<td>2018-09-13 10:05:33</td>
+																<td>2018-09-20</td>
+																<td>No call </td>
+															</tr>
+														</tbody>
+													</table>
+													<table class="table table-row progress-table text-center table-990 mt-3">
+														<colgroup>
+															<col width="15%">
+															<col width="*">
+														</colgroup>
+														<tbody>
+															<tr>
+																<td class="detail-tit-bg">입고 특이사항</td>
+																<td colspan="7">기타소견</td>
+															</tr>
+														</tbody>
+													</table>
+													<div class="invoice-buttons clearfix mt-3">
+														<a href="#" class="invoice-btn pull-left" data-toggle="modal" data-target=".histroy_log_popup">History</a>
+													</div>
+												</td>
+											</tr>
+											<!-- table item detail e -->
+										</tbody>
+									</table>
+								</div>
+							</div>
+							<!-- 페이지버튼 s-->
+							<nav>
+								<ul class="pagination justify-content-center mt-5">
+									<li class="page-item disabled">
+										<a class="page-link" href="#" aria-label="Previous">
+											<span aria-hidden="true">《</span>
+											<span class="sr-only">first-page</span>
+										</a>
+									</li>
+									<li class="page-item disabled">
+										<a class="page-link" href="#" aria-label="Previous">
+											<span aria-hidden="true">〈</span>
+											<span class="sr-only">Previous</span>
+										</a>
+									</li>
+									<li class="page-item active"><a class="page-link" href="#">1</a></li>
+									<li class="page-item">
+										<a class="page-link" href="#">2 <span class="sr-only">(current)</span></a>
+									</li>
+									<li class="page-item"><a class="page-link" href="#">3</a></li>
+									<li class="page-item">
+										<a class="page-link" href="#" aria-label="Next">
+											<span aria-hidden="true">〉</span>
+											<span class="sr-only">Next</span>
+										</a>
+									</li>
+									<li class="page-item">
+										<a class="page-link" href="#" aria-label="Next">
+											<span aria-hidden="true">》</span>
+											<span class="sr-only">last-page</span>
+										</a>
+									</li>
+								</ul>
+							</nav>
+							<!-- 페이지버튼 e-->
+							<div class="btn_wrap">
+								<button type="button" class="btn btn-success mb-3">실험등록</button>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- 입고예정 목록 테이블 e-->
+            </div>
+            <!-- main content area end -->
+        </div>
+    </div>
+    <!-- footer area start-->
+    <footer>
+        <div class="footer-area">
+            <p>© Copyright 2018 . All right reserved</p>
+        </div>
+    </footer>
+    <!-- footer area end-->
+	
+    <!-- 샘플등록 s -->
+    <div class="modal fade bd-example-modal-lg show modify--state" id="modify-popup" style="overflow-y:auto">
+        <!-- <div class="modal-dialog modal-xl modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">샘플등록</h5>
+                    <button type="button" class="close" data-zone="popup.close"><span>×</span></button>
+                </div>
+                <div class="modal-body">
+                    <div class="modal-container">
+                        <div class="row-item mt-3">
+                            <h5>의료재단 정보</h5>
+                            <div class="row px-2">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="foundation_name_inp" class="col-form-label">의료재단명</label>
+                                        <input class="form-control" type="text" id="foundation_name_inp" name="data[company][name]" data-action="search-company">
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="foundation_code_inp" class="col-form-label">재단코드</label>
+                                        <input class="form-control" type="text" id="foundation_code_inp" name="data[company][code]" data-action="search-company">
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="spot_name_inp" class="col-form-label">지점명</label>
+                                        <input class="form-control" type="text" id="spot_name_inp" name="data[company][area]" data-action="search-company">
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="person_charge_inp" class="col-form-label">담당자</label>
+                                        <input class="form-control" type="text" id="person_charge_inp" name="data[company][manager]" data-action="search-company">
+                                    </div>
+                                </div>
+                                <div class="column is-12">
+                                    <ul class="search-data" id="company-data"></ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row-item mt-3">
+                            <h5>의료기관 정보</h5>
+                            <div class="row px-2">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="medi_name_inp" class="col-form-label">의료기관명</label>
+                                        <input class="form-control" type="text" id="medi_name_inp" name="data[medicalcenter][name]">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="medi_office_inp" class="col-form-label">진료과</label>
+                                        <input class="form-control" type="text" id="medi_office_inp" name="data[medicalcenter][depart]">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="doctor_name_inp" class="col-form-label">담당의사명</label>
+                                        <input class="form-control" type="text" id="doctor_name_inp" name="data[medicalcenter][doctor]">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row px-2">
+                                <div class="col-md-8">
+                                    <div class="form-group">
+                                        <label for="residence_inp" class="col-form-label">소재지</label>
+                                        <input class="form-control" type="text" id="residence_inp" name="data[medicalcenter][address]">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="user_phone_inp" class="col-form-label">연락처</label>
+                                        <input class="form-control" type="number" id="user_phone_inp" name="data[medicalcenter][tel]">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row-item mt-3">
+                            <h5>검사 대상자 정보</h5>
+                            <div class="row px-2">
+                                <div class="col-md-8">
+                                    <div class="row">
+                                        <p class="col-md-12">
+                                            <label for="first_name_inp" class="col-form-label">성명</label>
+                                        </p>
+                                        <div class="col-4 pr-0">
+                                            <div class="form-group">
+                                                <input class="form-control" type="text" id="first_name_inp" name="data[container][name1]">
+                                            </div>
+                                        </div>
+                                        <div class="col-4 px-0">
+                                            <select class="custom-select slct_h_custom" name="data[container][name2]">
+                                                <option selected="selected" value="1">*</option>
+                                                <option value="2">**</option>
+                                                <option value="3">***</option>
+                                                <option value="4">****</option>
+                                                <option value="5">*****</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-4 pl-0">
+                                            <input class="form-control" type="text" id="last_name_inp" name="data[container][name3]">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="row">
+                                        <p class="col-md-12">
+                                            <label for="slct_year" class="col-form-label">생년월일</label>
+                                        </p>
+                                        <div class="col-4">
+                                            <select class="custom-select slct_h_custom slct_year" id="slct_year" name="data[container][year]">
+                                                <option selected="selected" value="2018">2018</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-4">
+                                            <select class="custom-select slct_h_custom slct_month" name="data[container][month]">
+                                                <option selected="selected" value="1">1</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-4">
+                                            <select class="custom-select slct_h_custom slct_day" name="data[container][day]">
+                                                <option selected="selected" value="1">1</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row px-2">
+                                <div class="col-md-8">
+                                    <div class="form-group">
+                                        <label for="text-input-1" class="col-form-label">식별코드</label>
+                                        <input class="form-control" type="text" id="text-input-1" name="data[container][gccode]">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="text-input-2" class="col-form-label">(만)나이</label>
+                                        <input class="form-control" type="text" id="text-input-2" name="data[container][age]">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row-item mt-3">
+                            <h5>임상 소견</h5>
+                            <div class="row px-2">
+                                <div class="col-md-6">
+                                    <div class="row">
+                                        <p class="col-md-12">
+                                            <label for="first_name_inp" class="col-form-label">반복적 자연유산(RSA)</label>
+                                        </p>
+                                        <div class="col-3 pr-0">
+                                            <div class="custom-control custom-radio custom-control-inline">
+                                                <input type="radio" checked="" id="customRadio1" name="data[container][isrsa]" class="custom-control-input" value="Y">
+                                                <label class="custom-control-label" for="customRadio1">유</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-3 pr-0">
+                                            <div class="custom-control custom-radio custom-control-inline">
+                                                <input type="radio" id="customRadio2" name="data[container][isrsa]" class="custom-control-input" value="N">
+                                                <label class="custom-control-label" for="customRadio2">무</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-6 pr-0">
+                                            <div class="form-group">
+                                                <input class="form-control" type="text" id="first_name_inp" name="data[container][rsacount]">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="row">
+                                        <p class="col-md-12">
+                                            <label for="first_name_inp" class="col-form-label">반복적 착상 실패(RIF)</label>
+                                        </p>
+                                        <div class="col-3 pr-0">
+                                            <div class="custom-control custom-radio custom-control-inline">
+                                                <input type="radio" checked="" id="customRadio3" name="data[container][isrif]" value="Y" class="custom-control-input">
+                                                <label class="custom-control-label" for="customRadio3">유</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-3 pr-0">
+                                            <div class="custom-control custom-radio custom-control-inline">
+                                                <input type="radio" id="customRadio4" name="data[container][isrif]" value="N" class="custom-control-input">
+                                                <label class="custom-control-label" for="customRadio4">무</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-6 pr-0">
+                                            <div class="form-group">
+                                                <input class="form-control" type="text" id="first_name_inp" name="data[container][rifcount]">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="row">
+                                        <p class="col-md-12">
+                                            <label for="first_name_inp" class="col-form-label">Translocation</label>
+                                        </p>
+                                        <div class="col-3 pr-0">
+                                            <div class="custom-control custom-radio custom-control-inline">
+                                                <input type="radio" checked="" id="customRadio5" name="data[container][istranslocation]" class="custom-control-input" value="Y">
+                                                <label class="custom-control-label" for="customRadio5">유</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-3 pr-0">
+                                            <div class="custom-control custom-radio custom-control-inline">
+                                                <input type="radio" id="customRadio6" name="data[container][istranslocation]" class="custom-control-input" value="N">
+                                                <label class="custom-control-label" for="customRadio6">무</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-6 pr-0">
+                                            <div class="form-group">
+                                                <input class="form-control" type="text" id="first_name_inp" name="data[container][translocationcount]">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="row">
+                                        <div class="col-12 pr-0">
+                                            <div class="form-group">
+                                                <label for="exampleFormControlTextarea1">기타소견</label>
+                                                <textarea class="form-control" id="exampleFormControlTextarea1" name="data[container][etccomment]" placeholder="내용을 입력해주세요." style="resize:none;"></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row-item mt-3">
+                            <h5>상품정보</h5>
+                            <div class="row px-2">
+                                <div class="input-group col-6 mt-3">
+                                    <input type="number" class="form-control text-center" placeholder="샘플개수를 입력하세요." aria-label="샘플개수" aria-describedby="button-addon2" name="data[container][samplecount]" data-zone="sample-insert-count">
+                                    <div class="input-group-append">
+                                        <button class="btn btn-outline-secondary" type="button" id="button-addon2" data-action="sample-insert">생성</button>
+                                    </div>
+                                </div>
+                                <div class="col-12 mt-3">
+                                    <div class="single-table">
+                                        <div class="table-responsive">
+                                            <table class="table table-row progress-table text-center table-990">
+                                                <thead class="text-uppercase bg-dark">
+                                                    <tr class="text-white">
+                                                        <th rowspan="2">순서</th>
+                                                        <th>구분</th>
+                                                        <th>샘플번호</th>
+                                                        <th>의료재단ID</th>
+                                                        <th>검체종류</th>
+                                                        <th>샘플 채취일</th>
+                                                        <th>검사 의뢰일</th>
+                                                        <th rowspan="2">삭제</th>
+                                                    </tr>
+                                                    <tr class="text-white">
+                                                        <th>
+                                                            <div class="custom-control custom-control-inline custom-checkbox">
+                                                                <input type="checkbox" class="custom-control-input" id="customCheck1" value="same" name="type">
+                                                                <label class="text-white custom-control-label" for="customCheck1">동일</label>
+                                                            </div>
+                                                        </th>
+                                                        <th>
+                                                            <div class="custom-control custom-control-inline custom-checkbox">
+                                                                <input type="checkbox" class="custom-control-input" id="customCheck2" value="increase" name="code">
+                                                                <label class="text-white custom-control-label" for="customCheck2" >연속</label>
+                                                            </div>
+                                                        </th>
+                                                        <th>
+                                                            <div class="custom-control custom-radio custom-control-inline">
+                                                                <input type="radio" checked="" id="tbl_id_col1" class="custom-control-input" value="same" name="companyid">
+                                                                <label class="text-white custom-control-label" for="tbl_id_col1">동일</label>
+                                                            </div>
+                                                            <div class="custom-control custom-radio custom-control-inline">
+                                                                <input type="radio" id="tbl_id_col2" value="increase" name="companyid" class="custom-control-input">
+                                                                <label class="text-white custom-control-label" for="tbl_id_col2">연속</label>
+                                                            </div>
+                                                            <div class="custom-control custom-radio custom-control-inline">
+                                                                <input type="radio" id="tbl_id_col3" value="none" name="companyid" class="custom-control-input">
+                                                                <label class="text-white custom-control-label" for="tbl_id_col3">입력</label>
+                                                            </div>
+                                                        </th>
+                                                        <th>
+                                                            <div class="custom-control custom-control-inline custom-checkbox">
+                                                                <input type="checkbox" class="custom-control-input" id="customCheck3" value="same" name="specimentype">
+                                                                <label class="text-white custom-control-label" for="customCheck3">동일</label>
+                                                            </div>
+                                                        </th>
+                                                        <th>
+                                                            <div class="custom-control custom-control-inline custom-checkbox">
+                                                                <input type="checkbox" class="custom-control-input" id="customCheck4" value="same" name="collectdate">
+                                                                <label class="text-white custom-control-label" for="customCheck4">동일</label>
+                                                            </div>
+                                                        </th>
+                                                        <th>
+                                                            <div class="custom-control custom-control-inline custom-checkbox">
+                                                                <input type="checkbox" class="custom-control-input" id="customCheck5" value="same" name="requestdate">
+                                                                <label class="text-white custom-control-label" for="customCheck5">동일</label>
+                                                            </div>
+                                                        </th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody data-zone="sample-list">
+                                                    <tr>
+                                                            <td>1</td>
+                                                            <td>
+                                                                <select class="custom-select">
+                                                                    <option selected>테스트</option>
+                                                                    <option value="1">검사</option>
+                                                                    <option value="2">무료</option>
+                                                                </select>
+                                                            </td>
+                                                            <td>
+                                                                <input class="form-control" type="text" placeholder="샘플번호">
+                                                            </td>
+                                                            <td>
+                                                                <input class="form-control" type="text" placeholder="의료재단ID">
+                                                            </td>
+                                                            <td>
+                                                                <select class="custom-select">
+                                                                    <option selected>Blastomere</option>
+                                                                    <option value="1">가나다</option>
+                                                                </select>
+                                                            </td>
+                                                            <td>
+                                                                <input type="text" class="form-control">
+                                                            </td>
+                                                            <td>
+                                                                <input type="text" class="form-control">
+                                                            </td>
+                                                            <td>
+                                                                <a href="#" class="text-danger tbl_del_ico" data-action="sample-list-remove"><i class="ti-trash" title="삭제"></i></a>
+                                                            </td>
+                                                        </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row-item mt-5">
+                            <h5>입고특이사항</h5>
+                            <div class="row px-2 mt-3">
+                                <div class="col-12 pr-0">
+                                    <div class="form-group">
+                                        <textarea class="form-control" id="unique_write_form" name="data[comment]" placeholder="내용을 입력해주세요." style="resize:none;"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+                    <button type="submit" class="btn btn-primary">입력완료</button>
+                </div>
+            </div>
+        </div> -->
+    </div>
+    <!-- 샘플등록 e -->
+	
+	<!-- 샘플등록 중복확인 팝업 s -->
+	<div class="modal fade confirm_log_popup show" id="db-check-popup">
+		<!-- <div class="modal-dialog modal-lg modal-dialog-centered">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">검사 대상자 식별 코드가 일치하는 기존 DB가 존재합니다.</h5>
+					<button type="button" class="close" data-dismiss="modal"><span>×</span></button>
+				</div>
+				<div class="modal-body">
+					<div class="modal-container">
+						<div class="single-table">
+							<div class="table-responsive border">
+								<table class="table table-hover progress-table text-center">
+									<tbody>
+										<tr>
+											<td><input type="checkbox"></td>
+											<td>
+												<span>GC1712PGS089_v1</span>/
+												<span>2017-12-02</span>
+											</td>
+											<td>삼광의료재단</td>
+											<td scope="row">중부1</td>
+											<td>
+												<span>B 산부인과</span>
+											</td>
+											<td>이 * *</td>
+											<td>생 년 월 일</td>
+										</tr>
+										<tr>
+											<td><input type="checkbox"></td>
+											<td>
+												<span>GC1712PGS089_v1</span>/
+												<span>2017-12-02</span>
+											</td>
+											<td>삼광의료재단</td>
+											<td scope="row">중부1</td>
+											<td>
+												<span>B 산부인과</span>
+											</td>
+											<td>이 * *</td>
+											<td>생 년 월 일</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+					<button type="button" class="btn btn-primary">확인</button>
+				</div>
+			</div>
+		</div> -->
+	</div>
+	<!-- 샘플등록 중복확인 팝업 e -->
+	
+	<!-- 상세보기 History 팝업 s -->
+	<div class="modal fade histroy_log_popup show" id="log-popup">
+		<!-- <div class="modal-dialog modal-lg modal-dialog-centered">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"><span>×</span></button>
+				</div>
+				<div class="modal-body">
+					<div class="modal-container">
+						<div class="single-table">
+							<div class="table-responsive">
+								<table class="table table-hover progress-table text-center">
+									<thead class="text-uppercase bg-dark">
+										<tr class="text-white">
+											<th scope="col">등록/수정 담당자</th>
+											<th scope="col">등록/수정일시</th>
+											<th scope="col">등록/수정내역</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<th scope="row">홍길동</th>
+											<td>
+												<span class="entry_edit_day">2018-09-04</span>/
+												<span class="entry_edit_tiem">18:53</span>
+											</td>
+											<td>초기입력</td>
+										</tr>
+										<tr>
+											<th scope="row">홍길동</th>
+											<td>
+												<span class="entry_edit_day">2018-09-04</span>/
+												<span class="entry_edit_tiem">18:53</span>
+											</td>
+											<td>초기입력</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+				<nav>
+					<ul class="pagination justify-content-center mt-5 mb-5">
+						<li class="page-item disabled">
+							<a class="page-link" href="#" aria-label="Previous">
+								<span aria-hidden="true">《</span>
+								<span class="sr-only">first-page</span>
+							</a>
+						</li>
+						<li class="page-item disabled">
+							<a class="page-link" href="#" aria-label="Previous">
+								<span aria-hidden="true">〈</span>
+								<span class="sr-only">Previous</span>
+							</a>
+						</li>
+						<li class="page-item active"><a class="page-link" href="#">1</a></li>
+						<li class="page-item">
+							<a class="page-link" href="#">2 <span class="sr-only">(current)</span></a>
+						</li>
+						<li class="page-item"><a class="page-link" href="#">3</a></li>
+						<li class="page-item">
+							<a class="page-link" href="#" aria-label="Next">
+								<span aria-hidden="true">〉</span>
+								<span class="sr-only">Next</span>
+							</a>
+						</li>
+						<li class="page-item">
+							<a class="page-link" href="#" aria-label="Next">
+								<span aria-hidden="true">》</span>
+								<span class="sr-only">last-page</span>
+							</a>
+						</li>
+					</ul>
+				</nav>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" data-dismiss="modal">확인</button>
+				</div>
+			</div>
+		</div> -->
+	</div>
+	<!-- 상세보기 History 팝업 e -->
+
+    <script>
+        const _ = new _Component(
+                    $("#sample-warehouse-component"),
+                    "warehouse-register"
+                )
+                .import(
+                    new _Component.ImportConf("restApi",true),
+                    new _Component.ImportConf("util/pug",false),
+                    new _Component.ImportConf("template",false),
+                    new _Component.ImportConf("pagination",true),
+                    new _Component.ImportConf("view",true),
+                    new _Component.ImportConf("util/popup",false),
+                    new _Component.ImportConf("util/menu",true),
+                    new _Component.ImportConf("util/topNavigation",true),
+                    new _Component.ImportConf("util/dateInfo",true),
+            		new _Component.ImportConf("__init__",true),
+                )
+                .then(
+                    function(selfComponent){
+                        const Popup = selfComponent.module.Popup;
+                        const restApi = selfComponent.module.restApi;
+                        const view = selfComponent.module.view;
+                        const pagination = selfComponent.module.pagination;
+                        const topNavi = selfComponent.module.topNavigation;
+                        const menu = selfComponent.module.menu;
+                        const pug = selfComponent.module.Pug;
+                        const dateInfo = selfComponent.module.DateInfo.instance;
+
+                        const templateStorage  = {};
+
+                        view.init($("#view"),"warehouse","/view/warehouse-import")
+                            .addEventListener(
+                                "beforeRequest",
+                                (refSelf)=>{
+                                	const mergedData = {};
+                                	Object.keys(refSelf)
+                                		.filter((key)=>{
+                                			return typeof refSelf[key] !== "object"
+                                		})
+                                		.forEach((key)=>{
+                                			mergedData[key] = refSelf[key]; 
+                                		});
+		                            return {
+		                                search : Object.assign({
+                                            status : 1,
+		                                    page : pagination.page,
+		                                    limit : 5,//view.limit,
+		                                },mergedData)
+		                            };
+                                }
+                            )
+                            .request()
+                            .then(
+                                ()=>{
+                                    const warehouseSubmit = function(formData){
+                                        return restApi
+                                            .setExtra("POST",`${API_ROOT}/warehouse/update.php`,formData,"json")
+                                            .send()
+                                            .then(
+                                                (data) => {
+                                                    alert(data.msg);
+                                                    return view.request();
+                                                },
+                                                (data) => {
+                                                    alert(data.msg);
+                                                    return Promise.reject("업데이트 실패");
+                                                }
+                                            );
+                                    }
+
+                                    const dbPopup = new Popup("/view/popup/warehouse-db-check",$("#db-check-popup"));
+                                    const insertPopup = new Popup("/view/popup/warehouse-modify",$("#modify-popup"));
+                                    const logPopup = new Popup("/view/popup/prestock-log",$("#log-popup"));
+                                    dbPopup.init(function($form,event){
+                                        let index = parseInt($form.get(0).index.value);
+                                        let selected = null;
+                                        const formData = this.__data['__formData'];
+                                        if(index >= 0){
+                                            selected = this.__data.data[index];
+                                            formData.set('data[container][code]',selected.code);
+                                        }
+                                        return warehouseSubmit(formData);
+                                    })
+                                    insertPopup.init(function($form,event){
+                                        const form = $form.get(0);
+                                        const formData = new FormData(form);
+                                        const searchFormData = new FormData();
+                                        const $sampleList = $form.find('[data-zone="sample-list"]');
+                                        searchFormData.append('search[gccode]',formData.get('data[container][gccode]'));
+                                        
+                                        if (formData.get('data[container][samplecount]') > 0 && $sampleList.length > 0) {
+                                            if(Number.isInteger(this.__data.idx)){
+                                                formData.append('search[idx]',this.__data.idx);
+                                            }
+                                            formData.delete('type');
+                                            formData.delete('code');
+                                            formData.delete('companyid');
+                                            formData.delete('specimentype');
+                                            formData.delete('collectdate');
+                                            formData.delete('requestdate');
+                                            return restApi
+                                                .setExtra("POST",`${API_ROOT}/container/list.php`,searchFormData,'json')
+                                                .send()
+                                                .then(
+                                                    (data) => {
+                                                        if (data.total > 0) {  
+                                                            return dbPopup
+                                                                .open(Object.assign({},data))
+                                                                .then(
+                                                                    function(data){
+                                                                        dbPopup.__data['__formData'] = formData;
+                                                                        dbPopup.$zone.addClass('is-active').css('display', 'flex');
+                                                                    }, 
+                                                                    function(){
+
+                                                                    }
+                                                                );
+                                                        }
+                                                        else{
+                                                            formData.set('data[container][code]','');
+                                                            return warehouseSubmit(formData);
+                                                        }
+                                                    },
+                                                    (data) => {
+
+                                                    }
+                                                )
+                                        }
+                                        else{
+                                            alert('샘플을 한 개 이상 생성하여 주십시오.');
+                                            return Promise.reject("sample-count missing");
+                                        }
+                                    })
+                                    .then((insertPopup)=>{
+                                        insertPopup.trigger(
+                                            new _Component.TriggerConf("click","[data-action='sample-insert']",function(e){
+                                                const list = insertPopup.$form.find("[data-zone='sample-list']");
+                                                const childs = list.children();
+                                                let size = parseInt(insertPopup.$form.find("[data-zone='sample-insert-count']").val());
+                                                let parentSize = childs.length;
+                                                let appendSize = size - parentSize;
+                                                for (; parentSize < size; parentSize++) {
+                                                    let $dom = $(templateStorage.addRow(parentSize));
+                                                    let $wi = $dom.find("[data-plugins=datepicker]")
+                                                        .datepicker(window.datepickerConfig);
+                                                    insertPopup.$zone.css('z-index', '500');
+                                                    list.append($dom);
+                                                }
+                                                if (appendSize < 0) {
+                                                    childs.slice(parentSize+appendSize).remove();
+                                                }
+                                            }),
+                                            new _Component.TriggerConf(
+                                                "input",
+                                                "[name='type'],[name='code'],[name='companyid'],[name='specimentype'],[name='collectdate'],[name='requestdate']",
+                                                function(){
+                                                    let $el = $(this);
+                                                    let name = $el.attr('name');
+                                                    let value = $el.attr('value');
+                                                    let $rowList = insertPopup.$form.find(`[name^='data[sample]'][name$='[${name}]']`);
+                                                    let $firstRow = $rowList.eq(0);
+                                                    let result = "";
+
+                                                    //temp
+                                                    let $selected = null;
+                                                    if($el.prop('checked')){
+                                                        $rowList.map(function(index,selected) {
+                                                            $selected = $(selected);
+                                                            switch(value){
+                                                                case "same":
+                                                                    $selected.val($firstRow.val());
+                                                                    break;
+                                                                case "increase":
+                                                                    if(index > 0){
+                                                                        // data[index] = data[0].slice(0,-1)+String.fromCharCode(parseInt(data[0].charCodeAt(data[0].length-1))+1)
+                                                                        let _val = $($rowList[index-1]).val(); 
+                                                                        let _group = /((?:.*)+\D|^)(\d+)/g.exec(_val);
+                                                                        if(_group[2].length > 0){
+                                                                            $selected.val(_group[1]+(parseInt(_group[2])+1));
+                                                                        }
+                                                                    }
+                                                                    break;
+                                                                default:
+                                                                    break;
+                                                            }
+                                                        });
+                                                    }
+                                                }
+                                            ),
+                                            new _Component.TriggerConf("click","[data-action='sample-list-remove']",function(e){
+                                                const $this = $(this);
+
+                                                $this.parents('tr').remove();
+                                                
+                                                const $inputCounter = $("[data-zone='sample-insert-count']");
+                                                const $list = insertPopup.$form.find("[data-zone='sample-list']");
+                                                const $child = $list.children("[data-index]");
+                                            
+                                                $inputCounter.val($child.length);
+                                                $.each($child, function(index, el) {
+                                                    const $el = $(el);
+                                                    $el.children(':first').text(index+1);
+                                                });
+                                            }),
+                                            new _Component.TriggerConf("change","[data-action='popup-month']",function(e){
+                                                // 시간이 난다면 option 태그들에서 날자에 안맞는건 splice,remove 하거나 append하는것도 방법일것같은데...흐으음..
+                                                const $option = $('<option>',{value : -1});
+
+                                                let selectedMonth = $(this).val();
+                                                let dayEnd = dateInfo.getMonthDays(null,selectedMonth);
+                                                let zone = insertPopup.$form.find("[data-zone='popup-month-days']");
+
+                                                zone.children('option').remove();
+                                                for (var i = 1; i <= dayEnd; i++) {
+                                                    $option.text(i).val(i);
+                                                    zone.append($option.clone());
+                                                }
+                                            }),
+                                            new _Component.TriggerConf("keyup","[data-action='search-company']",function(e){
+                                                const searchFormData = new FormData();
+                                                searchFormData.append('search[ciname1]',insertPopup.$form.find('[name="data[company][name1]"]').val().trim());
+                                                searchFormData.append('search[code]',insertPopup.$form.find('[name="data[company][code]"]').val().trim());
+                                                searchFormData.append('search[ciname2]',insertPopup.$form.find('[name="data[company][name2]"]').val().trim());
+                                                searchFormData.append('search[cmname]',insertPopup.$form.find('[name="data[manager][name1]"]').val().trim());
+                                                searchFormData.append('search[lowercidepth]',2);
+                                                
+                                                restApi
+                                                .setExtra("POST",`${API_ROOT}/company/list.php`,searchFormData,'json')
+                                                .send()
+                                                .then(
+                                                    (data) => {
+                                                        if (data.total > 0) {
+                                                            $("#company-data").empty();
+                                                            $("#company-data").css('display', 'block');
+                                                            for(var i in data.data){
+                                                                if(data.data[i].idx === 0)
+                                                                    $("#company-data").append('<li data-name="' + data.data[i].ciname1 + '" data-code="' + data.data[i].cicode + '" data-area="' + data.data[i].ciname2 + '" data-manager="' + data.data[i].cmname + '">테스트샘플</li>');
+                                                                else
+                                                                    $("#company-data").append('<li data-name="' + data.data[i].ciname1 + '" data-code="' + data.data[i].cicode + '" data-area="' + data.data[i].ciname2 + '" data-manager="' + data.data[i].cmname + '">' + data.data[i].ciname1 + ' / ' + data.data[i].cicode + ' / ' + data.data[i].ciname2 + ' / ' + data.data[i].cmname + '</li>');
+                                                            }
+                                                            $("#company-data li").hover(function(){ $(this).css('background-color', '#dddddd'); }, function(){ $(this).css('background-color', '#fff'); });
+                                                            $("#company-data li").click(function(){
+                                                                insertPopup.$form.find('[name="data[company][name1]"]').val($(this).data('name'));
+                                                                insertPopup.$form.find('[name="data[company][code]"]').val($(this).data('code'));
+                                                                insertPopup.$form.find('[name="data[company][name2]"]').val($(this).data('area'));
+                                                                insertPopup.$form.find('[name="data[manager][name1]"]').val($(this).data('manager'));
+                                                                
+                                                                $("#company-data").empty();
+                                                                $("#company-data").css('display', 'none');
+                                                            });
+                                                        }
+                                                        else{
+                                                            $("#company-data").empty();
+                                                            $("#company-data").css('display', 'none');
+                                                        }
+                                                    },
+                                                    (data) => {
+
+                                                    }
+                                                )
+                                            })
+                                        );
+                                    });
+                                    logPopup.init(function($form,event){
+                                        let index = parseInt($form.get(0).index.value);
+                                        const formData = this.__data['__formData'];
+                                        selected = this.__data.data[index];
+                                    });
+                                    selfComponent.trigger(
+                                        new _Component.TriggerConf("click","[data-action='insert']",function(e){
+                                            insertPopup.open({__pugTemplate : templateStorage}).then(
+                                                function(){
+                                                    insertPopup.$form.find("[data-plugins=chosen]").chosen(window.chosenConfig);
+                                                    insertPopup.$form.find("[data-plugins=datepicker]").datepicker(window.datepickerConfig);
+                                                }, 
+                                                function(){
+                                                    console.log(insertPopup)
+                                                    debugger;
+                                                }
+                                            );
+                                        }),
+                                        new _Component.TriggerConf("click","[data-action='update']",function(e){
+                                            let index = $(this).data('index');
+                                            insertPopup.open(
+                                                    Object.assign(
+                                                        {
+                                                            __pugTemplate : templateStorage
+                                                        },
+                                                        view.__data.data[index]
+                                                    )
+                                                )
+                                                .then(
+                                                    function(){
+                                                        insertPopup.$form.find("[data-plugins=chosen]").chosen(window.chosenConfig);
+                                                        insertPopup.$form.find("[data-plugins=datepicker]").datepicker(window.datepickerConfig);
+                                                    }, 
+                                                    function(){
+                                                        console.log(insertPopup)
+                                                        debugger;
+                                                    }
+                                                );
+                                        }),
+                                        new _Component.TriggerConf("click","[data-action='log']",function(e){
+                                            let index = jQuery(this).data('index');
+                                            logPopup.open(Object.assign(
+                                                view.__data.data[index]
+                                            ))
+                                            .then(
+                                                ()=>{
+                                                    logPopup.$zone.addClass('is-active');
+                                                    logPopup.$zone.addClass('is-active').css('display', 'flex');
+                                                }
+                                            );
+                                        }),
+                                        new _Component.TriggerConf("click","[data-action='select-each']",function(e){
+                                        }),
+                                        new _Component.TriggerConf("click","[data-action='insert-sample']",function(e){
+                                            let formData = new FormData();
+                                            let idx = '';
+                                            let j = 0;
+                                            $.each($('table tbody tr td label.checkbox input'), function(i){
+                                                let index = $(this).data('index');
+                                                if($(this).is(':checked')){
+                                                    idx += (j > 0 ? ',' : '') + view.__data.data[index].idx;
+                                                    j++;
+                                                }
+                                            });
+                                            formData.append('search[idx]',idx);
+                                            if (j > 0 && confirm("선택하신 데이터를 실험샘플로 등록하시겠습니까?")) {
+                                                restApi
+                                                    .setExtra("POST",`${API_ROOT}/warehouse/experimentinsert.php`,formData,"json")
+                                                    .send()
+                                                    .then(
+                                                        (data) => {
+                                                            alert(data.msg);
+                                                            view.request();
+                                                        },
+                                                        (data) => {
+                                                            alert(data.msg);
+                                                        }
+                                                    );
+                                            };
+                                        }),
+                                        new _Component.TriggerConf("click","[data-action='refresh']",function(e){
+                                        	return view.request();
+                                        })
+                                    );
+                                }
+                            )
+                    }, 
+                    function(){
+
+                    }
+                )
+    </script>
+
+    <?php
+		include $_SERVER["DOCUMENT_ROOT"].'/include/footer_js.php';
+	?>
+	

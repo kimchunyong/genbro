@@ -1,0 +1,341 @@
+<?php
+
+	include $_SERVER["DOCUMENT_ROOT"].'/include/head.php';
+?>
+
+<body>
+    <!--[if lt IE 8]>
+            <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+    <!-- preloader area start -->
+	<?php
+		include $_SERVER["DOCUMENT_ROOT"].'/include/loader.php';
+	?>
+    <!-- preloader area end -->
+    <!-- page container area start -->
+    <div class="page-container">
+        <!-- sidebar menu area start -->
+        <?php
+			include $_SERVER["DOCUMENT_ROOT"].'/include/menu.php';
+		?>
+        <!-- sidebar menu area end -->
+        <!-- main content area start -->
+        <div class="main-content">
+            <!-- header area start -->
+            <?php
+				include $_SERVER["DOCUMENT_ROOT"].'/include/head_nav.php';
+			?>
+            <!-- header area end -->
+            <!-- main content area start -->
+            <div class="main-content-inner" id="component">
+				<!-- 기관관리 table s -->
+				<div class="col-12 mt-5">
+					<div class="card" id="view">
+						<div class="card-body" data-zone="view.content">
+						</div>
+					</div>
+                </div>
+				<!-- 기관관리 table e -->
+            </div>
+            <!-- main content area end -->
+        </div>
+    </div>
+    <!-- footer area start-->
+    <footer>
+        <div class="footer-area">
+            <p>© Copyright 2018 . All right reserved</p>
+        </div>
+    </footer>
+    <!-- footer area end-->
+    </div>
+    <!-- page container area end -->
+	
+	<!-- 유저정보 수정 팝업 s-->
+	<div class="modal fade entry_edit_popup show" id="modify-popup">
+		<!--<div class="modal-dialog modal-lg modal-dialog-centered">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"><span>×</span></button>
+				</div>
+				<div class="modal-body">
+					<div class="modal-container">
+						<div class="form-group">
+							<label for="example-text-input" class="col-form-label">아이디</label>
+							<div class="row">
+								<div class='col-md-12'>
+									<input type='text' class="form-control text-center" disabled="disabled" value="admin@admin.com"/>
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-form-label">이름</label>
+							<input class="form-control text-center" type="text" value="최고관리자"/>
+						</div>
+						<div class="form-group">
+							<label class="col-form-label">레벨</label>
+							<select class="custom-select" id="inputGroupSelect01">
+								<option selected>최고관리자</option>
+								<option value="1">유저관리자</option>
+								<option value="2">일반관리자</option>
+								<option value="3">중간관리자</option>
+								<option value="4">관리자</option>
+							</select>
+						</div>
+						<div class="form-group">
+							<label class="col-form-label">비밀번호</label>
+							<input class="form-control text-center" type="password" disabled="disabled"/>
+						</div>
+						<div class="form-group">
+							<label class="col-form-label">생년월일</label>
+							<input type="text" class="form-control dateInp text-center" id="dateInp" value="2018-10-10" required="required">
+						</div>
+						<div class="form-group">
+							<label class="col-form-label">연락처</label>
+							<div class="input-group mb-3">
+								<div class="input-group mb-3">
+								  <div class="input-group-prepend">
+									<select class="custom-select h-100" id="inputGroupSelect01">
+										<option value="1">+82</option>
+									</select>
+								  </div>
+								  <input type="text" class="form-control" value="01012341234">
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+					<button type="button" class="btn btn-primary">저장</button>
+				</div>
+			</div>
+		</div>-->
+	</div>
+	<!-- 유저정보 수정 팝업 e-->
+    
+    <!-- 권한 설정 팝업 s-->
+    <div class="modal fade user_author_popup show" id="permission-popup">
+	</div>
+    <!-- 권한 설정 팝업 e-->
+	<script>    
+        const _ = new _Component($("#component"),"component");
+        _.import(
+            new _Component.ImportConf("restApi",true),
+            new _Component.ImportConf("util/pug",false),
+            new _Component.ImportConf("template",false),
+            new _Component.ImportConf("pagination",true),
+            new _Component.ImportConf("view",true),
+            new _Component.ImportConf("util/popup",false),
+            new _Component.ImportConf("util/menu",true),
+            new _Component.ImportConf("util/topNavigation",true),
+            new _Component.ImportConf("util/dateInfo",false),
+            new _Component.ImportConf("__init__",true),
+        )
+        .then(
+            function(selfComponent){
+                const Popup = selfComponent.module.Popup;
+                const restApi = selfComponent.module.restApi;
+                const view = selfComponent.module.view;
+                const pagination = selfComponent.module.pagination;
+                const topNavi = selfComponent.module.topNavigation;
+                const menu = selfComponent.module.menu;
+                const pug = selfComponent.module.Pug;
+                const dateInfo = selfComponent.module.DateInfo.instance;
+                const __init__  = selfComponent.module.__init__;
+
+                const templateStorage  = {};
+
+                view.init($("#view"),"user","/view/user")
+                    .addEventListener(
+                        "beforeRequest",
+                        (requestConf,extra)=>{
+                            const mergedData = {};
+                            Object.keys(requestConf)
+                                .filter((key)=>{
+                                    return typeof requestConf[key] !== "object"
+                                })
+                                .forEach((key)=>{
+                                    mergedData[key] = requestConf[key]; 
+                                });
+                            return {
+                                search : Object.assign({
+                                    page : pagination.page,
+                                    limit : 5,//view.limit,
+                                },mergedData)
+                            };
+                        }
+                    )
+                    .request()
+                    .then(
+                        ()=>{
+                            let checkedData = [];
+                            let userPopup = new Popup("/view/popup/user-modify",$("#modify-popup"));
+                            let permissionPopup = new Popup("/view/popup/_user/modify-permission",$("#permission-popup"));
+                            userPopup.init(function($form,e){
+                                let optional = $form.data('optional');
+                                let formData = new FormData();
+                                let sourceSrc = "";
+
+
+                                if (optional === "insert") {
+                                    formData = new FormData($form.get(0));
+                                    sourceSrc = `${API_ROOT}/user/register.php`;
+                                    if (!this.__data.isChecked) {
+                                        alert("아이디 채크가 필요합니다.");
+                                        return Promise.reject();
+                                    }
+                                }
+                                else if(optional === "update"){
+                                    $form.serializeArray().map((element)=>formData.set(`data[${element.name}]`,element.value));
+                                    formData.set(`search[idx]`,userPopup.__data.idx);
+                                    sourceSrc = `${API_ROOT}/user/update.php`;
+                                }
+                                return restApi
+                                    .setExtra("POST",sourceSrc,formData,"json")
+                                    .send()
+                                    .then(
+                                        (data)=>{
+                                            alert(data.msg);
+                                            return Promise.resolve();
+                                        },
+                                        (data)=>{
+                                            alert(data.msg);
+                                            return Promise.reject(...arguments);
+                                        },
+                                    );
+                            });
+                            userPopup.trigger(
+                                new _Component.TriggerConf("change","[data-zone='id-zone']",function(){
+                                    userPopup.__data.isChecked = false;
+                                }),
+                                new _Component.TriggerConf("click","[data-action='id-check']",function(){
+                                    const idZone = userPopup.$form.find("[data-zone='id-zone']").val();
+                                    const formData = new FormData();
+                                    if(idZone.length > 0){
+                                        formData.set('search[id]',idZone);
+                                        restApi
+                                            .setExtra("POST",`${API_ROOT}/user/list.php`,formData,"json")
+                                            .send()
+                                            .then(
+                                                (data)=>{
+                                                    if(parseInt(data.total,10) === 0){
+                                                        alert("사용 가능한 아이디 입니다.");
+                                                        userPopup.__data.isChecked = true;
+                                                    }
+                                                    else{
+                                                        alert("이미 사용중인 아이디 입니다.");
+                                                    }
+                                                }
+                                            );
+                                    }
+                                })
+                            )
+                            permissionPopup.init(function($form,e){
+                                const formData = new FormData($form.get(0));
+                                restApi
+                                    .setExtra("POST",`${API_ROOT}/userauth/insert.php`,formData,"json")
+                                    .send()
+                                    .then(
+                                        (data)=>{
+                                            alert(data.msg || "알수없는 오류입니다");
+                                            return view.request();
+                                        }, 
+                                        (data)=>{
+                                            alert(data.msg || "알수없는 오류입니다");
+                                        }
+                                    )
+                            });
+                            permissionPopup.trigger(
+                                // jQuery확장 Selector임으로 함부로 쓰지말도록하자
+                                new _Component.TriggerConf("click","[data-action*='menu-manage']",function(e){
+                                    const $this = $(this);
+                                    const zoneSelector = `[data-zone~='${$this.data('action')}']`;
+                                    permissionPopup.$form.find(zoneSelector).prop("checked",$this.prop("checked"));
+                                }),
+                                new _Component.TriggerConf("click","[data-zone*='menu-manage']",function(e){
+                                    const $this = $(this);
+                                    const $form = permissionPopup.$form;
+
+                                    const zoneResult = $form.find(`[data-zone='${$this.data('zone')}']`);
+                                    const actionResult = $form.find(`[data-action='${$this.data('zone')}']`);
+                                    const isChecked = $this.prop('checked');
+
+                                    if(zoneResult.filter(":checked").length === 0 || zoneResult.filter(":checked").length === zoneResult.length){
+                                        actionResult.prop('checked',isChecked);
+                                    }
+                                })
+                            )
+                            view.trigger(
+                                new _Component.TriggerConf("click", "[data-action='insert']",function(){
+                                    userPopup
+                                        .open({
+                                            __type : "insert" 
+                                        })
+                                        .then(
+                                            ()=>{
+                                                userPopup.$zone.addClass('is-active');
+                                            }, 
+                                            ()=>{
+                                                debugger;
+                                            })
+                                }),
+                                new _Component.TriggerConf("click", "[data-action='modify']",function(){
+                                    let index = $(this).data('index');
+                                    userPopup
+                                        .open(
+                                            Object.assign({
+                                                __type : "update" 
+                                            },
+                                            view.__data.data[index]
+                                            )
+                                        )
+                                        .then(
+                                            ()=>{
+                                                userPopup.$zone.addClass('is-active');
+                                            }, 
+                                            ()=>{
+                                                debugger;
+                                            })
+                                }),
+                                new _Component.TriggerConf("click","[data-action='remove']",function(e){
+                                    let formData = new FormData();
+                                    let index = $(this).data('index');
+                                    formData.set('search[idx]',view.__data.data[index].idx);
+                                    return restApi
+                                        .setExtra("POST",`${API_ROOT}/user/delete.php`,formData,"json")
+                                        .send()
+                                        .then(
+                                            (data) => {
+                                                alert(data.msg);
+                                                return view.request();
+                                            },
+                                            (data) => {
+                                                alert(data.msg);
+                                            }
+                                        );
+                                }),
+                                new _Component.TriggerConf("click","[data-action='settings']",function(e){
+                                    let index = $(this).data('index');
+                                    const selectedView = view.__data.data[index];
+                                    debugger;
+                                    permissionPopup
+                                        .open(
+                                            Object.assign(
+                                                {defaultData : __init__.defaultMenuData},             
+                                                selectedView,
+                                            )
+                                        );
+                                })
+                            );
+                        }
+                    )
+            }, 
+            function(){
+
+            }
+        )
+    </script>
+	
+    <?php
+		include $_SERVER["DOCUMENT_ROOT"].'/include/footer_js.php';
+	?>

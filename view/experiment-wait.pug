@@ -1,0 +1,43 @@
+table.table.table-row.progress-table.text-center.table-990.odd-table
+    thead.text-uppercase.bg-dark
+        tr.text-white
+            th(scope='col', rowspan='2')
+                input(type='checkbox' data-action='selected-view-all')
+            th(scope='col', rowspan='2') 순서
+            th(scope='col', rowspan='2' data-view-sort='insertname') 수령 담당자
+            th(scope='col', rowspan='2' data-view-sort='insertdatetime') 수령 일시
+            th(scope='col', rowspan='2') 검사구분
+            th(scope='col', rowspan='2') GC S ID
+            th(scope='col', rowspan='2') 검체 번호
+            th(scope='col', rowspan='2') 검체 종류
+            th(scope='col', rowspan='2' data-view-sort='ul') 검체량(ul)
+            th(scope='col', rowspan='2' data-view-sort='etc') 검체 특이사항
+            th(scope='col', rowspan='2') 입고 특이 사항
+    tbody#list
+        each value,index in data
+            -console.log();
+            tr
+                td
+                    if (__extra__.userData.idx === value.experimentmbidx)
+                        -console.log();
+                        input(type='checkbox' data-action='selected-view' data-index=(index))
+                
+                td #{total-((totalpage*pagination.page)+(index))}
+                td #{value.experimentname}
+                td #{value.experimentregdatetime}
+                td #{value.sample.type}
+                td #{value.sample.id}
+                td #{value.sample.code}
+                td #{value.sample.specimentype}
+                td #{value.ul}
+                td #{value.etc}
+                td #{value.container.etccomment}
+    tfoot
+        tr
+            td(colspan='999')
+                .paging-box(data-zone='pagination')
+
+
+//- inputname 입고 담당자
+//- experimentname 실험 담당자
+//- analysisname 분석 담당자

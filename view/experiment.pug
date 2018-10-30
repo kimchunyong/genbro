@@ -1,0 +1,148 @@
+table(class="table table-row progress-table text-center table-990 odd-table")
+        thead.text-uppercase.bg-dark
+                tr.text-white
+                        th(rowspan="")
+                                label.checkbox
+                                        input(type='checkbox', data-action='selected-view-all')
+                        th(rowspan="") 순서
+                        th(rowspan="" data-view-sort='insertname') 입고 담당자
+                        th(rowspan="" data-view-sort='insertdatetime') 입고일시
+                        th(rowspan="") 구분
+                        th(rowspan="") GC S ID
+                        //th(colspan="2") 검체정보
+                        th 검체번호
+                        th 검체종류
+                        th(rowspan="") 검체량(ul)
+                        th(rowspan="") 샘플 특이 사항
+                        th(rowspan="") 입고 특이사항
+                //tr.text-white
+                        //th 검체번호
+                //    th 검체종류
+        tbody#list
+                each value,index in data
+                        -console.log();
+                        tr
+                                td
+                                        input(type='checkbox' data-action='selected-view' data-index=(index))
+                                td #{total-((totalpage*pagination.page)+(index))}
+                                td #{value.insertname}
+                                td #{value.insertdatetime}
+                                td #{value.sample.type}
+                                td #{value.sample.id}
+                                //td #{value.code}
+                                td #{value.sample.code}
+                                td #{value.sample.specimentype}
+                                td
+                                        input.form-control(type='text' data-view-observer='ul' data-index=(index) placeholder='검체량(ul)' value=(value.ul))
+                                td
+                                        input.form-control(type='text' data-view-observer='etc' data-index=(index) placeholder='검체 특이사항' value=(value.etc))
+                                td 
+                                        if (value.container.etccomment != '')
+                                                -console.log();
+                                                a.button.is-link.detail_btns(href='javascript:void(0)')
+                                                    span.icon.text-primary
+                                                        i.fas.fa-angle-down.ti-eye
+                                                    span 상세보기
+                        // table item detail s
+                        tr.detail_tbl-wrap
+                            td.detail_tbl-inner(colspan='12')
+                                table.table.table-row.progress-table.text-center.table-990
+                                    tbody
+                                        //tr
+                                            //th.detail-tit-bg 검사현황
+                                            //td(colspan='6')
+                                                //| 실험 > 수령대기
+                                        tr
+                                            th.detail-tit--bg 
+                                                span 의료재단 정보
+                                            td.sub-tit--bg 의료재단명
+                                            td #{entities.ciname}
+                                            td.sub-tit--bg 지점명
+                                            td #{entities.ciarea}
+                                            td.sub-tit--bg 입고 담당자
+                                            td #{entities.cimanager}
+                                        tr
+                                            th.detail-tit--bg(rowspan='2')
+                                                span 의료기관 정보
+                                            td.sub-tit--bg 의료기관명
+                                            td #{entities.mcname}
+                                            td.sub-tit--bg 진료과
+                                            td #{entities.mcdepart}
+                                            td.sub-tit--bg 담당의사명
+                                            td #{entities.mcdoctor}
+                                        tr
+                                            td.sub-tit--bg 소재지
+                                            td(colspan='3') #{entities.mcaddress}
+                                            td.sub-tit--bg 연락처
+                                            td #{entities.mctel}
+                                        tr
+                                            th.detail-tit--bg(rowspan='2')
+                                                span 검사 대상자 정보
+                                            td.sub-tit--bg 성명
+                                            td(colspan='3') #{entities.name1+entities.name2+entities.name3}
+                                            td.sub-tit--bg 생년월일
+                                            td #{`${entities.year}-${entities.month}-${entities.day}`}
+                                        tr
+                                            td.sub-tit--bg 식별 코드
+                                            td(colspan='3') #{entities.gccode}
+                                            td.sub-tit--bg 만나이
+                                            td #{entities.age} 
+                                            //- 수정필요
+                                        tr
+                                            th.detail-tit--bg(rowspan='3')
+                                                span 임상 소견
+                                            td.sub-tit--bg RSA
+                                            td #{entities.isrsa === '' ? 미기재 : (entities.isrsa === "Y" ? '유' : '무')}
+                                            td #{entities.rsacount}회
+                                            td.sub-tit--bg RIF
+                                            td #{entities.isrif === '' ? 미기재 : (entities.isrif === "Y" ? '유' : '무')}
+                                            td #{entities.rifcount}
+                                        tr
+                                            td.sub-tit--bg Translocation
+                                            td #{entities.istranslocation === '' ? 미기재 : (entities.istranslocation === "Y" ? '유' : '무')}
+                                            td(colspan='5') #{entities.translocationcount}
+                                        tr
+                                            td.sub-tit--bg 기타소견
+                                            td(colspan='6') #{entities.etccomment}
+                                table.table.table-row.progress-table.text-center.table-990.mt-3
+                                    thead.text-uppercase.bg-secondary
+                                        tr
+                                            th.bg-light(colspan='8') 샘플 정보
+                                        tr.text-white
+                                            th 순서
+                                            th 구분
+                                            th 샘플번호
+                                            th 의료재단 ID
+                                            th 검체 종류
+                                            th 샘플 채취일
+                                            th 검사 의뢰일
+                                            th 검사 결과
+                                    tbody
+                                        each value,key in entities.sample
+                                            -console.log();
+                                            tr
+                                                td #{key+1}
+                                                td #{value.type}
+                                                td #{value.code}
+                                                td #{value.companyid}
+                                                td #{value.specimentype}
+                                                td #{value.regdatetime}
+                                                td #{value.requestdate}
+                                                td No call 
+                                                //- 수정필요
+                                table.table.table-row.progress-table.text-center.table-990.mt-3
+                                    colgroup
+                                        col(width='15%')
+                                        col(width='*')
+                                    tbody
+                                        tr
+                                            th 입고 특이사항
+                                            td(colspan='7') #{entities.etccomment}
+                                .invoice-buttons.clearfix.mt-3
+                                    a.invoice-btn.pull-left(href="#log" data-action="log" data-index=(index)) History
+                        // table item detail e
+        tfoot
+                tr
+                        td(colspan='999')
+                                .paging-box(data-zone='pagination')
+
